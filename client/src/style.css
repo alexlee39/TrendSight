@@ -78,7 +78,9 @@ header {
     font-size: 1.1em;
     color: #fff;
     font-weight: 500;
-    margin-left: 40px;
+    /* margin-left: 40px; */
+    /* padding: 0em 1em;  */
+    margin: 0em 1em;
     transition: .5s;
 }
 
@@ -93,5 +95,13 @@ header {
 }
 
 .submit{
-    
+    background-color: #000000; /* Green */
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 8px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.8em;
 }
