@@ -5,7 +5,8 @@
     font-family: 'Poppins', sans-serif; /*set from guide, so far defualt looks fine?*/
 }
 
-body {
+
+body { /*  Maybe use Grid? --> Grid helps with 2D Layout --> Can create sidebars, footers,etc */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,8 +41,9 @@ header {
     color: #fff;
     text-decoration: none;
     font-weight: 500;
-    margin-left: 40px;
-
+    padding: 0em 1em; 
+    /* orig: 40px */
+    /* margin-left:40px; */
 }
 
 .navigation a::after {
@@ -66,7 +68,7 @@ header {
 }
 
 .navigation .login-popup {
-    width: 130px;
+    width: 130px; /* Absolute pixeling may cause trouble with responsiveness*/
     height: 50px;
     background: transparent;
     border: 2px solid #fff;
@@ -83,4 +85,13 @@ header {
 .navigation .login-popup:hover{
     background: #fff;
     color: black;
+}
+
+.input-box{
+    padding: 3px 0px; 
+    /* border-radius: 10px; */
+}
+
+.submit{
+    
 }
