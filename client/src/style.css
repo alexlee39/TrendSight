@@ -86,23 +86,3 @@ header {
     background: #fff;
     color: black;
 }
-<<<<<<< HEAD:client/src/style.css
-
-.input-box{
-    padding: 3px 0px; 
-    /* border-radius: 10px; */
-}
-
-.submit{
-    background-color: #000000; /* Green */
-    border: none;
-    border-radius: 6px;
-    color: white;
-    padding: 8px 18px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.8em;
-}
-=======
->>>>>>> 388cb965acb4d84db8e9e629bcb9dd4555a9f148:style.css
