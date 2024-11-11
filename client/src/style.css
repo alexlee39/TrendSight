@@ -76,7 +76,9 @@ header {
     font-size: 1.1em;
     color: #fff;
     font-weight: 500;
-    margin-left: 40px;
+    /* margin-left: 40px; */
+    /* padding: 0em 1em;  */
+    margin: 0em 1em;
     transition: .5s;
 }
 

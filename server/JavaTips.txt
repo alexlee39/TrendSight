@@ -1,0 +1,3 @@
+To run Java code through terminal
+javac (directory)\Main.java - To compile a java file 
+java server.Main - Where server is the folder where Main.class is located(and has the package 'server') 
