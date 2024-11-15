@@ -1,3 +1,17 @@
 To run Java code through terminal
-javac (directory)\Main.java - To compile a java file 
+javac server\Main.java - To compile Main.java located in /server/ from root directory
+-Otherwise javac Main.java 
 java server.Main - Where server is the folder where Main.class is located(and has the package 'server') 
+-Otherwise java Main
+
+To compile Java files for separate the .class files:
+javac -d bin src/foo/bar/*.java
+-Where 'bin' is where you want the .class files to located(from current directory)
+-Where 'src/foo/bar/*.java' would be where all the java files located in the src/foo/bar folder
+
+To run the Java files:
+java -cp bin
+-Where 'bin' is where all the .class files are located in from the current root directory
+
+-Use Maven?
+
