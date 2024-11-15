@@ -1,5 +1,10 @@
 var submitBtn = document.querySelector('.btn');
 
+const getUserAndPass = () => {
+    console.log("this ran!");
+}
+// console.log(type(getUserAndPass));
+
 // swapping between register and login 
 const wrapper = document.querySelector('.wrapper');
 const loginLink = document.querySelector('.login-link');
