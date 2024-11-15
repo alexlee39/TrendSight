@@ -10,7 +10,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 public class AuthReqHandler implements HttpHandler {
-
     // public String res;
     public int statusCode = 204;
     @Override
@@ -24,7 +23,7 @@ public class AuthReqHandler implements HttpHandler {
                 res = handleGet(exchange);
             }
             else if(httpMethod.equals("POST")){
-    
+                
             }
             else if(httpMethod.equals("PUT")){
     
@@ -74,3 +73,5 @@ public class AuthReqHandler implements HttpHandler {
         return "";
     }
 }
+
+

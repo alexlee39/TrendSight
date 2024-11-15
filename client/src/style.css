@@ -21,7 +21,7 @@ header {
     left: 0;
     width: 100%;
     padding: 20px 100px;
-    background: rgb(129, 127, 127); /* can take off if decided on good color pallete/background */
+    background: rgb(102, 101, 101); /* can take off if decided on good color pallete/background */
     display: flex;
     justify-content: space-between; /* space-around also works, makes website more compact*/
     align-items: center;

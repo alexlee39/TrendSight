@@ -7,6 +7,8 @@ import java.net.http.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import javax.naming.Context;
+
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -27,7 +29,9 @@ public class Server {
         HttpServer server =  HttpServer.create(new InetSocketAddress(SERVER_NAME, SERVER_PORT), 0); 
 
         HttpHandler AuthReqHandler = new AuthReqHandler();
+        server.createContext("/auth", AuthReqHandler);
         server.setExecutor(threadPoolExecutor);
         server.start();
+        System.out.println("Server started!");
     }
 }
