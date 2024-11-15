@@ -10,7 +10,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url('https://img.freepik.com/free-photo/watercolor-paper-texture_1194-6496.jpg?semt=ais_hybrid') no-repeat;
+    background: url('../../assets/cool-background.png') no-repeat;
     background-size: cover;
     background-position: center;
 }
@@ -21,7 +21,7 @@ header {
     left: 0;
     width: 100%;
     padding: 20px 100px;
-    background: black; /* can take off if decided on good color pallete/background */
+    background: rgb(129, 127, 127); /* can take off if decided on good color pallete/background */
     display: flex;
     justify-content: space-between; /* space-around also works, makes website more compact*/
     align-items: center;
@@ -143,7 +143,7 @@ header {
     right: 0;
     width: 45px;
     height: 45px;
-    background: #162938;
+    background: black;
     font-size: 2em;
     color: #fff;
     display: flex;
@@ -155,7 +155,7 @@ header {
 }
 .form-box h2{
     font-size: 2em;
-    color: #162938;
+    color: black;
     text-align: center;
 }
 
@@ -163,7 +163,7 @@ header {
     position: relative;
     width: 100%;
     height: 50px;
-    border-bottom: 2px solid #162938;
+    border-bottom: 2px solid black;
     margin: 30px 0;
 }
 
@@ -173,7 +173,7 @@ header {
     left: 5px;
     transform: translateY(-50%);
     font-size: 1em;
-    color: #162938;
+    color: black;
     font-weight: 500;
     pointer-events: none;
     transition: .5s;
@@ -191,7 +191,7 @@ header {
     border: none;
     outline: none;
     font-size: 1em;
-    color: #162938;
+    color: black;
     font-weight: 600;
     padding: 0 35px 0 5px;
 }
@@ -200,13 +200,13 @@ header {
     position: absolute;
     right: 8px;
     font-size: 1.2em;
-    color: #162938;
+    color: black;
     line-height: 57px;
 }
 
 .remember-forgot{
     font-size: .9em;
-    color: #162938;
+    color: black;
     font-weight: 500;
     margin: -15px 0 15px;
     display: flex;
@@ -218,12 +218,12 @@ header {
 }
 
 .remember-forgot label input{
-    accent-color: #162938;
+    accent-color: black;
     margin-right: 3px;
 }
 
 .remember-forgot a {
-    color: #162938;
+    color: black;
     text-decoration: none;
 }
 
@@ -234,7 +234,7 @@ header {
 .btn {
     width: 100%;
     height: 45px;
-    background: #162938;
+    background: black;
     border: none;
     outline: none;
     border-radius: 6px;
@@ -246,14 +246,14 @@ header {
 
 .login-register {
     font-size: .9em;
-    color: #162938;
+    color: black;
     text-align: center;
     font-weight: 500;
     margin: 25px 0 10px;
 }
 
 .login-register p a {
-    color: #162938;
+    color: black;
     text-decoration: none;
     font-weight: 600;
 }

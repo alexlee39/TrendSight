@@ -1,5 +1,32 @@
 var submitBtn = document.querySelector('.btn');
 
+// handling registration form 
+const registrationForm = document.getElementById('registerForm');
+
+registrationForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const termsAccepted = document.getElementById('termsCheckbox').checked;
+    if (!termsAccepted) {
+        alert("terms and conditions must be checked before registering");
+        return;
+    }
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const registerData = {
+        name: name,
+        email: email,
+        password: password
+    };
+    
+    console.log("registerData:", JSON.stringify(registerData, null, 2));
+})
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// UI Functions
 // swapping between register and login 
 const wrapper = document.querySelector('.wrapper');
 const loginLink = document.querySelector('.login-link');
@@ -26,4 +53,3 @@ loginPopup.addEventListener('click', ()=> {
 iconClose.addEventListener('click', ()=> {
     wrapper.classList.remove('active-popup');
 });
-
