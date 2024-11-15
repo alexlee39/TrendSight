@@ -15,3 +15,5 @@ java -cp bin
 
 -Use Maven?
 
+
+Dmb shit
