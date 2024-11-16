@@ -23,12 +23,14 @@ registrationForm.addEventListener('submit', (event) => {
     console.log("registerData:", JSON.stringify(registerData, null, 2));
 })
 
+
+// handling log in form 
 const loginForm = document.getElementById('loginForm');
 
 loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const email = document.getElementById('userID').value;
+    const email = document.getElementById('userID').value; // getting data from HTML input 
     const password = document.getElementById('passID').value; 
 
     console.log("Attempting to login with: ", {email, password});
