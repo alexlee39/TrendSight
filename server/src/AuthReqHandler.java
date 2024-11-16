@@ -11,13 +11,20 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.nio.charset.StandardCharsets;
 
 public class AuthReqHandler implements HttpHandler {
     private final Map<String, String> users;
+
+    private void addCorsHeaders(HttpExchange exchange) {
+        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type");
+    }
     
     public AuthReqHandler(){ // temp dictionary for comparing user data to authenticate
         users = new HashMap<String, String>();
-        users.put("test", "test1234");
+        users.put("test@gmail.com", "test1234");
     }
     // public String res;
     public int statusCode = 204;
@@ -26,15 +33,20 @@ public class AuthReqHandler implements HttpHandler {
         String res = "Default";
         String httpMethod = exchange.getRequestMethod();
         int statusCode = 200;
+        addCorsHeaders(exchange);
+
+        if (httpMethod.equalsIgnoreCase("OPTIONS")) {
+            // Handle preflight CORS request
+            exchange.sendResponseHeaders(204, -1); // No Content
+            return;
+        }
+
         try {
             if(httpMethod.equals("GET")){
                 res = handleGet(exchange);
             }
             else if(httpMethod.equals("POST")){
                 res = handePost(exchange);
-            }
-            else if(httpMethod.equals("PUT")){
-    
             }
             else{
                 //Some default case for the other httpMethods: Ex: PATCH, CONNECT, TRACE, etc
@@ -69,7 +81,9 @@ public class AuthReqHandler implements HttpHandler {
         for (String pair : pairs) {
             String[] keyValue = pair.split("=");
             if (keyValue.length == 2) {
-                params.put(keyValue[0], keyValue[1]);
+                String email = URLDecoder.decode(keyValue[0], StandardCharsets.UTF_8);
+                String pass = URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8);
+                params.put(email, pass);
             }
         }
         return params;
@@ -77,12 +91,14 @@ public class AuthReqHandler implements HttpHandler {
     public String handePost(HttpExchange httpExchange) throws IOException{
         InputStream rawMessage = httpExchange.getRequestBody();
         String messageBody = new String(rawMessage.readAllBytes());
-
+        //System.out.println("messageBody: "+ messageBody);
         Map<String, String> jsMap = parseQuery(messageBody);
-
+        //System.out.println("jsMap: "+ jsMap);
         String userID = jsMap.get("userID");
         String passID = jsMap.get("passID");
-        
+        //System.out.println("userID: "+ userID);
+        //System.out.println("passID: "+ passID);
+
         String response;
         if (users.containsKey(userID) && users.get(userID).equals(passID)){
             response = "Login Successful";
