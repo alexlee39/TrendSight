@@ -27,6 +27,7 @@ public class Server {
         HttpServer server =  HttpServer.create(new InetSocketAddress(SERVER_NAME, SERVER_PORT), 0); 
 
         HttpHandler AuthReqHandler = new AuthReqHandler();
+        server.createContext("/auth", AuthReqHandler);
         server.setExecutor(threadPoolExecutor);
         server.start();
     }

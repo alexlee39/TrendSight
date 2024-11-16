@@ -9,6 +9,11 @@ import java.net.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+/* URI Documentation: https://developer.mozilla.org/en-US/docs/Web/URI#syntax_of_uniform_resource_identifiers_uris
+ * URI Format: http(s) + Authority/Port +   Path +                Query +                   Fragment(bookmark/ids)  
+ * Ex:         http://   www.example.com:80 /path/to/myfile.html  ?key1=value1&key2=value2  #SomewhereInTheDocument
+ *             http://www.example.com:80/path/to/myfile.html?key1=value1&key2=value2#SomewhereInTheDocument
+ */
 public class AuthReqHandler implements HttpHandler {
 
     // public String res;
@@ -18,23 +23,16 @@ public class AuthReqHandler implements HttpHandler {
         String res = "Default";
         String httpMethod = exchange.getRequestMethod();
         int statusCode = 200;
-        // URI uri = exchange.getRequestURI();
         try {
-            if(httpMethod.equals("GET")){
-                res = handleGet(exchange);
-            }
-            else if(httpMethod.equals("POST")){
+            if(httpMethod.equals("POST")){
     
             }
             else if(httpMethod.equals("PUT")){
     
             }
-            else if(httpMethod.equals("DELETE")){
-    
-            }
             else{
                 //Some default case for the other httpMethods: Ex: PATCH, CONNECT, TRACE, etc
-                throw new Exception("Not Valid Req Method for Server");
+                throw new Exception("Not a Supported HTTP Method");
             }   
         } catch (Exception e) {
             System.out.println("Error with the request!");
@@ -50,15 +48,18 @@ public class AuthReqHandler implements HttpHandler {
         outStream.close();
     }
     
-    public String handleGet(HttpExchange httpExchange){
+    public String handePost(HttpExchange httpExchange){
+        InputStream iStream = httpExchange.getRequestBody();
+        // String reqBody = iStream.
         URI uri = httpExchange.getRequestURI();
         String query = uri.getRawQuery();
-
+        
         String queryData = query.substring(query.indexOf("=") + 1);
-        //URI: http:/localhost:5000/?=
+
         return "";
     }
-    public String handePost(HttpExchange httpExchange){
+
+    public String handlePut(HttpExchange httpExchange){
         InputStream iStream = httpExchange.getRequestBody();
         // String reqBody = iStream.
         URI uri = httpExchange.getRequestURI();
