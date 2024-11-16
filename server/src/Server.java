@@ -7,6 +7,8 @@ import java.net.http.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import javax.naming.Context;
+
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -26,9 +28,12 @@ public class Server {
         //More info: https://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/HttpServer.html#create-java.net.InetSocketAddress-int-
         HttpServer server =  HttpServer.create(new InetSocketAddress(SERVER_NAME, SERVER_PORT), 0); 
 
+        // context for handling authentication (login, and registration) processing
         HttpHandler AuthReqHandler = new AuthReqHandler();
         server.createContext("/auth", AuthReqHandler);
+
         server.setExecutor(threadPoolExecutor);
         server.start();
+        System.out.println("Server started!");
     }
 }
