@@ -26,7 +26,6 @@ public class AuthReqHandler implements HttpHandler {
         String res = "Default";
         String httpMethod = exchange.getRequestMethod();
         int statusCode = 200;
-        // URI uri = exchange.getRequestURI();
         try {
             if(httpMethod.equals("GET")){
                 res = handleGet(exchange);
@@ -37,12 +36,9 @@ public class AuthReqHandler implements HttpHandler {
             else if(httpMethod.equals("PUT")){
     
             }
-            else if(httpMethod.equals("DELETE")){
-    
-            }
             else{
                 //Some default case for the other httpMethods: Ex: PATCH, CONNECT, TRACE, etc
-                throw new Exception("Not Valid Req Method for Server");
+                throw new Exception("Not a Supported HTTP Method");
             }   
         } catch (Exception e) {
             System.out.println("Error with the request!");
