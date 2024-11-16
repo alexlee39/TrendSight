@@ -1,5 +1,3 @@
-var submitBtn = document.querySelector('.btn');
-
 // handling registration form 
 const registrationForm = document.getElementById('registerForm');
 
@@ -24,6 +22,41 @@ registrationForm.addEventListener('submit', (event) => {
     
     console.log("registerData:", JSON.stringify(registerData, null, 2));
 })
+
+const loginForm = document.getElementById('loginForm');
+
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('userID').value;
+    const password = document.getElementById('passID').value; 
+
+    console.log("Attempting to login with: ", {email, password});
+    try {
+        const response = await fetch('http://localhost:5000/auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-ww-form-urlencoded',
+            },
+            body: `userID=${encodeURIComponent(email)}&passID=${encodeURIComponent(password)}`, // Backend expects these keys
+        });
+        if (response.ok){
+            const data = await response.text();
+            console.log("data: ", data);
+            alert("correct input"); // swap to different page 
+        }
+        else{
+            const errorText = await response.text();
+            console.error("errorText: ", errorText);
+            alert("wrong input");
+        }
+    } 
+    catch (error){
+        console.error("Error: ", error);
+        alert("data wasnt sent to back-end");
+    }
+
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UI Functions

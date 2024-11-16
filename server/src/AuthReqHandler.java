@@ -9,7 +9,16 @@ import java.net.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AuthReqHandler implements HttpHandler {
+    private final Map<String, String> users;
+    
+    public AuthReqHandler(){ // temp dictionary for comparing user data to authenticate
+        users = new HashMap<String, String>();
+        users.put("test", "test1234");
+    }
     // public String res;
     public int statusCode = 204;
     @Override
@@ -23,7 +32,7 @@ public class AuthReqHandler implements HttpHandler {
                 res = handleGet(exchange);
             }
             else if(httpMethod.equals("POST")){
-                
+                res = handePost(exchange);
             }
             else if(httpMethod.equals("PUT")){
     
@@ -57,14 +66,41 @@ public class AuthReqHandler implements HttpHandler {
         //URI: http:/localhost:5000/?=
         return "";
     }
-    public String handePost(HttpExchange httpExchange){
-        InputStream iStream = httpExchange.getRequestBody();
-        // String reqBody = iStream.
-        URI uri = httpExchange.getRequestURI();
-        String query = uri.getRawQuery();
-        
-        String queryData = query.substring(query.indexOf("=") + 1);
+    // Utility to parse URL-encoded query strings
+    private Map<String, String> parseQuery(String query) {
+        Map<String, String> params = new HashMap<>();
+        String[] pairs = query.split("&");
+        for (String pair : pairs) {
+            String[] keyValue = pair.split("=");
+            if (keyValue.length == 2) {
+                params.put(keyValue[0], keyValue[1]);
+            }
+        }
+        return params;
+    }
+    public String handePost(HttpExchange httpExchange) throws IOException{
+        InputStream rawMessage = httpExchange.getRequestBody();
+        String messageBody = new String(rawMessage.readAllBytes());
 
+        Map<String, String> jsMap = parseQuery(messageBody);
+
+        String userID = jsMap.get("userID");
+        String passID = jsMap.get("passID");
+        
+        String response;
+        if (users.containsKey(userID) && users.get(userID).equals(passID)){
+            response = "Login Successful";
+            statusCode = 200;
+            httpExchange.sendResponseHeaders(statusCode, response.length());
+        }
+        else {
+            response = "Invalid Credentials";
+            statusCode = 401;
+            httpExchange.sendResponseHeaders(statusCode, response.length());
+        }
+        try (OutputStream os = httpExchange.getResponseBody()){
+            os.write(response.getBytes());
+        }
         return "";
     }
 
