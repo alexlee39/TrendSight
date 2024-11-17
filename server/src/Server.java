@@ -22,7 +22,6 @@ public class Server {
     private static final String SERVER_NAME = "localhost";
     
     public static void main(String[] args) throws IOException {
-        System.out.println(SERVER_PORT);
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
         //When creating server --> Backlog/2nd Param == 0, means default backlog used -->
         //More info: https://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/HttpServer.html#create-java.net.InetSocketAddress-int-
@@ -32,8 +31,8 @@ public class Server {
         HttpHandler AuthReqHandler = new AuthReqHandler();
         server.createContext("/auth", AuthReqHandler);
 
-        server.setExecutor(threadPoolExecutor);
+        server.setExecutor(threadPoolExecutor); // limiting amount of max threads 
         server.start();
-        System.out.println("Server started!");
+        System.out.println("Server started on PORT: " + SERVER_PORT);
     }
 }

@@ -1,7 +1,7 @@
 // handling registration form 
 const registrationForm = document.getElementById('registerForm');
 
-registrationForm.addEventListener('submit', (event) => {
+registrationForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const termsAccepted = document.getElementById('termsCheckbox').checked;
@@ -10,17 +10,40 @@ registrationForm.addEventListener('submit', (event) => {
         return;
     }
 
-    const name = document.getElementById('name').value;
+    const user = document.getElementById('user').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
     const registerData = {
-        name: name,
+        user: user,
         email: email,
         password: password
     };
     
     console.log("registerData:", JSON.stringify(registerData, null, 2));
+    try {
+        const response = await fetch('http://localhost:5000/auth/registration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-ww-form-urlencoded',
+            },
+            body: `email=${encodeURIComponent(email)}&pass=${encodeURIComponent(password)}&user=${encodeURIComponent(user)}`, // Backend expects these keys
+        });
+        if (response.ok){
+            const data = await response.text();
+            console.log("registration - back-end message: ", data);
+            alert("account created, login"); // swap to different page 
+        }
+        else{
+            const errorText = await response.text();
+            console.error("registration - errorText: ", errorText);
+            alert("account not created");
+        }
+    } 
+    catch (error){
+        console.error("Error: ", error);
+        alert("registration - data wasnt sent to back-end");
+    }
 })
 
 
@@ -35,22 +58,22 @@ loginForm.addEventListener('submit', async (event) => {
 
     console.log("Attempting to login with: ", {email, password});
     try {
-        const response = await fetch('http://localhost:5000/auth', {
+        const response = await fetch('http://localhost:5000/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-ww-form-urlencoded',
             },
-            body: `userID=${encodeURIComponent(email)}&passID=${encodeURIComponent(password)}`, // Backend expects these keys
+            body: `email=${encodeURIComponent(email)}&pass=${encodeURIComponent(password)}`, // Backend expects these keys
         });
         if (response.ok){
             const data = await response.text();
-            console.log("data: ", data);
-            alert("correct input"); // swap to different page 
+            console.log("login - back-end message: ", data);
+            alert("logged in"); // swap to different page 
         }
         else{
             const errorText = await response.text();
-            console.error("errorText: ", errorText);
-            alert("wrong input");
+            console.error("login - errorText: ", errorText);
+            alert("unable to login");
         }
     } 
     catch (error){
