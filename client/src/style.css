@@ -15,6 +15,76 @@ body {
     background-position: center;
 }
 
+.ham-menu{
+    display: none;
+    height: 50px;
+    width: 20%;
+    /* background-color: #481fa9; */
+    margin-left: auto;
+    position: relative;
+    /* display: none; */
+    /* max-width: 450px; */
+    /* right: -450px */
+}
+
+.ham-menu span{
+    height: 5px;
+    width: 40%;
+    background-color: #a90c0c;
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3 ease;
+}
+
+.ham-menu span:nth-child(1) {
+    top: 25%;
+}
+
+.ham-menu span:nth-child(3) {
+    top: 75%;
+}
+
+/* Animates Hamburger menu to X */
+.ham-menu.active span:nth-child(1){
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.ham-menu.active span:nth-child(2){
+    opacity: 0;
+}
+
+.ham-menu.active span:nth-child(3){
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+/*  */
+
+
+.off-screen-menu{
+    background-color: rbg(34,37,49);
+    height: 100vh;
+    width: 100%;
+    max-width: 450px;
+    position: fixed;
+    top: 0;
+    right: -450px; 
+    /* Center items in offScreenMenu */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 3rem;
+    transition: .3s ease;
+}
+
+.off-screen-menu.active{
+    /* display: block; */
+    right: 0;
+}
 header {
     position: fixed;
     top: 0;
@@ -76,9 +146,8 @@ header {
     font-size: 1.1em;
     color: #fff;
     font-weight: 500;
-    /* margin-left: 40px; */
-    /* padding: 0em 1em;  */
-    margin: 0em 1em;
+    padding: 0px 10px;
+    margin: 0em 0.8em;
     transition: .5s;
 }
 
@@ -118,7 +187,6 @@ header {
 .wrapper .form-box.login {
     transition: transform .18s ease;
     transform: translateX(0);
-    /* display: none; */
 }
 
 .wrapper.active .form-box.login{
@@ -153,6 +221,16 @@ header {
     cursor: pointer;
     z-index: 1;
 }
+
+.wrong-credentials{
+    /* display block, --> .input-box :     margin-bottom: 0px;*/
+    display: none;
+    padding: 5px 0px 20px;
+    /* margin: -15px 0 15px; */
+    font-size: .95em;
+    color: #eb0606;
+    font-style: italic;
+}
 .form-box h2{
     font-size: 2em;
     color: black;
@@ -165,6 +243,7 @@ header {
     height: 50px;
     border-bottom: 2px solid black;
     margin: 30px 0;
+    /* margin-bottom: 0px; */
 }
 
 .input-box label{
@@ -263,4 +342,28 @@ header {
     text-decoration: underline;
 }
 
+/* Media query which removes the text boxes--> Replaces with Login and Hamburger menu */
+@media (max-width:750px){
+    header{
+        padding: 15px 25px;
+    }
+    .login-popup{
 
+    }
+    #homePg{
+        display: none;
+    }
+    #aboutPg{
+        display: none;
+    }
+
+}
+
+/* Media query for making TrendSight Logo/Text Smaller
+ * And have Hamburger
+*/
+@media (max-width: 400px){
+    .logo{
+        font-size: 1.5em;
+    }
+}
