@@ -4,7 +4,6 @@ const loginForm = document.getElementById('loginForm');
 
 
 registrationForm.addEventListener('submit', async (event) => {
-registrationForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const termsAccepted = document.getElementById('termsCheckbox').checked;
