@@ -87,6 +87,8 @@ public class AuthReqHandler implements HttpHandler {
 
             if (http_method.equals("POST")){
                 http_messagebody = new String(exchange.getRequestBody().readAllBytes());
+                System.out.println("http_messagebody URI: " + http_messagebody);
+
                 hashmap_messagedata = parseQuery(http_messagebody);
                 System.out.println("hashmap_message data extracted from URI: " + hashmap_messagedata);
 
@@ -131,6 +133,7 @@ public class AuthReqHandler implements HttpHandler {
 
             if (http_method.equals("POST")){
                 http_messagebody = new String(exchange.getRequestBody().readAllBytes());
+                System.out.println("http_messagebody URI: " + http_messagebody);
                 hashmap_messagedata = parseQuery(http_messagebody);
                 System.out.println("hashmap_message data extracted from URI: " + hashmap_messagedata);
 
