@@ -114,9 +114,7 @@ public class AuthReqHandler implements HttpHandler {
                     os.write(http_response.getBytes());
                     System.out.println(http_response);
                 }
-
             }
-
         }
     }
 
@@ -163,7 +161,6 @@ public class AuthReqHandler implements HttpHandler {
                 }
 
             }
-
         }
     }
     
