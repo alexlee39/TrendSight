@@ -77,7 +77,6 @@ registrationForm.addEventListener('submit', async (event) => {
     }
 })
 
-
 // handling log in form 
 loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
