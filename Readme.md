@@ -6,3 +6,13 @@ A new and upcoming app thats broke college students decided to make for authors 
 ```
 npm run dev
 ```
+
+### To preview code before shipping to production
+```
+npm run preview
+```
+
+### To ship/run for production
+```
+npm run build
+```
