@@ -140,16 +140,9 @@ const registerLink = document.querySelector('.register-link');
 //swapping between login pop and close
 const loginPopup = document.querySelector('.login-popup');
 const iconClose = document.querySelector('.icon-close');
-//
-const loginInputBox = document.querySelectorAll('.input-box')[1];
-const regInputBox = document.querySelectorAll('.input-box')[4];
 
-const wrongCredentials = document.querySelectorAll('.wrong-credentials');
-const wrongLoginDetails = wrongCredentials[0];
-const wrongRegDetails = wrongCredentials[1];
-//Swap between hamburger and sidebar
-const hamMenu = document.querySelector('.ham-menu');
-const offScreenMenu = document.querySelector('.off-screen-menu');
+
+
 
 //clicking links adds "active" and CSS responds accordingly (sets transfromX to 400,0, and -400)
 registerLink.addEventListener('click', ()=> {
@@ -173,6 +166,14 @@ iconClose.addEventListener('click', ()=> {
  * @param: wrongDetails(wrongLoginDetails or wrongRegDetails)
  *
 */ 
+////////////////////////////////////////////////////////////////////////////////////////////
+//
+const loginInputBox = document.querySelectorAll('.input-box')[1];
+const regInputBox = document.querySelectorAll('.input-box')[4];
+
+const wrongCredentials = document.querySelectorAll('.wrong-credentials');
+const wrongLoginDetails = wrongCredentials[0];
+const wrongRegDetails = wrongCredentials[1];
 const notAnEmail = (wrongDetails) => {
     wrongDetails.textContent = 'Not a valid email address';
 }
