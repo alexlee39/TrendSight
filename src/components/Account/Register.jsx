@@ -2,14 +2,27 @@ import { FaXmark, FaEnvelope, FaLock} from 'react-icons/fa6';
 import { IoPersonSharp } from 'react-icons/io5'
 import { useState } from 'react'
 
-const Register = ({ setShowLogin, setClosePopup}) => {
+const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isChecked, setChecked] = useState(false);
+
+    // Use isChecked to make a custom required function that we could pass to display some text
+    // telling the user to check the box before proceeding
 
     const handleSubmit = () =>{
-        console.log('Submit handled');
-        console.log(`User: ${username}, Email: ${email}, Pass:${password}`)
+        // ADD ID for mocking DB
+        const accDetails = {
+            id: email,
+            username,
+            email,
+            password
+        };
+
+        sendRegister(accDetails);
+        // TO REMOVE... 
+        console.log('Reg Form Submitted');
     }
     return (
     <>
@@ -52,7 +65,18 @@ const Register = ({ setShowLogin, setClosePopup}) => {
                 </div>
                 <div className="wrong-credentials"> Invalid Email or Password</div>
                 <div className="remember-forgot">
-                    <label><input type="checkbox" id="termsCheckbox" className="terms-checkbox" /> I agree to the <a href="#" className="terms-link">terms & conditions</a></label>
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            id="termsCheckbox" 
+                            className="terms-checkbox"
+                            onClick={() => setChecked(prev => !prev)}
+                            required
+                            value={isChecked}
+                            onChange={(e) => setChecked(e.target.checked)}
+                        /> 
+                        I agree to the <a href="#" className="terms-link">terms & conditions</a>
+                    </label>
                 </div>                
                 <button type="submit" className="btn register-btn">Register</button>
             </form>
