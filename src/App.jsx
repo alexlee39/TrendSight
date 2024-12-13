@@ -1,34 +1,60 @@
+import Navbar from './components/Navbar/Navbar.jsx'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  // Create token/sessions to identify when users are logged in
+  const [token, setToken] = useState(null);
+
+  const checkLogin = async(credentials) =>{
+    // TESTING w/ MOCK DB Code.. TO REMOVE
+    try {
+      const res = await fetch(`http://localhost:5000/accounts/${credentials.email}`);
+      const data = await res.json(); 
+      console.log(data); 
+    } catch (error) {
+      console.log(error)
+    } 
+    // const res = await fetch("http://localhost:5000/accounts/login", {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(credentials),
+    // });
+    // const data = await res.json();
+    // console.log("HTTP Login POST Req finished");
+    // console.log(data);
+    return;
+  }
+
+  const sendRegister = async(accDetails) => {
+    // CODE PURELY FOR TESTING with MOCKDB
+    try {
+      const res = await fetch("http://localhost:5000/accounts", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(accDetails),
+      });
+      console.log('Mock DB works???');
+    } catch (error) {
+      console.log(error);   
+    }
+
+    // const res = await fetch("http://localhost:5000/accounts/register", {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(accDetails),
+    // });
+    // console.log('SEND REGISTRATION LUL');
+  }
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Navbar checkLogin={checkLogin} sendRegister={sendRegister}/>
   )
 }
 
