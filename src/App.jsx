@@ -1,5 +1,5 @@
 import Navbar from './components/Navbar/Navbar.jsx'
-// import { useState } from 'react'
+import { useState } from 'react'
 import Hero from "./components/Hero/Papers.jsx";
 
 const App = () => {
@@ -43,11 +43,14 @@ const App = () => {
       console.log(error);   
     }
   }
-
+  const [articles, setArticles] = useState([  // state to update table with new data --> present data
+    { title: "Why are CS Majors working at McDonalds?", author: "Alex L", date: "11/20/2024", link: "/article/0001" }, // article title needs to be long to match figma design
+    { title: "Will AI take over the world?", author: "Mike O", date: "10/14/2024", link: "/article/0002" },
+  ]);
 
   return (
     <div className= "App">
-      <Hero />
+      <Hero articles={articles} setArticles={setArticles} />
       <Navbar checkLogin={checkLogin} sendRegister={sendRegister}/>
     </div>
   );

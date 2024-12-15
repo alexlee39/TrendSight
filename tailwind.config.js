@@ -1,6 +1,6 @@
 export default {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // This tells Tailwind to scan your JS/JSX files for class names
+    "./src/**/*.{js,jsx,ts,tsx}", // importing tailwind to all jsx files
   ],
   theme: {
     extend: {},

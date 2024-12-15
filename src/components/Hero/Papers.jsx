@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 
-const Hero = () => { // maybe use props to call Hero with new article data? can easily update table
-
-  const [articles, setArticles] = useState([  // state to update table with new data --> present data
-    { title: "Why are CS Majors working at McDonalds?", author: "Bob", date: "11/20/2024", link: "/article/0001" }, // article title needs to be long to match figma design
-    { title: "Will AI take over the world?", author: "Chasy", date: "10/14/2024", link: "/article/0002" },
-  ]);
+const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   
   const newArticle = { // temp
-    title: "New article for testing",
-    author: "Test Author",
+    title: "Why can CS majors not get a girlfriend?",
+    author: "Jeevithan M",
     date: "12/14/2024",
     link: "/article/0003"
   };
@@ -20,17 +15,22 @@ const Hero = () => { // maybe use props to call Hero with new article data? can 
   
   return (
     <div className="container mx-auto px-4 py-6 pt-8"> {/* styling using tailwind aint any easier man wtf */}
+      <button
+        onClick={addNewArticle}
+        className="mt-4 px-4 py-2 bg-black text-white rounded-md">
+        Refresh
+      </button>
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto border-collapse border border-gray-300 rounded-lg">
           <thead className="bg-gray-200">
-            <tr>
-              <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black w-1/2">Papers</th> {/* lil black colum sep and use new line if article is too long */}
+            <tr> {/* col names - not responsive at ipad level and lower */}
+              <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black">Papers</th> {/* w-1/2 for new line if data too long */}
               <th className="px-20 py-6 text-left text-lg font-bold text-gray-800 border-r border-black">Author</th>
               <th className="px-20 py-6 text-left text-lg font-bold text-gray-800">Date</th>
             </tr>
           </thead>
-          <tbody className="bg-white">
-            {articles.map((article, index) => (
+          <tbody className="bg-white"> {/* dict data mapped out onto table */}
+            {articles.map((article, index) => ( 
               <tr key={index} className="border-t hover:bg-gray-100">
                 <td className="px-12 py-5 text-m text-cyan-600 border-r border-black">
                   <a href={article.link} className="hover:underline">{article.title}</a>
