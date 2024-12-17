@@ -69,8 +69,8 @@ const App = () => {
   
   return (
     <div className= "App">
-      <Navbar checkLogin={checkLogin} sendRegister={sendRegister}/> { /* pop up is somehow stuck onto table with this arrangement (which is good) */}
       <Hero articles={articles} setArticles={setArticles} /> { /* main body component requires useState (keys have to be corresponding to column values ex. author, title, date, etc) to map into table */}
+      <Navbar checkLogin={checkLogin} sendRegister={sendRegister}/> { /* pop up is somehow stuck onto table with this arrangement (which is good) */}
     </div>
   );
 };
