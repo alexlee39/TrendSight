@@ -2,13 +2,11 @@
   "accounts": [
     {
       "id": "1111",
-      "id": "1111",
       "username": "testing",
       "email": "test@123.com",
       "password": "testing123"
     },
     {
-      "id": "1112",
       "id": "1112",
       "username": "alexonthebeatyo",
       "email": "alex@123.com",
@@ -16,13 +14,11 @@
     },
     {
       "id": "1113",
-      "id": "1113",
       "username": "THECUTBOUTABECRAZYTRUSTMEBRO",
       "email": "jeeviathan@123.com",
       "password": "hehuge"
     },
     {
-      "id": "1114",
       "id": "1114",
       "username": "rossy",
       "email": "bobross@123.com",
@@ -35,7 +31,7 @@
       "id": "1113", 
       "article": "0001",
       "title": "Top 5 cheat codes to lose weight on the cut", 
-      "author": "Jeevithan Mahenthran",
+      "author": "Jeevi M",
       "date": "12/15/2024",
       "content": "so first you need to blah blah blah, and then blah blah blah, also a gf man",
       "link": "0001"

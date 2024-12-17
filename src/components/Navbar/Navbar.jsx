@@ -29,6 +29,11 @@ const Navbar = ({checkLogin, sendRegister}) => {
                   //setShowLogin(true)
                   }} 
                   className="login-popup">
+                <button onClick={() => {
+                  setShowPopUp(true); 
+                  //setShowLogin(true)
+                  }} 
+                  className="login-popup">
                   Login              
                 </button>
             </nav>
