@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { FaXmark, FaEnvelope, FaLock} from 'react-icons/fa6';
 import { IoPersonSharp } from 'react-icons/io5'
 import { useState, useEffect} from 'react'

@@ -1,28 +1,95 @@
 {
   "accounts": [
     {
-      "id": "test@123.com",
+      "id": "1111",
       "username": "testing",
       "email": "test@123.com",
       "password": "testing123"
     },
     {
-      "id": "alex@123.com",
+      "id": "1112",
       "username": "alexonthebeatyo",
       "email": "alex@123.com",
       "password": "icantbench225"
     },
     {
-      "id": "jeeviathan@123.com",
+      "id": "1113",
       "username": "THECUTBOUTABECRAZYTRUSTMEBRO",
       "email": "jeeviathan@123.com",
       "password": "hehuge"
     },
     {
-      "id": "bobross@123.com",
+      "id": "1114",
       "username": "rossy",
       "email": "bobross@123.com",
       "password": "bobbywong"
     }
+  ],
+  
+  "articles": [
+    { 
+      "id": "1113", 
+      "article": "0001",
+      "title": "Top 5 cheat codes to lose weight on the cut", 
+      "author": "Jeevithan Mahenthran",
+      "date": "12/15/2024",
+      "content": "so first you need to blah blah blah, and then blah blah blah, also a gf man",
+      "link": "0001"
+    },
+    {
+      "id": "1112",
+      "article": "0002",
+      "title": "Top 10 tips and tricks to NOT get arrested when approaching women!", 
+      "author": "Alex L",
+      "date": "12/14/2024",
+      "content": "be rich, successful, AND bench 225 blah, blah blah blah",
+      "link": "0002"
+    },
+    {
+      "id": "test",
+      "article": "test",
+      "title": "test", 
+      "author": "test",
+      "date": "test",
+      "content": "blah, blah blah blah",
+      "link": "test"
+    },
+    {
+      "id": "test",
+      "article": "test",
+      "title": "test", 
+      "author": "test",
+      "date": "test",
+      "content": "blah, blah blah blah",
+      "link": "test"
+    },
+    {
+      "id": "test",
+      "article": "test",
+      "title": "test", 
+      "author": "test",
+      "date": "test",
+      "content": "blah, blah blah blah",
+      "link": "test"
+    },
+    {
+      "id": "test",
+      "article": "test",
+      "title": "test", 
+      "author": "test",
+      "date": "test",
+      "content": "blah, blah blah blah",
+      "link": "test"
+    },
+    {
+      "id": "test",
+      "article": "test",
+      "title": "test", 
+      "author": "test",
+      "date": "test",
+      "content": "blah, blah blah blah",
+      "link": "test"
+    }
   ]
 }
+

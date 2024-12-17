@@ -1,3 +1,8 @@
+/*still getting error "Unknown at rule @tailwind", but works? whatever*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   margin: 0;
   padding: 0;

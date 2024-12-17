@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router'
+// import { NavLink } from 'react-router'
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 import { createPortal } from 'react-dom'
 import Login from '../Account/Login.jsx'
 import Register from '../Account/Register.jsx'
-import PopUp from '../Account/PopUp.jsx'
+//import PopUp from '../Account/PopUp.jsx'
 import Modal from '../Account/Modal.jsx'
 
 import './Navbar.css'
@@ -22,7 +24,11 @@ const Navbar = ({checkLogin, sendRegister}) => {
             {/* </NavLink> */}
             <nav className="navigation">
                 <a href="#" id = "Papers">Papers</a>
-                <button onClick={() => {setShowPopUp(true); setShowLogin(true)}} className="login-popup">
+                <button onClick={() => {
+                  setShowPopUp(true); 
+                  //setShowLogin(true)
+                  }} 
+                  className="login-popup">
                   Login              
                 </button>
             </nav>
