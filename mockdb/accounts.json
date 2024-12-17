@@ -84,15 +84,6 @@
       "date": "test",
       "content": "blah, blah blah blah",
       "link": "test"
-    },
-    {
-      "id": "test",
-      "article": "test",
-      "title": "test", 
-      "author": "test",
-      "date": "test",
-      "content": "blah, blah blah blah",
-      "link": "test"
     }
   ]
 }
