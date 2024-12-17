@@ -13,7 +13,7 @@ const Navbar = ({checkLogin, sendRegister}) => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [isLogin, setShowLogin] = useState(true);
 
-  const rootElem = document.querySelector('#root');
+  //const rootElem = document.querySelector('#root');
 
   return (
     <>
