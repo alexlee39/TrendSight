@@ -13,7 +13,7 @@ const Navbar = ({checkLogin, sendRegister}) => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [isLogin, setShowLogin] = useState(true);
 
-  const rootElem = document.querySelector('#root');
+  //const rootElem = document.querySelector('#root');
 
   return (
     <>
@@ -24,11 +24,6 @@ const Navbar = ({checkLogin, sendRegister}) => {
             {/* </NavLink> */}
             <nav className="navigation">
                 <a href="#" id = "Papers">Papers</a>
-                <button onClick={() => {
-                  setShowPopUp(true); 
-                  //setShowLogin(true)
-                  }} 
-                  className="login-popup">
                 <button onClick={() => {
                   setShowPopUp(true); 
                   //setShowLogin(true)
