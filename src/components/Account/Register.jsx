@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { FaXmark, FaEnvelope, FaLock} from 'react-icons/fa6';
 import { IoPersonSharp } from 'react-icons/io5'
 import { useState } from 'react'
@@ -10,7 +12,7 @@ const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
 
     // Use isChecked to make a custom required function that we could pass to display some text
     // telling the user to check the box before proceeding
-
+    
     const handleSubmit = () =>{
         // ADD ID for mocking DB
         const accDetails = {
