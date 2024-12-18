@@ -28,7 +28,8 @@ const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
     }
     return (
     <>
-        <span onClick = {() => setClosePopup(false)} className="icon-close"> <FaXmark/></span>
+        {/* <span onClick = {() => setClosePopup(false)} className="icon-close"> <FaXmark/></span> */}
+        {/* <span onClick = {() => setClosePopup(false)} className="icon-close absolute top-3 right-3"> <FaXmark className= 'cursor-pointer size-6'/></span> */}
         <div className="form-box register">
             <h2>Registration</h2>
             <form onSubmit = {handleSubmit} id="registerForm">

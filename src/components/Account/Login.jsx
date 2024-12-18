@@ -23,7 +23,9 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
 
   return (
     <>
-        <span onClick = {() => setClosePopup(false)} className="icon-close"> <FaXmark/></span>
+        {/* <span onClick = {() => setClosePopup(false)} className="icon-close"> <FaXmark/></span> */}
+        {/* <span onClick = {() => setClosePopup(false)} className="icon-close absolute top-0 right-0 w-11 h-11 bg-black cursor-pointer z-10"> <FaXmark className='size-6'/></span> */}
+
         <div className="form-box login">
         <h2>Login</h2>
         <form onSubmit = {handleSubmitForm} id="loginForm">
