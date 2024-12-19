@@ -52,13 +52,13 @@ const App = () => {
   useEffect(() => { // triggers only once when the component is mounted
     const fetchArticles = async () => {
       try {
-      const articleData = mockData.articles; // 2 arrays from db (accounts, articles)
-      setArticles(articleData); // updates state with new db data
+        const res = await fetch('http://localhost:5000/articles');
+        const articleData = await res.json();
+        // W/o calling fetch/GET Request:
+        // const articleData = mockData.articles; // 2 arrays from db (accounts, articles)
       
-      // fetch("mockDB.json")
-      //   .then((res) => res.json())
-      //   .then((data) => setArticles(data));
-      
+        setArticles(articleData); // updates state with new db data
+
       }
       catch (error){
         console.log("articles werent extracted properly\n", error);
@@ -76,4 +76,3 @@ const App = () => {
 };
 
 export default App
-

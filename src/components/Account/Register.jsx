@@ -28,62 +28,69 @@ const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
     }
     return (
     <>
-        <span onClick = {() => setClosePopup(false)} className="icon-close"> <FaXmark/></span>
-        <div className="form-box register">
-            <h2>Registration</h2>
+        <div className="w-full py-4 px-6">
+            <h2 className='text-3xl font-bold text-center'>Registration</h2>
             <form onSubmit = {handleSubmit} id="registerForm">
-                <div className="input-box">
-                    <span className="icon"><IoPersonSharp/></span>
+                <div className="relative w-full h-12 border-b-2 border-black border-solid my-7 flex items-center justify-end">
+                    <span className="absolute text-xl"><IoPersonSharp/></span>
                     <input 
+                        className='w-full h-full bg-transparent border-none outline-none text-base text-black font-semibold pt-3 pb-1 peer'
                         type="text" 
-                        id="username" 
                         required 
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     /> 
-                    <label>Name</label>
+                    <label className="absolute left-1 top-1/2 -translate-y-1/2 text-base text-black font-medium peer-focus:top-0 peer-valid:top-0 duration-300">
+                        Name
+                    </label>
                 </div>
-                <div className="input-box">
-                    <span className="icon"><FaEnvelope/></span>
+                <div className="relative w-full h-12 border-b-2 border-black border-solid my-7 flex items-center justify-end">
+                    <span className="absolute text-xl"><FaEnvelope/></span>
                     <input 
+                        className='w-full h-full bg-transparent border-none outline-none text-base text-black font-semibold pt-3 pb-1 peer'
                         type="text" 
-                        id="reg-email"
                         required 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <label>Email</label>
+                    <label className="absolute left-1 top-1/2 -translate-y-1/2 text-base text-black font-medium peer-focus:top-0 peer-valid:top-0 duration-300">
+                        Email
+                    </label>
                 </div>
-                <div className="input-box">
-                    <span className="icon"><FaLock/></span>
+                <div className="relative w-full h-12 border-b-2 border-black border-solid mt-7 mb-6 flex items-center justify-end">
+                    <span className="absolute text-xl"><FaLock/></span>
                     <input 
+                        className='w-full h-full bg-transparent border-none outline-none text-base text-black font-semibold pt-3 pb-1 peer'
                         type="password" 
-                        id="reg-password" 
                         required 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <label>Password</label>
+                    <label className="absolute left-1 top-1/2 -translate-y-1/2 text-base text-black font-medium peer-focus:top-0 peer-valid:top-0 duration-300">
+                        Password
+                    </label>
                 </div>
-                <div className="wrong-credentials"> Invalid Email or Password</div>
-                <div className="remember-forgot">
+
+                {/* Set some JS Code to determine if this should be shown or not */}
+                {/* <div className="wrong-credentials"> Invalid Email or Password</div> */}
+                
+                <div className="text-sm font-medium my-4">
                     <label>
                         <input 
+                            className='mr-2'
                             type="checkbox" 
-                            id="termsCheckbox" 
-                            className="terms-checkbox"
                             onClick={() => setChecked(prev => !prev)}
                             required
                             value={isChecked}
                             onChange={(e) => setChecked(e.target.checked)}
                         /> 
-                        I agree to the <a href="#" className="terms-link">terms & conditions</a>
+                        I agree to the <a href="#" className="font-bold hover:underline">terms & conditions</a>
                     </label>
                 </div>                
-                <button type="submit" className="btn register-btn">Register</button>
+                <button type="submit" className="w-full h-11 bg-black text-white rounded-md">Register</button>
             </form>
-                <div className="login-register">
-                    <p>Already have an account? <button onClick = {() => setShowLogin(true)} className="login-link">Login</button></p>
+                <div className="text-sm text-center font-medium mt-5 mb-3">
+                    <p>Already have an account? <button onClick = {() => setShowLogin(true)} className="font-bold hover:underline">Login</button></p>
                 </div>
         </div>
     </>

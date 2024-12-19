@@ -9,13 +9,14 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif; /*set from guide, so far defualt looks fine?*/
 }
-
-body {
+/* body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url('../../assets/cool-background.png') no-repeat; /*need to reference actual web url link when hosting*/
+  background: url('../../assets/cool-background.png') no-repeat; 
   background-size: cover;
   background-position: center;
-}
+} */
+
+  /*need to reference actual web url link when hosting*/

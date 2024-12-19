@@ -154,10 +154,12 @@ loginLink.addEventListener('click', ()=> {
 
 //clicking links adds "active-popup" and CSS responds accordingly (simply sets scale to 0 and 1)
 loginPopup.addEventListener('click', ()=> {
+    // wrapper.style.display = 'block';
     wrapper.classList.add('active-popup');
 });
 
 iconClose.addEventListener('click', ()=> {
+    // wrapper.style.display = 'none';
     wrapper.classList.remove('active-popup');
 });
 
