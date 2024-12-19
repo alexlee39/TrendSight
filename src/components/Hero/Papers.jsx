@@ -18,7 +18,8 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
   
   // used chatty bot to add a css line inside tailwind...... 
   return (
-    <div className="absolute w-full max-w-4xl" style={{ transform: "translate(-50%, -50%)" }}> {/* edit max-w-4xl to style table width better, manually set up center because of absolute (table shouldnt move up now) */}
+    // <section className="absolute w-full max-w-4xl top-1/2 -right-1/2" style={{ transform: "translate(-50%, -50%)" }}> {/* edit max-w-4xl to style table width better, manually set up center because of absolute (table shouldnt move up now) */}
+    <section className="absolute w-full max-w-4xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">      
       <div className="container mx-auto overflow-x-auto">
         <table className="min-w-full table-auto border-collapse border border-gray-400 rounded-lg">
           <thead className="bg-gray-200">
@@ -41,7 +42,7 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 };
 
