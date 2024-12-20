@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar/Navbar.jsx'
 import { useState, useEffect } from 'react'
 import Hero from "./components/Hero/Papers.jsx";
-import mockData from "../mockdb/accounts.json"
+//import mockData from "../mockdb/accounts.json"
 
 const App = () => {
   // Create token/sessions to identify when users are logged in
