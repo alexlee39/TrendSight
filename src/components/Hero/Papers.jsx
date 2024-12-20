@@ -36,7 +36,7 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
   // {/* edit max-w-4xl to style table width better, manually set up center because of absolute (table shouldnt move up now) */}
 
   return (
-    <div className="absolute w-full max-w-4xl" style={{ transform: "translate(-50%, -50%)" }}>
+    <section className="absolute w-full max-w-4xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <div className="container mx-auto overflow-x-auto">
 
         <div className="flex justify-end mb-4">
@@ -116,7 +116,7 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
           </table>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
