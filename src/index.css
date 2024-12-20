@@ -1,4 +1,3 @@
-/*still getting error "Unknown at rule @tailwind", but works? whatever*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,16 +6,5 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif; /*set from guide, so far defualt looks fine?*/
+  font-family: 'Poppins', sans-serif;
 }
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: url('../../assets/cool-background.png') no-repeat; 
-  background-size: cover;
-  background-position: center;
-} */
-
-  /*need to reference actual web url link when hosting*/
