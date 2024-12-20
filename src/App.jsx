@@ -13,19 +13,10 @@ const App = () => {
       const res = await fetch(`http://localhost:5000/accounts/${credentials.email}`);
       const data = await res.json();
       console.log(data);
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error)
     }
-    // const res = await fetch("http://localhost:5000/accounts/login", {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(credentials),
-    // });
-    // const data = await res.json();
-    // console.log("HTTP Login POST Req finished");
-    // console.log(data);
     return;
   }
 
@@ -40,7 +31,8 @@ const App = () => {
         body: JSON.stringify(accDetails),
       });
       console.log('Mock DB works???');
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error);
     }
   }
@@ -49,19 +41,17 @@ const App = () => {
     // { title: "Why are CS Majors working at McDonalds?", author: "Mike O", date: "11/20/2024", link: "/article/0001" }, // article title needs to be long to match figma design
   ]);
 
-  useEffect(() => { // triggers only once when the component is mounted
+  useEffect(() => { // triggers only once when the component is mounted (refresh/return to page)
     const fetchArticles = async () => {
       try {
         const res = await fetch('http://localhost:5000/articles');
         const articleData = await res.json();
         // W/o calling fetch/GET Request:
         // const articleData = mockData.articles; // 2 arrays from db (accounts, articles)
-      
         setArticles(articleData); // updates state with new db data
-
       }
       catch (error){
-        console.log("articles werent extracted properly\n", error);
+        console.log("GET request error:", error);
       }
     };
     fetchArticles();
