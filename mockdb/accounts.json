@@ -1,38 +1,39 @@
 {
   "accounts": [
     {
-      "id": "test@123.com",
-      "email": "test@123.com",
-      "password": "testing123",
-      "username": "testing",
-      "portal": "author"
-    },
-    {
       "id": "alex@123.com",
       "email": "alex@123.com",
       "password": "icantbench225",
       "username": "alexonthebeatyo",
-      "portal": "author"
+      "role": "mod"
     },
     {
       "id": "jeeviathan@123.com",
       "email": "jeeviathan@123.com",
       "password": "hehuge",
       "username": "THECUTBOUTABECRAZYTRUSTMEBRO",
-      "portal": "reviewer"
+      "role": "mod"
     },
     {
       "id": "bobross@123.com",
       "email": "bobross@123.com",
       "password": "bobbywong",
       "username": "rossy",
-      "portal": "reviewer"
+      "role": "reviewer"
     },
     {
-      "id": "test@gmail.com",
-      "username": "test",
-      "email": "test@gmail.com",
-      "password": "test1234"
+      "id": "test@123.com",
+      "email": "test@123.com",
+      "password": "testing123",
+      "username": "testing",
+      "role": "author"
+    },
+    {
+      "id": "judy@gmail.com",
+      "username": "bigjudy",
+      "email": "judy@gmail.com",
+      "password": "biggestjudy123",
+      "role": "author"
     }
   ],
   "articles": [

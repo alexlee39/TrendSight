@@ -10,6 +10,7 @@ const App = () => {
   const checkLogin = async(credentials) =>{
     // TESTING w/ MOCK DB Code.. TO REMOVE
     try {
+      
       const res = await fetch(`http://localhost:5000/accounts/${credentials.email}`);
       const data = await res.json();
       console.log(data);
@@ -23,6 +24,7 @@ const App = () => {
   const sendRegister = async(accDetails) => {
     // CODE PURELY FOR TESTING with MOCKDB
     try {
+      //console.log(accDetails);
       await fetch("http://localhost:5000/accounts", {
         method: 'POST',
         headers: {
