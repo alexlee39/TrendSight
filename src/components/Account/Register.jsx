@@ -19,9 +19,10 @@ const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
             id: email,
             username,
             email,
-            password
+            password,
+            role: "author"
         };
-
+        //console.log(accDetails)
         sendRegister(accDetails);
         // TO REMOVE... 
         console.log('Reg Form Submitted');
