@@ -12,7 +12,7 @@ const App = () => {
   // state to update table with new data --> present data
   const [articles, setArticles] = useState([]);
 
-  useEffect(() => { // triggers only once when the component is mounted
+  useEffect(() => { // triggers only once when the component is mounted/re-rendered (refresh/Papers button)
     const fetchArticles = async () => {
       try {
         const res = await fetch('http://localhost:5000/articles');
