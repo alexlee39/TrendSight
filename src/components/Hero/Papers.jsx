@@ -1,34 +1,38 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 
-const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
+import { Link } from 'react-router-dom';
+
+const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [dropDown, setDropDown] = useState(true);
   const [sortKey, setSortKey] = useState("none")
-
-  let sortedArticles = articles
-  if (sortKey === "date") { // sort by date state
-    sortedArticles = [...articles].sort((a, b) => { // temp article data to modify for date
-      const dateA =  new Date(a.date) // need objects to compare and sort
-      const dateB =  new Date(b.date)
-      return dateB - dateA;
-    });
+  // {
+  //   "id": "test@123.com",
+  //   "title": "test article",
+  //   "author": "test",
+  //   "date": "12/20/2024",
+  //   "link": "test",
+  //   "content": "test, blah blah blah"
+  // }
+  
+  //console.log("re-rendered");
+  function sortArticles() {
+    if (sortKey === "date") {
+      return [...articles].sort((a, b) => { // sort shallow copy ...
+        const dateA = new Date(a.date); // parse str into object
+        const dateB = new Date(b.date); 
+        return dateB - dateA; // descending order, vice verses
+      });
+    }
+    else if (sortKey === "author"){
+      // can set up more options in future
+    }
+    return articles; // default
   }
-
-  const toggleDropDown = () => setDropDown(!dropDown); // button for closing or opening sort
-  
-  // const newArticle = { // temp
-  //   title: "Why can CS majors not get a girlfriend?",
-  //   author: "Jeevithan M",
-  //   date: "12/14/2024",
-  //   link: "/article/0003"
-  // };
-
-  // const addNewArticle = () => { // react needs some kind of trigger to update states, some kinda update/refresh button to update with new data? 
-  //   setArticles((prevArticles) => [...prevArticles, newArticle]);
-  // };  
-  
+  const toggleDropDown = () => setDropDown(!dropDown); // closing/opening - rerenders entire component
+  const sortedArticles = sortArticles(); // updates every rerender
+   
   //comments/notes (cant add comments inside jsx):
   // {/* col names - not responsive at ipad level and lower */}
   // {/* w-1/2 for new line if data too long */}
@@ -36,11 +40,11 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
   // {/* edit max-w-4xl to style table width better, manually set up center because of absolute (table shouldnt move up now) */}
 
   return (
-    <section className="absolute w-full max-w-4xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-      <div className="container mx-auto overflow-x-auto">
+    <section className="absolute w-full max-w-4xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+      <div className="container mx-auto overflow-x-auto ">
 
-        <div className="flex justify-end mb-4">
-          <div className="relative inline-block text-left">
+        <div className="flex justify-end mb-2">
+          <div className="relative inline-block text-left w-40">
             <button
             onClick={toggleDropDown}
             className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">
@@ -59,7 +63,7 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
             </button>
             {!dropDown && (
               <div
-                className ="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                className ="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role = "menu"
                 aria-orientation ="vertical"
               >
@@ -96,7 +100,7 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
         >
           <table className="min-w-full table-auto border-collapse border border-gray-400 rounded-lg">
             <thead className="bg-gray-200">
-              <tr> 
+              <tr className="bg-custom-background bg-no-repeat bg-center"> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">Papers</th> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Author</th>
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800">Date</th>
@@ -104,9 +108,11 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
             </thead>
             <tbody className="bg-white"> 
               {sortedArticles.map((article, index) => ( 
-                <tr key={index} className="border-t hover:bg-gray-100">
+                <tr key={index} className="border-t hover:bg-gray-100 ">
                   <td className="px-12 py-5 text-m text-cyan-600 border-r border-black">
-                    <a href={article.link} className="hover:underline">{article.title}</a>
+                    <Link to={`/papers/${article.link}`} className="hover:underline">
+                      {article.title}
+                    </Link>
                   </td>
                   <td className="px-12 py-5 text-m text-gray-800 border-r border-black">{article.author}</td>
                   <td className="px-12 py-5 text-m text-gray-600">{article.date}</td>
@@ -120,5 +126,5 @@ const Hero = ({ articles, setArticles }) => { // maybe use props to call Hero wi
   );
 };
 
-export default Hero;
+export default Papers;
 

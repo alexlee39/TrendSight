@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage:{
+        'custom-background': "url('./src/assets/cool-background.png')",
+      },
       spacing: {
         '100' : '25rem',
         '110' : '27.5rem',
