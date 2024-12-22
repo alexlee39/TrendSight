@@ -1,27 +1,23 @@
-import Navbar from './components/Navbar/Navbar.jsx'
 import { useState, useEffect } from 'react'
-import Papers from "./components/Hero/Papers.jsx";
-//import mockData from "../mockdb/accounts.json"
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router';
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ArticlePage from "./components/Hero/ArticlePage.jsx";
+
+import Papers from "./components/Hero/Papers.jsx";
+import ArticlePage, {articleLoader} from "./components/Hero/ArticlePage.jsx";
+import BaseLayout from './layout/BaseLayout.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+import ErrorBoundary from './components/ErrorBoundary/ArticleErrorBoundary.jsx';
 
 const App = () => {
-  // Create token/sessions to identify when users are logged in
-  // const [token, setToken] = useState(null);
   // state to update table with new data --> present data
   const [articles, setArticles] = useState([]);
 
-  useEffect(() => { // triggers only once when the component is mounted
+  useEffect(() => {
     const fetchArticles = async () => {
       try {
         const res = await fetch('http://localhost:5000/articles');
         const articleData = await res.json();
-        // W/o calling fetch/GET Request:
-        // const articleData = mockData.articles; // 2 arrays from db (accounts, articles)
-      
         setArticles(articleData); // updates state with new db data
-
       }
       catch (error){
         console.log("articles werent extracted properly\n", error);
@@ -58,19 +54,16 @@ const App = () => {
     }
   }
 
-  return (
-    <div className=" flex justify-center items-center min-h-screen bg-custom-background bg-no-repeat bg-cover bg-center">
-    <Router>
-        <Navbar checkLogin={checkLogin} sendRegister={sendRegister}/>
-        <Routes>
-          {/* Route for homepage showing the Papers component with the list of articles */}
-          <Route path="/" element={<Papers articles={articles} setArticles={setArticles} />} />
-          {/* dynamic route for individual article pages with corresponding component */}
-          <Route path="/papers/:articleLink" element={<ArticlePage articles={articles} />} />
-        </Routes>          
-    </Router>
-    </div> 
-  );
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} />}>
+        <Route index element={<Papers articles={articles} setArticles={setArticles} />}/>
+        <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
+        <Route path = "*" element={<NotFoundPage/>}/>
+      </Route>
+    )
+  )
+  return <RouterProvider router={router}/>
 };
 
 export default App
