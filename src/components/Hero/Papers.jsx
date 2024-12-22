@@ -1,22 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
-
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [dropDown, setDropDown] = useState(true);
   const [sortKey, setSortKey] = useState("none")
-  // {
-  //   "id": "test@123.com",
-  //   "title": "test article",
-  //   "author": "test",
-  //   "date": "12/20/2024",
-  //   "link": "test",
-  //   "content": "test, blah blah blah"
-  // }
-  
-  //console.log("re-rendered");
   function sortArticles() {
     if (sortKey === "date") {
       return [...articles].sort((a, b) => { // sort shallow copy ...
@@ -110,7 +97,7 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
               {sortedArticles.map((article, index) => ( 
                 <tr key={index} className="border-t hover:bg-gray-100 ">
                   <td className="px-12 py-5 text-m text-cyan-600 border-r border-black">
-                    <Link to={`/papers/${article.link}`} className="hover:underline">
+                    <Link to={`/papers/${article.id}`} className="hover:underline">
                       {article.title}
                     </Link>
                   </td>
