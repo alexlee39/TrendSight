@@ -6,11 +6,17 @@ const ArticlePage = ({ articles }) => {
   const article = articles.find((article) => article.link === articleLink); // Find the article by link
 
   if (!article) {
-    return <div className="p-4 text-red-600 bg-custom-background bg-no-repeat bg-cover bg-center">Article not found!</div>;
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-custom-article-not-found bg-no-repeat bg-cover bg-center">
+        <div className="p-4 text-red-600 bg-white shadow-lg rounded-lg">
+          Article does not exist!
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg bg-custom-background bg-no-repeat bg-cover bg-center">
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       {/* Title */}
       <h1 className="text-3xl font-extrabold text-gray-900">{article.title}</h1>
       {/* Author and Date */}
@@ -23,6 +29,7 @@ const ArticlePage = ({ articles }) => {
         <p>{article.content}</p>
       </div>
     </div>
+
   );
 };
 

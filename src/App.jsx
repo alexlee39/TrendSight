@@ -59,7 +59,7 @@ const App = () => {
   }
 
   return (
-    <div className=" flex justify-center items-center min-h-screen bg-custom-background bg-no-repeat bg-cover bg-center">
+    <div className="flex justify-center items-center min-h-screen bg-custom-background bg-no-repeat bg-cover bg-center">
     <Router>
         <Navbar checkLogin={checkLogin} sendRegister={sendRegister}/>
         <Routes>
