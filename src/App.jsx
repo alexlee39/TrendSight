@@ -9,7 +9,7 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ArticleErrorBoundary.jsx';
 
 const App = () => {
-  // state to update table with new data --> present data
+  // state to update table with new article data
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const App = () => {
         },
         body: JSON.stringify(accDetails),
       });
-      console.log('Mock DB works???');
+      //console.log('Mock DB works???');
     } catch (error) {
       console.log(error);
     }

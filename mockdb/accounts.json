@@ -39,31 +39,103 @@
   "articles": [
     {
       "id": "0001",
-      "title": "Top 5 cheat codes to lose weight on the cut",
+      "title": "How to lose fat and build muscle, the basics",
       "author": "Jeevithan M",
-      "date": "12/15/2023",
-      "content": "Maintain your calories intake and outtake and try to do some cardio."
-    },
-    {
-      "id": "0002",
-      "title": "Insert Politics articles here",
-      "author": "Alexander L",
-      "date": "12/14/2024",
-      "content": "Have you heard about Trump's rise to presidency."
+      "date": "12/23/2024",
+      "content": {
+        "paragraphs": [
+          {
+            "text": "To start losing fat and building muscle, the first thing you need is a proper workout routine."
+          },
+          {
+            "text": "#quote# - quoted by Trainer John Doe.",
+            "quote": 0
+          },
+          {
+            "text": "Nutrition also plays a big role. #quote# Consuming the right foods will fuel your body for optimal performance.",
+            "quote": 1
+          },
+          {
+            "text": "For more detailed information on nutrition and exercise, check out #link#.",
+            "link": 0
+          }
+        ],
+        "quotes": [
+          "Consistency is key when working out and sticking to a diet plan.",
+          "Protein is essential for muscle growth and recovery."
+        ],
+        "links": [
+          "https://www.webmd.com/obesity/features/muscle-and-weight-loss"
+        ]
+      }
     },
     {
       "id": "0003",
       "title": "Lorem Text Inserted here",
-      "author": "Jeevithan M",
-      "date": "12/19/2024",
-      "content": "Default Content to mock some data"
+      "author": "Bobby Rose",
+      "date": "12/19/2023",
+      "content": {
+        "paragraphs": [
+          {
+            "text": "Default Content to mock some data"
+          }
+        ],
+        "quotes": [],
+        "links": []
+      }
     },
     {
-      "id": "0004",
-      "title": "test article",
-      "author": "test",
-      "date": "12/20/2024",
-      "content": "test, blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah "
+      "id": "0002",
+      "title": "Sample Political Article",
+      "author": "Alexander L",
+      "date": "12/14/2024",
+      "content": {
+        "paragraphs": [
+          {
+            "text": "Have you heard about Trump's rise to presidency."
+          }
+        ],
+        "quotes": [],
+        "links": []
+      }
+    },
+    {
+      "id": "0025",
+      "title": "Santa Cruz wharf section collapses, sending 3 into sea as high surf slams California coast",
+      "author": "Roseann Cattani",
+      "date": "12/26/2024",
+      "content": {
+        "paragraphs": [
+          {
+            "text": "A section of the Santa Cruz Municipal Wharf collapsed into the ocean around midday on December 23, 2024, requiring water rescues by emergency responders."
+          },
+          {
+            "text": "The wharf, home to several restaurants and near the Santa Cruz Beach Boardwalk, was evacuated and closed to all except emergency responders."
+          },
+          {
+            "text": "#quote#, the fire department posted on its Instagram account just after 1 p.m.",
+            "quote": 0
+          },
+          {
+            "text": "#quote#",
+            "quote": 1
+          },
+          {
+            "text": "The collapsed section, located at the end of the wharf, had already been closed off to the public due to the prior storm damage."
+          },
+          {
+            "text": "If you wish to read more about this matter, please visit: #link#",
+            "link": 0
+          }
+        ],
+        "quotes": [
+          "Santa Cruz Fire and Santa Cruz Police are on scene at the Santa Cruz Wharf",
+          "Two victims have been rescued by our lifeguards and one victim self rescued. The wharf is closed till further notice."
+        ],
+        "links": [
+          "https://www.thecalifornian.com/story/news/local/2024/12/23/santa-cruz-wharf-section-near-california-boardwalk-collapses-3-into-sea/77182161007/"
+        ]
+      }
     },
     {
       "id": "0005",

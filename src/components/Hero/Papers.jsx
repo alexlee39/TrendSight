@@ -1,11 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { Link } from 'react-router';
 
 const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [dropDown, setDropDown] = useState(true);
-  const [sortKey, setSortKey] = useState("none")
+  const [sortKey, setSortKey] = useState("date")
   function sortArticles() {
-    if (sortKey === "date") {
+    if (sortKey === "date") { // will be implmenting Most Recent, and Oldest options instead of basic DATE (default should be most recent)
       return [...articles].sort((a, b) => { // sort shallow copy ...
         const dateA = new Date(a.date); // parse str into object
         const dateB = new Date(b.date); 
@@ -29,7 +31,6 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
   return (
     <section className="absolute w-full max-w-4xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
       <div className="container mx-auto overflow-x-auto ">
-
         <div className="flex justify-end mb-2">
           <div className="relative inline-block text-left w-40">
             <button
@@ -59,21 +60,21 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                     role = "menuitem"
                     onClick={() => {
-                      setSortKey("none");
+                      setSortKey("date");
                       setDropDown(true); 
                     }}
                   >
-                    No Sorting
+                    Most Recent
                   </button>
                   <button
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                     role="menuitem"
                     onClick={() => {
-                      setSortKey("date");
+                      setSortKey("none");
                       setDropDown(true);
                     }}
                   >
-                    Sort by Date
+                    No Sorting 
                   </button>
                 </div>
               </div>

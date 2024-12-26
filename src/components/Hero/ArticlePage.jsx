@@ -1,9 +1,32 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { data, useNavigate, useParams, useLoaderData } from 'react-router-dom';
 
-const ArticlePage = ({ articles }) => {
+const ArticlePage = () => {
   const { id } = useParams(); // current URL - need it to create pages with corresponding link
   const article = useLoaderData();
+
+  // processing paragraphs, quotes and links accordingly based off mockDB format
+  const renderContent = () => {
+    return article.content.paragraphs.map((paragraph, index) => {
+      let paragraphText = paragraph.text;
+      // processing #quote# placeholder if any
+      if (paragraphText.includes("#quote#") && paragraph.quote !== undefined) {
+        paragraphText = paragraphText.replace("#quote#", `"${article.content.quotes[paragraph.quote]}"`);
+      }
+      // processing #link# placeholder if any
+      if (paragraphText.includes("#link#") && paragraph.link !== undefined) {
+        paragraphText = paragraphText.replace("#link#", `<a href="${article.content.links[paragraph.link]}" class="text-blue-500">${article.content.links[paragraph.link]}</a>`);
+      }
+
+      return (
+        <div key={index} className="mb-6">
+          {/* Render the paragraph with the replaced content */}
+          <p className="text-lg leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: paragraphText }} />
+        </div>
+      );
+    });
+  };
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
@@ -15,9 +38,7 @@ const ArticlePage = ({ articles }) => {
         <p>{article.date}</p>
       </div>
       {/* Content */}
-      <div className="mt-6 text-base text-gray-800 leading-relaxed">
-        <p>{article.content}</p>
-      </div>
+      <div className="mt-6 font-serif text-gray-800">{renderContent()}</div>
     </div>
   );
 };
