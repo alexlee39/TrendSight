@@ -1,0 +1,10 @@
+# Add this file
+services:
+  postgres:
+    image: 'postgres:17'
+    environment:
+      - 'POSTGRES_DB=trendsightdb'
+      - 'POSTGRES_PASSWORD=ciscoadmin@2025'
+      - 'POSTGRES_USER=trendsightadmin'
+    ports:
+      - '5432'
