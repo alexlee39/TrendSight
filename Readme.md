@@ -1,9 +1,9 @@
 # Trend Sight
 
 A new and upcoming app thats broke college students decided to make for authors to write about current events occuring
+## FrontEnd 
+- To use these commands below, please redirect into the directory TrendSight/FrontEnd
 
-## Front End
-- Must be on the directory TrendSight/Frontend(ie. cd into FrontEnd Folder before running npm commands)
 ### To run mock database on local host:
 ```
 npm run server
@@ -24,21 +24,16 @@ npm run preview
 npm run build
 ```
 
-## To run PostgreSQL/ Local Backend Server 
-<!-- In the directory TrendSight/Backend(ie. cd into Backend Folder before running Springboot Application) -->
+## Backend 
+- The Backend uses PostgreSQL Database hosted through Docker and Springboot as the main Backend Language/Framework 
 
-Before you are able to run Local Backend Server,
+To run the backend server you must have Docker/Docker Desktop installed and Maven installed 
 
-You need to have Docker Desktop/Docker installed on local machine to run the PostgreSQL Database to save/load any articles using PostgreSQL. 
-You also need to have Maven installed in not already done so.
+- To run Springboot Application w/o terminal(not recommended, but does refresh automatically if you update backend files)
+1) Need to open IDE with the workspace Backend(ie. you can't have your IDE be in opened in TrendSight, it must be opened in TrendSight/Backend so you can only see Backend Files in your IDE)
+2) You should select/click any Javafile(ie. Application.java) in the src/main folder. 
+3) In VSCode/IntelliJ, you should click Top Right arrow like how you would run a normal Java File.
 
-- To Run SpringBoot Application w/o Terminal => Must open IDE in the TrendSight/Backend Folder then follow the step below
-
-Click arrow on top right of _Application.java_ or any Java file and click on _Application.java_
-![Run Springboot App + PostgreSQL DB(using Docker)](/images/SpringbootRun.png)
-
-- Running Springboot with Terminal and Maven => IDE can be opened in any Folder(ie. /TrendSight) but must current Path must be on /TrendSight/Backend => then follow step below
-
-Type this command in your TrendSight/Backend Directory:
-` ./mvnw spring-boot:run `
-
+- Alternatively, can run application in terminal
+1) Be in the TrendSight/Backend folder or directory
+2) Run ``` ./mvnw spring-boot:run```
