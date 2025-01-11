@@ -16,10 +16,11 @@ const Navbar = ({checkLogin, sendRegister}) => {
         <nav className='fixed w-full top-0 left-0 px-24 py-5 bg-zinc-500 flex justify-between items-center z-50'> 
           <Link href="/" className="text-4xl text-white font-semibold select-none">TrendSight</Link> 
             <div className="navigation">
-              
-                <Navlink tagName = "Papers" path = "/"/>
-                <Navlink tagName = "Upload" path = "/upload"/>
-                <Navlink tagName = "MyPapers" path = "/mypapers"/>
+                <Navlink tagName={"Papers"} path={"/"}/>
+                <Navlink tagName={"Upload"} path={"/upload"}/>
+                <Navlink tagName={"My Papers"} path={"/mypapers"}/>
+
+
 
                 <button onClick={() => {
                   setShowPopUp(true); 

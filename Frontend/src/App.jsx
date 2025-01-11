@@ -59,8 +59,9 @@ const App = () => {
     createRoutesFromElements(
       <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} />}>
         <Route index element={<Papers articles={articles} setArticles={setArticles} />}/>
-        <Route path = "/upload" element={<UploadPage/>} />
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
+        <Route path = "upload" element={<UploadPage/>}/>
+
         <Route path = "*" element={<NotFoundPage/>}/>
       </Route>
     )
