@@ -1,11 +1,31 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+
+/**Notes: Date Formatted using UTC Time Zone: Month/Day/Year
+ * 
+ * 
+ */
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router';
 
 const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [dropDown, setDropDown] = useState(true);
-  const [sortKey, setSortKey] = useState("date")
+  const [sortKey, setSortKey] = useState("date");
+  
+  // useEffect(){}
+
+  /**Function to display the correct Date of the respective Article
+   * 
+   * @param {string} dateString - A string in the format "2025-01-08T02:10:41.970496Z" that represents the UTC Date 
+   * @param {number} epochSec - A number in the format "1736302241970" that represents the article date in Epoch Seconds
+   * @returns - {Month}/{Day}/{Year} of the respective Local Time Zone.
+   */
+  const displayDate = (dateString, epochSec) => {
+    const date = new Date(epochSec);
+    return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
+  }
+
+
   function sortArticles() {
     if (sortKey === "date") { // will be implmenting Most Recent, and Oldest options instead of basic DATE (default should be most recent)
       return [...articles].sort((a, b) => { // sort shallow copy ...
@@ -103,7 +123,7 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                     </Link>
                   </td>
                   <td className="px-12 py-5 text-m text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-m text-gray-600">{article.date}</td>
+                  <td className="px-12 py-5 text-m text-gray-600">{displayDate(article.createdDate, article.epochMillis)}</td>
                 </tr>
               ))}
             </tbody>

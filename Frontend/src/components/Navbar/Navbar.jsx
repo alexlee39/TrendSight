@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import Login from '../Account/Login.jsx'
 import Register from '../Account/Register.jsx'
 import Modal from '../Account/Modal.jsx'
+import Navlink from './Navlink.jsx'
 
 const Navbar = ({checkLogin, sendRegister}) => {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -15,14 +16,10 @@ const Navbar = ({checkLogin, sendRegister}) => {
         <nav className='fixed w-full top-0 left-0 px-24 py-5 bg-zinc-500 flex justify-between items-center z-50'> 
           <Link href="/" className="text-4xl text-white font-semibold select-none">TrendSight</Link> 
             <div className="navigation">
-              <Link to ="/" className="relative text-lg text-white font-medium my-2 mx-6 group">
-                Papers
-                  {/* Bar that is displayed once hovered */}
-                  <span
-                    className="absolute -bottom-2 right-0 w-0 h-[3px] bg-white transition-all rounded-md duration-[400ms] group-hover:w-full group-hover:left-0"
-                  >
-                  </span>
-                </Link>
+              
+                <Navlink tagName = "Papers" path = "/"/>
+                <Navlink tagName = "Upload" path = "/upload"/>
+                <Navlink tagName = "MyPapers" path = "/mypapers"/>
 
                 <button onClick={() => {
                   setShowPopUp(true); 

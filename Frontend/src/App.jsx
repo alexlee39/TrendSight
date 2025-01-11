@@ -7,6 +7,7 @@ import ArticlePage, {articleLoader} from "./components/Hero/ArticlePage.jsx";
 import BaseLayout from './layout/BaseLayout.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ArticleErrorBoundary.jsx';
+import UploadPage from './components/Hero/UploadPage.jsx';
 
 const App = () => {
   // state to update table with new article data
@@ -15,7 +16,7 @@ const App = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch('http://localhost:5000/articles');
+        const res = await fetch('http://localhost:8080/article');
         const articleData = await res.json();
         setArticles(articleData); // updates state with new db data
       }
@@ -58,6 +59,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} />}>
         <Route index element={<Papers articles={articles} setArticles={setArticles} />}/>
+        <Route path = "/upload" element={<UploadPage/>} />
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
         <Route path = "*" element={<NotFoundPage/>}/>
       </Route>

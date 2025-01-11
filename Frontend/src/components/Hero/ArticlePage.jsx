@@ -5,34 +5,35 @@ import { data, useNavigate, useParams, useLoaderData } from 'react-router-dom';
 const ArticlePage = () => {
   const { id } = useParams(); // current URL - need it to create pages with corresponding link
   const article = useLoaderData();
-
+  // console.log(article.date)
+  
   /// processing paragraphs, quotes and links accordingly based off mockDB format
-  const renderContent = () => {
-    let paragraphArray = article.content.paragraphs;
-    let quoteArray = article.content.quotes;
-    let linkArray = article.content.links;
-    return paragraphArray.map((paragraph, index) => {
-      let paragraphText = paragraph.text;
-      // processing #quote# placeholder if any
-      if (paragraphText.includes("#quote#") && paragraph.quote !== undefined) {
-        paragraphText = paragraphText.replace("#quote#", 
-          `<span class="font-serif italic text-gray-600">"${quoteArray[paragraph.quote]}"</span>`
-        );
-      }
-      // processing #link# placeholder if any
-      if (paragraphText.includes("#link#") && paragraph.link !== undefined) {
-        paragraphText = paragraphText.replace("#link#", 
-          `<a href="${linkArray[paragraph.link]}" class="text-blue-500">${linkArray[paragraph.link]}</a>`
-        );
-      }
-      return (
-        <div key={index} className="mb-5">
-          {/* paragraph text stylign */}
-          <p className="font-serif leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: paragraphText }} />
-        </div>
-      );
-    });
-  };
+  // const renderContent = () => {
+  //   let paragraphArray = article.content.paragraphs;
+  //   let quoteArray = article.content.quotes;
+  //   let linkArray = article.content.links;
+  //   return paragraphArray.map((paragraph, index) => {
+  //     let paragraphText = paragraph.text;
+  //     // processing #quote# placeholder if any
+  //     if (paragraphText.includes("#quote#") && paragraph.quote !== undefined) {
+  //       paragraphText = paragraphText.replace("#quote#", 
+  //         `<span class="font-serif italic text-gray-600">"${quoteArray[paragraph.quote]}"</span>`
+  //       );
+  //     }
+  //     // processing #link# placeholder if any
+  //     if (paragraphText.includes("#link#") && paragraph.link !== undefined) {
+  //       paragraphText = paragraphText.replace("#link#", 
+  //         `<a href="${linkArray[paragraph.link]}" class="text-blue-500">${linkArray[paragraph.link]}</a>`
+  //       );
+  //     }
+  //     return (
+  //       <div key={index} className="mb-5">
+  //         {/* paragraph text stylign */}
+  //         <p className="font-serif leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: paragraphText }} />
+  //       </div>
+  //     );
+  //   });
+  // };
 
   return (
     <section className="absolute w-full left-1/2 transform -translate-x-1/2 top-28">
@@ -45,14 +46,16 @@ const ArticlePage = () => {
           <p>{article.date}</p>
         </div>
         {/* Content rendering, and spacing*/}
-        <div className="mt-4">{renderContent()}</div>
+        {/* <div className="mt-4">{renderContent()}</div> */}
+        <div className="mt-4">{article.body}</div>
+
       </div>      
     </section>
   );
 };
 
 const articleLoader = async ({ params }) => {
-  const res = await fetch(`http://localhost:5000/articles/${params.id}`);
+  const res = await fetch(`http://localhost:8080/article/${params.id}`);
   if (!res.ok) {
       throw new Response("Article Not Found", { status: res.status });
   }
