@@ -37,3 +37,12 @@ To run the backend server you must have Docker/Docker Desktop installed and Mave
 #### Alternatively, can run application in terminal
 1) Be in the TrendSight/Backend folder or directory
 2) Run ``` ./mvnw spring-boot:run```
+
+### Tools/Changes that need to be considered 
+1) Move Frontend from React-Router to Next.js/Astro (im leaning more towards NextJS since React explicitly supports it) 
+    1) Use SSR for Homepage for SEO, SPA for Author/Review Dashboard(Review/Edit Articles)
+2) Component Libaries Helps us avoid writing so much boiler plate/manual code with TailwindCSS and allows us to code fast *NerdFace* -> 
+    1) ShadCN.UI -> Libary that has already styled components
+    2) HeadlessUI/Radix UI -> Component Libary with unstyled components so we can style them manually
+3) TypeScript instead of JS? -> Better OOP Support, detects errors earlier, type system(in generally TS better for bigger projects)
+<!-- 4) CDN's for downloading pdfs?? -->
