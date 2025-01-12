@@ -22,7 +22,10 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
   const toggleDropDown = () => setDropDown(!dropDown); // closing/opening - rerenders entire component
   const sortedArticles = sortArticles(); // updates every rerender
    
-  
+  const getArticleDate = (article) => {
+    const curDate = new Date(article.epochMillis);
+    return (curDate.getMonth()+1) + "/" + curDate.getDate() + "/" + curDate.getFullYear(); // curDate returns 0-11
+  }
 
   //comments/notes (cant add comments inside jsx):
   // {/* col names - not responsive at ipad level and lower */}
@@ -105,7 +108,7 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                     </Link>
                   </td>
                   <td className="px-12 py-5 text-m text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-m text-gray-600">{}</td>
+                  <td className="px-12 py-5 text-m text-gray-600">{getArticleDate(article)}</td>
                 </tr>
               ))}
             </tbody>
