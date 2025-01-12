@@ -75,7 +75,7 @@ const UploadPage = () => {
             <textarea 
               name="body" 
               id="body" 
-              className='focus:outline-none border-black border-2 rounded-lg p-3 min-w-110 min-h-60 max-h-100 resize-y'
+              className='focus:outline-none border-black border-2 rounded-lg p-3 min-w-110 min-h-80 resize-none'
               value = {body}
               onChange={(e) => setBody(e.target.value)}
             /> 
