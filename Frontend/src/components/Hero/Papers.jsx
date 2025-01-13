@@ -2,6 +2,17 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { Link } from 'react-router';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+
+
 
 const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [dropDown, setDropDown] = useState(true);
@@ -25,6 +36,14 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
   const getArticleDate = (article) => {
     const curDate = new Date(article.epochMillis);
     return (curDate.getMonth()+1) + "/" + curDate.getDate() + "/" + curDate.getFullYear(); // curDate returns 0-11
+  }
+
+  const testing = () =>{
+    console.log("Edit ran!");
+  }
+
+  const deleteTesting = () => {
+    console.log("Called delete method");
   }
 
   //comments/notes (cant add comments inside jsx):
@@ -107,9 +126,27 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                       {article.title}
                     </Link>
                   </td>
-                  <td className="px-12 py-5 text-m text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-m text-gray-600">{getArticleDate(article)}</td>
+                  <td className="px-12 py-5 text-md text-gray-800 border-r border-black">{article.author}</td>
+                  <td className="text-md px-6 py-4 text-gray-600">
+                    <div className="flex justify-between">
+                      <span className="">{getArticleDate(article)}</span>
+                      
+                      <DropdownMenu >
+                          <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400">...</DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={testing} className="">Edit</DropdownMenuItem>
+                            <DropdownMenuItem onClick={deleteTesting}>Delete</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                  </td>
+                  {/* <div className="flex-col"> */}
+
+                  {/* </div> */}
+
+
                 </tr>
+                
               ))}
             </tbody>
           </table>
