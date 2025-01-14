@@ -7,7 +7,7 @@ const Navlink = ({tagName, path}) => {
     {tagName}
       {/* Bar that is displayed once hovered */}
       <span
-        className="absolute -bottom-2 right-0 w-0 h-[3px] bg-white transition-all rounded-md duration-[400ms] group-hover:w-full group-hover:left-0"
+        className="absolute -bottom-2 right-0 w-0 h-[3px] bg-white transition-all rounded-md duration-500 group-hover:w-full group-hover:left-0"
       >
       </span>
     </Link>

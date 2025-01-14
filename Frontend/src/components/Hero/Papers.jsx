@@ -1,11 +1,24 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { Link } from 'react-router';
+import { Link , useNavigate} from 'react-router-dom';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+
+
 
 const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [dropDown, setDropDown] = useState(true);
-  const [sortKey, setSortKey] = useState("date")
+  const [sortKey, setSortKey] = useState("date");
+  let navigate = useNavigate();
+
   function sortArticles() {
     if (sortKey === "date") { // will be implmenting Most Recent, and Oldest options instead of basic DATE (default should be most recent)
       return [...articles].sort((a, b) => { // sort shallow copy ...
@@ -22,7 +35,30 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
   const toggleDropDown = () => setDropDown(!dropDown); // closing/opening - rerenders entire component
   const sortedArticles = sortArticles(); // updates every rerender
    
-  
+  const getArticleDate = (article) => {
+    const curDate = new Date(article.epochMillis);
+    return (curDate.getMonth()+1) + "/" + curDate.getDate() + "/" + curDate.getFullYear(); // curDate returns 0-11
+  }
+
+  const directToEditArticlePg = (article) => {
+    navigate(`/edit/${article.id}`);
+  }
+
+  const deleteArticle = async (article) => {
+      // e.preventDefault();
+      const res = await fetch(`http://localhost:8080/article/${article.id}`,{
+        method : "DELETE"
+      }).then(response => {
+        if(!response.ok){
+          throw new Error('DELETE Network response was not ok');
+        }
+        return response.json();
+      }).catch(error => {
+        console.error("Error with Deleting Article!");
+      })
+      navigate("/");
+      // navigate(0);
+    }  
 
   //comments/notes (cant add comments inside jsx):
   // {/* col names - not responsive at ipad level and lower */}
@@ -104,8 +140,22 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                       {article.title}
                     </Link>
                   </td>
-                  <td className="px-12 py-5 text-m text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-m text-gray-600">{}</td>
+                  <td className="px-12 py-5 text-md text-gray-800 border-r border-black">{article.author}</td>
+                  <td className="text-md px-6 py-4 text-gray-600">
+                    <div className="flex justify-between">
+                      <span className="">{getArticleDate(article)}</span>
+                      
+                      <DropdownMenu >
+                          <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400">...</DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => directToEditArticlePg(article)} className="">
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

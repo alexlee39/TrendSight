@@ -8,6 +8,7 @@ import BaseLayout from './layout/BaseLayout.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ArticleErrorBoundary.jsx';
 import UploadPage from './components/Hero/UploadPage.jsx';
+import EditArticlePage from './components/Hero/EditArticlePage.jsx';
 
 const App = () => {
   // state to update table with new article data
@@ -60,6 +61,7 @@ const App = () => {
       <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} />}>
         <Route index element={<Papers articles={articles} setArticles={setArticles} />}/>
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
+        <Route path = "edit/:id" element = {<EditArticlePage/>} loader={articleLoader}/>
         <Route path = "upload" element={<UploadPage/>}/>
 
         <Route path = "*" element={<NotFoundPage/>}/>
