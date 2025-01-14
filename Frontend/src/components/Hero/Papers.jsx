@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { Link } from 'react-router';
+import { Link , useNavigate} from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +16,9 @@ import { Button } from "@/components/ui/button"
 
 const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [dropDown, setDropDown] = useState(true);
-  const [sortKey, setSortKey] = useState("date")
+  const [sortKey, setSortKey] = useState("date");
+  let navigate = useNavigate();
+
   function sortArticles() {
     if (sortKey === "date") { // will be implmenting Most Recent, and Oldest options instead of basic DATE (default should be most recent)
       return [...articles].sort((a, b) => { // sort shallow copy ...
@@ -38,13 +40,25 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
     return (curDate.getMonth()+1) + "/" + curDate.getDate() + "/" + curDate.getFullYear(); // curDate returns 0-11
   }
 
-  const testing = () =>{
-    console.log("Edit ran!");
+  const directToEditArticlePg = (article) => {
+    navigate(`/edit/${article.id}`);
   }
 
-  const deleteTesting = () => {
-    console.log("Called delete method");
-  }
+  const deleteArticle = async (article) => {
+      // e.preventDefault();
+      const res = await fetch(`http://localhost:8080/article/${article.id}`,{
+        method : "DELETE"
+      }).then(response => {
+        if(!response.ok){
+          throw new Error('DELETE Network response was not ok');
+        }
+        return response.json();
+      }).catch(error => {
+        console.error("Error with Deleting Article!");
+      })
+      navigate("/");
+      // navigate(0);
+    }  
 
   //comments/notes (cant add comments inside jsx):
   // {/* col names - not responsive at ipad level and lower */}
@@ -134,19 +148,15 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                       <DropdownMenu >
                           <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400">...</DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem onClick={testing} className="">Edit</DropdownMenuItem>
-                            <DropdownMenuItem onClick={deleteTesting}>Delete</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => directToEditArticlePg(article)} className="">
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
                   </td>
-                  {/* <div className="flex-col"> */}
-
-                  {/* </div> */}
-
-
                 </tr>
-                
               ))}
             </tbody>
           </table>
