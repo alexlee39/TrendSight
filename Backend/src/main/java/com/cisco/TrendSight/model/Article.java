@@ -24,6 +24,7 @@ public class Article {
 
     public Article(){
         this.createdDate = Instant.now();
+        this.epochMillis = this.createdDate.toEpochMilli();
     }
 
     public Article(String title, String body, String authorName){
@@ -72,6 +73,9 @@ public class Article {
     public void updateArticle(){
         this.updatedDate = Instant.now();
         this.epochMillis = this.updatedDate.toEpochMilli();
+    }
+    public void setEpochMillis(long epochMillis) {
+        this.epochMillis = epochMillis;
     }
 
     @Override
