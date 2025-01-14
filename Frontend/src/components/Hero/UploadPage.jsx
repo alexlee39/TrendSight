@@ -11,8 +11,8 @@ const UploadPage = () => {
 
     const jsonData = {
       title : title,
-      author : author, 
-      body : body
+      body : body,
+      author : author 
     }
 
     // Making a Post Request to Backend Server
@@ -55,21 +55,31 @@ const UploadPage = () => {
           {/* <label className="text-lg"> 
             Article Title 
           </label> */}
-          <input 
-            type="text" 
-            placeholder = 'Article Title' 
-            className='focus:outline-none border-blue-500 border-2 rounded-md m-2 p-2 placeholder:text-black placeholder:font-thin '
-            // id = "title"
-            value= {title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input 
-            type="text" 
-            placeholder = 'Author Name' 
-            className='focus:outline-none border-blue-500 border-2 rounded-md m-2 p-2 placeholder:text-black placeholder:font-thin'
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+          <div className="flex flex-col m-2">
+            <label htmlFor="title" className='p-2'> Article Title</label>
+            <input 
+              type="text" 
+              name="title"
+              placeholder = 'Article Title' 
+              className='focus:outline-none border-blue-500 border-2 rounded-md p-2 '
+              // id = "title"
+              value= {title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col m-2">
+            <label htmlFor="author" className='p-2'> Author Names </label>
+            <input 
+              type="text" 
+              name="author"
+              placeholder = 'Author Name' 
+              className='focus:outline-none border-blue-500 border-2 rounded-md p-2 ' //placeholder:text-black placeholder:font-thin'
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+          </div>
+
           <div className="flex flex-col">
             <label htmlFor="body" className='text-lg font-medium'>Body</label>
             <textarea 
