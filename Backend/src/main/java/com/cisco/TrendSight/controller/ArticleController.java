@@ -45,6 +45,7 @@ public class ArticleController {
         .map(article -> {
             article.setTitle(newArticle.getTitle());
             article.setBody(newArticle.getBody());
+            article.setAuthor(newArticle.getAuthor());
             article.updateArticle();
             return repository.save(article);
         })
