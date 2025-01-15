@@ -146,9 +146,9 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                       <span className="">{getArticleDate(article)}</span>
                       
                       <DropdownMenu >
-                          <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400">...</DropdownMenuTrigger>
+                          <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400 focus:outline-none">...</DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => directToEditArticlePg(article)} className="">
+                            <DropdownMenuItem onClick={() => directToEditArticlePg(article)}>
                                 Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
