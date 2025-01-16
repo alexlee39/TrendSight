@@ -11,10 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { AirVent } from "lucide-react";
 
-
-
-const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
+const MyPapers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
   const [sortKey, setSortKey] = useState("date");
   let navigate = useNavigate();
 
@@ -31,23 +30,32 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
     }
     return articles; // default
   }
-  //const toggleDropDown = () => setDropDown(!dropDown); // closing/opening - rerenders entire component
   const sortedArticles = sortArticles(); // updates every rerender
-   
+
   const getArticleDate = (article) => {
     const curDate = new Date(article.epochMillis);
     return (curDate.getMonth()+1) + "/" + curDate.getDate() + "/" + curDate.getFullYear(); // curDate returns 0-11
   }
-
-  //comments/notes (cant add comments inside jsx):
-  // {/* col names - not responsive at ipad level and lower */}
-  // {/* w-1/2 for new line if data too long */}
-  // {/* dict data mapped out onto table */}
-  // {/* edit max-w-4xl to style table width better, manually set up center because of absolute (table shouldnt move up now) */}
+  const directToEditArticlePg = (article) => {
+    navigate(`/edit/${article.id}`);
+  }
+  const deleteArticle = async (article) => {
+      const res = await fetch(`http://localhost:8080/article/${article.id}`,{
+        method : "DELETE"
+      }).then(response => {
+        if(!response.ok){
+          throw new Error('DELETE Network response was not ok');
+        }
+        return response.json();
+      }).catch(error => {
+        console.error("Error with Deleting Article!");
+      })
+      navigate("/");
+    }  
 
   return (
-    <section className="absolute w-full max-w-4xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
-      <div className="container mx-auto overflow-x-auto ">
+    <section className="absolute w-full max-w-5xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+      <div className="container mx-auto overflow-x-auto">
         <div className="flex justify-end mb-2">
         <div className="relative inline-block text-left w-40">
         <DropdownMenu >
@@ -86,10 +94,11 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
         >
           <table className="min-w-full table-auto border-collapse border border-gray-400 rounded-lg">
             <thead className="bg-gray-200">
-              <tr> 
-                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">Papers</th> 
-                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Author</th>
-                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800">Date</th>
+              <tr className="bg-custom-background bg-no-repeat bg-center"> 
+                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">MyPapers</th> 
+                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Submitted</th>
+                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Reviewer</th>
+                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800">Status</th>
               </tr>
             </thead>
             <tbody className="bg-white"> 
@@ -100,8 +109,22 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                       {article.title}
                     </Link>
                   </td>
+                  <td className="text-md px-12 py-5 text-gray-800 border-r border-black">
+                    <div className="flex item-center justify-between">
+                      <span>{getArticleDate(article)}</span>
+                      <div className="ml-2">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-red-200">...</DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => directToEditArticlePg(article)}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+                  </td>
                   <td className="px-12 py-5 text-md text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-md text-gray-800">{getArticleDate(article)}</td>
+                  <td className="px-12 py-5 text-md text-orange-800">Loading..</td>
                 </tr>
               ))}
             </tbody>
@@ -112,5 +135,5 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
   );
 };
 
-export default Papers;
+export default MyPapers;
 
