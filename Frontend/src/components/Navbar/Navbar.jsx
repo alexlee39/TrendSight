@@ -17,9 +17,8 @@ const Navbar = ({checkLogin, sendRegister}) => {
           <Link href="/" className="text-4xl text-white font-semibold select-none">TrendSight</Link> 
             <div className="navigation">
                 <Navlink tagName={"Papers"} path={"/"}/>
-                <Navlink tagName={"Upload"} path={"/upload"}/>
                 <Navlink tagName={"My Papers"} path={"/mypapers"}/>
-
+                <Navlink tagName={"Upload"} path={"/upload"}/>
 
 
                 <button onClick={() => {
