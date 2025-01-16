@@ -86,7 +86,7 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
         >
           <table className="min-w-full table-auto border-collapse border border-gray-400 rounded-lg">
             <thead className="bg-gray-200">
-              <tr className="bg-custom-background bg-no-repeat bg-center"> 
+              <tr> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">Papers</th> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Author</th>
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800">Date</th>
