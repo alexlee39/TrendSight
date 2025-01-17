@@ -34,8 +34,9 @@ const EditArticlePage = () => {
         if(!response.ok){
           throw new Error('PUT Network response was not ok');
         }
-        navigate("/");
-        window.location.reload();
+        navigate("/mypapers");
+        //location.reload();
+        //window.location.reload();
         return response.json();
       }).catch(error => {
         console.error("Error with Updating Article!");
@@ -46,7 +47,7 @@ const EditArticlePage = () => {
 
   return (
     <section className="bg-white rounded-xl ">
-      <div className="bg-gray-400 rounded-t-xl p-2 text-3xl font-medium"> Upload </div>
+      <div className="bg-gray-400 rounded-t-xl p-2 text-3xl font-medium"> Edit My Paper </div>
       <form onSubmit={updateArticleData}>
         <div className="grid grid-cols-2 gap-x-20 gap-y-10 p-4">
         <div className="flex flex-col m-2">
@@ -84,8 +85,8 @@ const EditArticlePage = () => {
             
           </div>
         </div>
-        <Button onClick={() => navigate("/")} className="p-2 m-4"> Return </Button>
-        <button type="submit" className="bg-black text-white p-2 my-4 rounded-lg min-w-16"> Save </button>
+        <Button onClick={() => navigate("/mypapers")} className="bg-black text-white p-2 m-4 rounded-lg min-w-16z"> Return </Button>
+        <Button type="submit" className="bg-black text-white p-2 my-4 rounded-lg min-w-16"> Save </Button>
 
 
       </form>

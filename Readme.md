@@ -36,7 +36,10 @@ To run the backend server you must have Docker/Docker Desktop installed and Mave
 
 #### Alternatively, can run application in terminal
 1) Be in the TrendSight/Backend folder or directory
-2) Run ``` ./mvnw spring-boot:run```
+2) Run 
+``` 
+ ./mvnw spring-boot:run
+```
 
 ### Tools/Changes that need to be considered 
 1) Move Frontend from React-Router to Next.js/Astro (im leaning more towards NextJS since React explicitly supports it) 

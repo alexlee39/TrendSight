@@ -50,7 +50,8 @@ const MyPapers = ({ articles, setArticles }) => { // maybe use props to call Her
       }).catch(error => {
         console.error("Error with Deleting Article!");
       })
-      navigate("/");
+      //navigate("/");
+      location.reload();
     }  
 
   return (
