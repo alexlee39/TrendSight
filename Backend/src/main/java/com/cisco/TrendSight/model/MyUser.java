@@ -2,38 +2,33 @@ package com.cisco.TrendSight.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 
 @Entity
-//@Table(name = "user")
 public class MyUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private String username;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
     private String role; //For multiple roles: "ADMIN,REVIEWER"
-//    private boolean enabled;
-//    @Column(name = "verification-code")
-//    private String verificationCode;
-//    @Column(name = "verification=expiration")
-//    private LocalDateTime verificationCodeExpiredAt;
 
     public MyUser() {
+
+    }
+
+    public MyUser(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public MyUser(String email, String password) {
-        this.email = email;
         this.password = password;
+        this.email = email;
         this.role = "AUTHOR";
-    }
-
-    public MyUser(String password, String email, String role) {
-        this.password = password;
-        this.email = email;
-        this.role = role;
     }
 
     public long getId() {
@@ -68,34 +63,12 @@ public class MyUser {
         this.role = role;
     }
 
-//    public boolean isEnabled() {
-//        return enabled;
-//    }
-//
-//    public void setEnabled(boolean enabled) {
-//        this.enabled = enabled;
-//    }
-    //    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//      Should initialize AUTHOR, REVIEWER, ADMIN authorities.
-//        return List.of();
-//    }
-//    @Override
-//    public boolean isAccountNonExpired(){
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked(){
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired(){
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked(){
-//        return true;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }
