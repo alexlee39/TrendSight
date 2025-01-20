@@ -3,29 +3,29 @@
 import { FaXmark, FaEnvelope, FaLock} from 'react-icons/fa6';
 import { IoPersonSharp } from 'react-icons/io5'
 import { useState } from 'react'
+import { useNavigate } from 'react-router';
 
 const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isChecked, setChecked] = useState(false);
+    let navigate = useNavigate();
+
 
     // Use isChecked to make a custom required function that we could pass to display some text
     // telling the user to check the box before proceeding
     
-    const handleSubmit = () =>{
-        // ADD ID for mocking DB
+    const handleSubmit = (e) =>{
+        e.preventDefault();
         const accDetails = {
-            id: email,
-            username,
-            email,
-            password,
-            role: "author"
+            "username": username,
+            "email": email,
+            "password": password,
         };
-        //console.log(accDetails)
         sendRegister(accDetails);
-        // TO REMOVE... 
-        console.log('Reg Form Submitted');
+        navigate("/");
+        return;
     }
     return (
     <>
