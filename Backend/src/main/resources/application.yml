@@ -4,3 +4,6 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+  config:
+    import:
+      optional:file: .env[.properties]

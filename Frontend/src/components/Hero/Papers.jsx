@@ -101,7 +101,21 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                     </Link>
                   </td>
                   <td className="px-12 py-5 text-md text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-md text-gray-800">{getArticleDate(article)}</td>
+                  <td className="text-md px-6 py-4 text-gray-600">
+                    <div className="flex justify-between">
+                      <span className="">{getArticleDate(article)}</span>
+                      
+                      <DropdownMenu >
+                          <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400 focus:outline-none">...</DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => directToEditArticlePg(article)}>
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

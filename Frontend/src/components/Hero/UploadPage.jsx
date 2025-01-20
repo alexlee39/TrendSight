@@ -1,14 +1,22 @@
 import {useState} from 'react'
 import {Link, useNavigate} from 'react-router'
+import { Button } from '@/components/ui/button'
 const UploadPage = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [body, setBody] = useState('');
+  const [file, setFile] = useState('');
   let navigate = useNavigate();
+
+  const test = (fileLst) => {
+    const selectedFile = fileLst.files[0];
+    setFile(selectedFile.name);
+    console.log(selectedFile);
+  }
 
   const uploadArticle = async (e) => {
     e.preventDefault();
-
+    console.log(file);
     const jsonData = {
       title : title,
       body : body,
@@ -32,29 +40,16 @@ const UploadPage = () => {
     }).catch(error => {
       console.error("Error with Posting Article!");
     })
-    // https://stackoverflow.com/questions/46820682/how-do-i-reload-a-page-with-react-router
-    
     navigate("/");
     navigate(0);
-
-
   }
 
 
   return (
     <section className="bg-white rounded-xl ">
-      {/* <div className="max-w-6xl mx-auto py-6">
-        Upload 
-      </div>
-      <div className="flex-1 flex"></div> */}
       <div className="bg-gray-400 rounded-t-xl p-2 text-3xl font-medium"> Upload </div>
-
       <form onSubmit={uploadArticle}>
         <div className="grid grid-cols-2 gap-x-20 gap-y-10 p-4">
-          {/* <input type="text" placeholder='Article Title'/> */}
-          {/* <label className="text-lg"> 
-            Article Title 
-          </label> */}
           <div className="flex flex-col m-2">
             <label htmlFor="title" className='p-2'> Article Title</label>
             <input 
@@ -62,7 +57,6 @@ const UploadPage = () => {
               name="title"
               placeholder = 'Article Title' 
               className='focus:outline-none border-blue-500 border-2 rounded-md p-2 '
-              // id = "title"
               value= {title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -89,10 +83,21 @@ const UploadPage = () => {
               value = {body}
               onChange={(e) => setBody(e.target.value)}
             /> 
-            
           </div>
-
-          {/* <input type="file" /> */}
+          <div className="flex-1 mx-2 my-4 p-2 justify-between">
+            <label htmlFor="file-input" className='bg-red-600 p-2 text-lg font-medium border-2 rounded-md cursor-pointer'>
+              Upload PDF 
+            </label>
+            <p> {file} </p>
+            <input 
+              id="file-input" 
+              type="file" 
+              className='hidden' 
+              accept=".pdf"
+              // value = {file}
+              onChange={(e) => {test(e.target)}}
+            />
+          </div>
         </div>
         <button type="submit" className="bg-black text-white p-2 m-4 rounded-lg min-w-16"> Submit</button>
 
