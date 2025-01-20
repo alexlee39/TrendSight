@@ -1,54 +1,46 @@
 package com.cisco.TrendSight.controller;
 
+import com.cisco.TrendSight.dto.LoginAuthorDto;
+import com.cisco.TrendSight.dto.RegisterAuthorDto;
 import com.cisco.TrendSight.model.MyUser;
 import com.cisco.TrendSight.repository.MyUserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class AuthenticationController {
 
     private final MyUserRepository repository;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationController(MyUserRepository repository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthenticationController(MyUserRepository repository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
-
-    // Consider using DTO: to simplify data being passed?
     @PostMapping("/register")
-    public MyUser registerUser(@RequestBody MyUser user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return repository.save(user);
+    public MyUser registerUser(@RequestBody RegisterAuthorDto user){
+        MyUser myUser = new MyUser(user.getEmail(), passwordEncoder.encode(user.getPassword()));
+        return repository.save(myUser);
     }
 
-    // For Testing/Admin Use Only
-    @GetMapping("/user")
-    public List<MyUser> findAll(){
-        return repository.findAll();
+    @PostMapping("/login")
+    public MyUser loginUser(@RequestBody LoginAuthorDto user){
+        MyUser myUser = repository.findByEmail(user.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not Found")
+            );
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    myUser.getEmail(),
+                    myUser.getPassword()
+                ));
+        return myUser;
     }
-
-
-//    @PostMapping("/login")
-//    public MyUser loginUser(@RequestBody MyUser user){
-//        if (repository.findByEmail(user.getEmail()).isEmpty()){
-//            throw new UsernameNotFoundException(user.getEmail());
-//        }
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//
-//                ))
-//    }
 }
