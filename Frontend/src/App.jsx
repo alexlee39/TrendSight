@@ -18,7 +18,6 @@ const App = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        //const res = await fetch('http://localhost:5000/articles');
         const res = await fetch('http://localhost:8080/article');
         const articleData = await res.json();
         setArticles(articleData); // updates state with new db data
@@ -31,9 +30,14 @@ const App = () => {
   }, []);
 
   const checkLogin = async(credentials) =>{
-    // TESTING w/ MOCK DB Code.. TO REMOVE
     try {
-      const res = await fetch(`http://localhost:5000/accounts/${credentials.email}`);
+      const res = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials)
+      });
       const data = await res.json();
       console.log(data);
     } catch (error) {
@@ -43,9 +47,8 @@ const App = () => {
   }
 
   const sendRegister = async(accDetails) => {
-    // CODE PURELY FOR TESTING with MOCKDB
     try {
-      await fetch("http://localhost:5000/accounts", {
+      await fetch("http://localhost:8080/register", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
