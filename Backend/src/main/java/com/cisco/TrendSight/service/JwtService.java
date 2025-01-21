@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,13 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
-//    @Value("${security.jwt.secret-key}")
+    @Value("${security.jwt.secret-key}")
     private String secretKey;
-//    @Value("${security.jwt.expiration-time}")
+    @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
 
     /** Extract Email(which is the 'Username') from a given JWT-Token
@@ -31,24 +34,33 @@ public class JwtService {
         return claims.getSubject();
     }
 
-    public String generateToken(UserDetails userDetails){
-        return buildToken(new HashMap<>(), userDetails);
-    }
+//    public String generateToken(UserDetails userDetails){
+//        return buildToken(new HashMap<>(), userDetails);
+//    }
 
     // Reference: https://github.com/jwtk/jjwt?tab=readme-ov-file#jwt-claims
-    public String buildToken(Map<String,Object> extraClaims, UserDetails userDetails){
+    public String generateToken(UserDetails userDetails){
+        Map<String,Object> extraClaims = new HashMap<>();
+//        extraClaims.put("roles", userDetails
+//                .getAuthorities()
+//                .stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .collect(Collectors.toList())
+//        );
         return Jwts
                 .builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
+//                Needs to also pass in the role
+//                .subject(userDetails.getAuthorities())
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey())
                 .compact();
     }
 
-    /** Getting Claims ie. Getting the Payload of Jwt Token.
-     *  Reference:  https://github.com/jwtk/jjwt?tab=readme-ov-file#reading-a-jwe
+    /** Getting Claims i.e. Getting the Payload of Jwt Token.
+     *  Reference:  <a href="https://github.com/jwtk/jjwt?tab=readme-ov-file#reading-a-jwe">...</a>
      * @param token:
      * @return Payload in terms of Claims Object
      */
