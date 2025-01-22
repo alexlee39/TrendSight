@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 
 // Can't use a record, since Records are immutable 
 // And we would want to update/change article content
-@Entity //fact check if this is suppose to be correct
+@Entity //fact check if this is supposed to be correct
 public class Article {
     // Should be final
     private @Id 
@@ -70,7 +70,7 @@ public class Article {
     public void setAuthor(String author){
         this.authorName = author;
     }
-    public void updateArticle(){
+    public void setUpdatedDate(){
         this.updatedDate = Instant.now();
         this.epochMillis = this.updatedDate.toEpochMilli();
     }
@@ -83,10 +83,9 @@ public class Article {
         if(this == o){
             return true;
         }
-        if (!(o instanceof Article)){
+        if (!(o instanceof Article article)){
             return false;
         }
-        Article article = (Article) o;
         return Objects.equals(this.id, article.id) && Objects.equals(this.title, article.title)
         && Objects.equals(this.body, article.body);
     }
@@ -98,7 +97,7 @@ public class Article {
 
     @Override 
     public String toString(){
-        return "Article{id=" + this.id +", title='" + this.title + "'\', body='" + this.body +"'\'}"; 
+        return "Article{id=" + this.id +", title='" + this.title + "'', body='" + this.body + "''}";
     }
 
 }
