@@ -1,8 +1,11 @@
 package com.cisco.TrendSight.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.cisco.TrendSight.dto.ArticleDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,33 +41,36 @@ public class ArticleController {
     }
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
     @PostMapping("/article")
-    public Article postArticle(@RequestBody ArticleDto newArticle) {
+    public ResponseEntity<Article> postArticle(@RequestBody ArticleDto newArticle) {
         Article article = new Article(newArticle.getTitle(),newArticle.getBody(), newArticle.getAuthor());
-        return repository.save(article);
+        repository.save(article);
+        return new ResponseEntity<>(article,HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
     @PutMapping("/article/{id}")
-    public Article updateArticle(@RequestBody ArticleDto newArticle, @PathVariable Long id){
-        return repository.findById(id)
-        .map(article -> {
-            article.setTitle(newArticle.getTitle());
-            article.setBody(newArticle.getBody());
-            article.setAuthor(newArticle.getAuthor());
-            article.setUpdatedDate();
-            return repository.save(article);
-        })
-        .orElseThrow(() ->
-                new ArticleNotFoundException(id)
-        );
+    public ResponseEntity<Article> updateArticle(@RequestBody ArticleDto newArticle, @PathVariable Long id){
+
+        Optional<Article> article = repository.findById(id);
+        if(article.isPresent()){
+            Article updatedArticle = article.get();
+            updatedArticle.setTitle(newArticle.getTitle());
+            updatedArticle.setBody(newArticle.getBody());
+            updatedArticle.setAuthor(newArticle.getAuthor());
+            updatedArticle.setUpdatedDate();
+            return ResponseEntity.ok(updatedArticle);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
     @DeleteMapping("/article/{id}")
-    public void deleteArticle(@PathVariable Long id){
+    public ResponseEntity<String> deleteArticle(@PathVariable Long id){
         if (!repository.existsById(id)) {
-            throw new ArticleNotFoundException(id); // Throw exception if not found
-        }repository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        repository.deleteById(id);
+        return new ResponseEntity<>("Article Deleted",HttpStatus.ACCEPTED);
     }
 }
