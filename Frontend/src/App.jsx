@@ -36,14 +36,30 @@ const App = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
+        credentials : 'include'
       });
-      const data = await res.json();
-      console.log(data);
+      if(res.ok){
+        console.log("Login Success");
+        return {
+            'success' : true,
+            'message' : "Login Successful"
+        }
+      }
+      else{
+        console.log("Login Failed!");
+        return {
+            'success' : false, 
+            'message' : "Login Failed. Incorrect Username or Password."
+        }
+      }
     } catch (error) {
       console.log(error)
+      return {
+            'success' : false, 
+            'message' : "Internal Server Error. Please try again later."
+      }
     }
-    return;
   }
 
   const sendRegister = async(accDetails) => {
