@@ -19,6 +19,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -36,14 +37,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
                         throws ServletException, IOException {
-        String cookieHeader = request.getHeader("Cookie");
-        if(cookieHeader == null || !cookieHeader.startsWith("JWT")){
-            System.out.println("JWT Token not found in Cookie");
+        // Checks through cookies in the req, finds cookies with the name JWT and sets jwt to be value of the cookies, otherwise null
+        String jwt = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+                .filter(cookie -> "JWT".equals(cookie.getName()))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
+
+
+        if(jwt == null){
             filterChain.doFilter(request, response);
             return;
         }
         try{
-            String jwt = cookieHeader.substring(cookieHeader.indexOf("=")+1,cookieHeader.indexOf(";"));
             final String userEmail = jwtService.extractEmail(jwt);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (userEmail != null && authentication == null){
