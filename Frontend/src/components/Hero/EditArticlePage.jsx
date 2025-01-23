@@ -1,11 +1,13 @@
 import {useState} from 'react'
 import {useNavigate, useLoaderData, useParams} from 'react-router-dom'
 import { Button } from "@/components/ui/button"
+import { useToast } from '@/hooks/use-toast'
 
 const EditArticlePage = () => {
   const {id} = useParams();
   const article = useLoaderData();
   let navigate = useNavigate();
+  let { toast } = useToast();
 
 
 
@@ -21,26 +23,39 @@ const EditArticlePage = () => {
       body : body,
       author : author 
     }
-    const res = await fetch(`http://localhost:8080/article/${id}`,{
+
+    updateArticle(jsonData);
+  }
+
+  const updateArticle = async(articleData) => {
+    try{
+      const res = await fetch(`http://localhost:8080/article/${id}`,{
 
         method : "PUT",
         headers :{
           "Content-Type" : "application/json"
         },
         body : JSON.stringify(
-          jsonData  
+          articleData  
         ),
-      }).then(response => {
-        if(!response.ok){
-          throw new Error('PUT Network response was not ok');
-        }
-        navigate("/");
-        window.location.reload();
-        return response.json();
-      }).catch(error => {
-        console.error("Error with Updating Article!");
-      })
+        credentials : "include",
+        });
 
+        toast({
+          variant : res.ok ? "default" : "destructive",
+          title : res.ok ? "Updated article Successfully" : "Article update failed"
+        
+        });
+        setTimeout(() => {
+            if(res.ok){
+              navigate("/");
+            }
+          }, 1000);    
+
+        }
+    catch(error) {
+      console.log("Internal Server Error: " + error);
+    }
   }
 
 
