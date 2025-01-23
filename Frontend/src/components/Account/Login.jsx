@@ -13,7 +13,7 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState(''); 
     const [rememberMe, setRememberMe] = useState(false);
-    const [loginStatus, setLoginStatus] = useState('');
+    const [loginFailureMsg, setLoginFailureMsg] = useState('');
     const [toastDisplay, setToastDisplay] = useState(false);
     const { toast } = useToast();
     let navigate = useNavigate();
@@ -27,8 +27,9 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
         };
 
         const responseBody = await checkLogin(credentials);
-        setLoginStatus(responseBody.message);
-        // setToastDisplay(true);
+        if (!responseBody.success){
+            setLoginFailureMsg(responseBody.message);
+        }
         console.log(responseBody);
         toast({
             title: responseBody.success ? "Login Success" : "Login Failed",
@@ -38,7 +39,6 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
         // Delay the navigation to allow the toast to show up
         setTimeout(() => {
             if (responseBody.success) {
-                console.log("Close");
                 setClosePopup();
             }
         }, 2000); // 2-second delay before navigating
@@ -77,7 +77,7 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
                 </label>
             </div>
             {/* Set some JS Code to determine if this should be shown or not */}
-            {/* <div className="group peer:invalid:invisible text-red-600 mb-5"> Invalid Email or Password</div> */}
+            <div className=" text-md text-red-600 mt-3"> {loginFailureMsg} </div>
 
             <div className="text-sm font-medium my-3 flex justify-between">
                 <label>
