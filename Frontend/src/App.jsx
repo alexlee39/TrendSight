@@ -41,6 +41,8 @@ const App = () => {
       });
       if(res.ok){
         console.log("Login Success");
+        const data = await res.json();
+        console.log(data.role);
         return {
             'success' : true,
             'message' : "Login Successful"
@@ -50,7 +52,7 @@ const App = () => {
         console.log("Login Failed!");
         return {
             'success' : false, 
-            'message' : "Login Failed. Incorrect Username or Password."
+            'message' : "Incorrect Username or Password."
         }
       }
     } catch (error) {
@@ -64,15 +66,34 @@ const App = () => {
 
   const sendRegister = async(accDetails) => {
     try {
-      await fetch("http://localhost:8080/register", {
+      const res = await fetch("http://localhost:8080/register", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(accDetails),
+        credentials : 'include'
       });
-      //console.log('Mock DB works???');
+      const data = await res.json();
+      if(res.ok){
+        console.log("Account created!");
+        return {
+          'success' : true,
+          'successMsg' : 'Created account successfully',
+          'message' : `Created the account: ${data.email}`,
+        }
+      }
+      else{
+        console.log("User already exists!");
+        console.log(`User with the email ${data.email} already exists`);
+        return {
+          'success' : false,
+          'successMsg' : 'Registering Account failed',
+          'message' : `User with the email: "${data.email}" already exists`,
+        }
+      }
     } catch (error) {
+      console.log("Server error");
       console.log(error);
     }
   }
