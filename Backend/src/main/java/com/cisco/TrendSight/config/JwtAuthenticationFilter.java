@@ -4,6 +4,7 @@ import com.cisco.TrendSight.service.JwtService;
 import com.cisco.TrendSight.service.MyUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
@@ -17,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -34,14 +36,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
                         throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+        String cookieHeader = request.getHeader("Cookie");
+        if(cookieHeader == null || !cookieHeader.startsWith("JWT")){
+            System.out.println("JWT Token not found in Cookie");
             filterChain.doFilter(request, response);
             return;
         }
-
         try{
-            final String jwt = authHeader.substring(7);
+            String jwt = cookieHeader.substring(cookieHeader.indexOf("=")+1,cookieHeader.indexOf(";"));
             final String userEmail = jwtService.extractEmail(jwt);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (userEmail != null && authentication == null){
