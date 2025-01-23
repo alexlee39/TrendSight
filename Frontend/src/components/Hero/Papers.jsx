@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link , useNavigate} from 'react-router-dom';
 import {
   DropdownMenu,
@@ -11,12 +11,50 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/hooks/use-toast";
 
 
 
-const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
+const Papers = () => { // maybe use props to call Hero with new article data? can easily update table
+  const [articles, setArticles] = useState([]);
   const [sortKey, setSortKey] = useState("date");
+  const {toast} = useToast();
   let navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/article');
+        const articleData = await res.json();
+        setArticles(articleData); // updates state with new db data
+      }
+      catch (error){
+        console.log("articles werent extracted properly\n", error);
+      }
+    };
+    fetchArticles();
+  }, []);
+
+  const deleteArticle = async(article) => {
+    try{
+      const res = await fetch(`http://localhost:8080/article/${article.id}`,{
+        method : "DELETE",
+        credentials : "include",
+      })
+      toast({
+        title : res.ok ? "Deleted Article Successfully" : "Uh oh. Article wasn't deleted",
+        variant : res.ok ? "default" : "destructive",
+      })
+      setTimeout(() => {
+        if(res.ok){
+          navigate(0);
+        }
+      }, 1000)
+    }
+    catch(error){
+      console.log("Internal Server Error: " + error);
+    }
+  }
 
   function sortArticles() {
     if (sortKey === "date") { // will be implmenting Most Recent, and Oldest options instead of basic DATE (default should be most recent)
@@ -108,7 +146,7 @@ const Papers = ({ articles, setArticles }) => { // maybe use props to call Hero 
                       <DropdownMenu >
                           <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400 focus:outline-none">...</DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => directToEditArticlePg(article)}>
+                            <DropdownMenuItem onClick={() => navigate(`/edit/${article.id}`)}>
                                 Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>

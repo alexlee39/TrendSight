@@ -101,7 +101,7 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} />}>
-        <Route index element={<Papers articles={articles} setArticles={setArticles} />}/>
+        <Route index element={<Papers/>}/>
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
         <Route path = "edit/:id" element = {<EditArticlePage/>} loader={articleLoader}/>
         <Route path = "upload" element={<UploadPage/>}/>

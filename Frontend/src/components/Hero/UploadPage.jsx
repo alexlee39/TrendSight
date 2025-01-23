@@ -1,11 +1,13 @@
 import {useState} from 'react'
 import {Link, useNavigate} from 'react-router'
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/hooks/use-toast'
 const UploadPage = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [body, setBody] = useState('');
   const [file, setFile] = useState('');
+  let { toast } = useToast();
   let navigate = useNavigate();
 
   const test = (fileLst) => {
@@ -24,6 +26,10 @@ const UploadPage = () => {
     }
 
     // Making a Post Request to Backend Server
+    postArticle(jsonData);
+  }
+
+  const postArticle = async(articleData) => {
     try{
       const res = await fetch('http://localhost:8080/article',{
         method : "POST",
@@ -31,32 +37,27 @@ const UploadPage = () => {
           "Content-Type" : "application/json"
         },
         body : JSON.stringify(
-          jsonData
+          articleData
         ),
         credentials : "include"
-      })
-      //   .then(response => {
-      //   if(!response.ok){
-      //     throw new Error('Network response was not ok');
-      //   }
-      //   return response.json();
-      // })
+      });
+      toast({
+        variant : res.ok ? "default" : "destructive",
+        title : res.ok ? "Added article Successfully" : "Article creation failed"
+      
+      });
+      setTimeout(() => {
         if(res.ok){
-          console.log("Sent Article!");
+          navigate("/");
         }
-        else{
-          console.log("An error occured");
-        }
+      }, 1000);
     }
 
-    catch(error){
+    catch(error) {
       console.error("Internal Server Error");
       console.log(error);
     }
-    // navigate("/");
-    // navigate(0);
   }
-
 
   return (
     <section className="bg-white rounded-xl ">
