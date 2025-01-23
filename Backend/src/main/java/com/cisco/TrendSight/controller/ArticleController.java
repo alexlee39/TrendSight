@@ -58,6 +58,7 @@ public class ArticleController {
             updatedArticle.setBody(newArticle.getBody());
             updatedArticle.setAuthor(newArticle.getAuthor());
             updatedArticle.setUpdatedDate();
+            repository.save(updatedArticle);
             return ResponseEntity.ok(updatedArticle);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
