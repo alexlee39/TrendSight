@@ -47,6 +47,9 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<MyUser> registerUser(@RequestBody RegisterAuthorDto user){
         MyUser myUser = new MyUser(user.getEmail(), passwordEncoder.encode(user.getPassword()));
+        if(repository.findByEmail(user.getEmail()).isPresent()){
+            return new ResponseEntity<>(myUser,HttpStatus.CONFLICT);
+        }
         repository.save(myUser);
         return new ResponseEntity<>(myUser, HttpStatus.CREATED);
     }
@@ -75,7 +78,10 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginAuthorDto user, HttpServletResponse response){
+    public ResponseEntity<MyUser> loginUser(@RequestBody LoginAuthorDto user, HttpServletResponse response){
+        if (repository.findByEmail(user.getEmail()).isEmpty()){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         try{
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -90,14 +96,15 @@ public class AuthenticationController {
             cookie.setMaxAge(60*60); // In secs: Currently 1 hour
 
             response.addCookie(cookie);
-            return ResponseEntity.ok("Login Successful");
+            MyUser myUser = repository.findByEmail(user.getEmail()).get();
+            return ResponseEntity.ok(myUser);
         }
         catch(BadCredentialsException exception){
 //            exception.getMessage() just prints "Bad Credentials"
-            return new ResponseEntity<>("Invalid Username or Password", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         catch(Exception exception){
-            return new ResponseEntity<>("Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
