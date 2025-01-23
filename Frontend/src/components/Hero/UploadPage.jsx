@@ -24,24 +24,37 @@ const UploadPage = () => {
     }
 
     // Making a Post Request to Backend Server
-    const res = await fetch('http://localhost:8080/article',{
-      method : "POST",
-      headers :{
-        "Content-Type" : "application/json"
-      },
-      body : JSON.stringify(
-        jsonData
-      )
-    }).then(response => {
-      if(!response.ok){
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    }).catch(error => {
-      console.error("Error with Posting Article!");
-    })
-    navigate("/");
-    navigate(0);
+    try{
+      const res = await fetch('http://localhost:8080/article',{
+        method : "POST",
+        headers :{
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(
+          jsonData
+        ),
+        credentials : "include"
+      })
+      //   .then(response => {
+      //   if(!response.ok){
+      //     throw new Error('Network response was not ok');
+      //   }
+      //   return response.json();
+      // })
+        if(res.ok){
+          console.log("Sent Article!");
+        }
+        else{
+          console.log("An error occured");
+        }
+    }
+
+    catch(error){
+      console.error("Internal Server Error");
+      console.log(error);
+    }
+    // navigate("/");
+    // navigate(0);
   }
 
 
