@@ -14,7 +14,8 @@ import EditArticlePage from './components/Hero/EditArticlePage.jsx';
 const App = () => {
   // state to update table with new article data
   const [articles, setArticles] = useState([]);
-  const [role, setRole] = useState(null);
+  const preloadedRole = sessionStorage.getItem("role");
+  const [role, setRole] = useState(preloadedRole || null);
 
   const ROLES = {
     AUTHOR: "AUTHOR",
@@ -52,6 +53,7 @@ const App = () => {
         const data = await res.json();
         console.log(data.role);
         setRole(data.role);
+        sessionStorage.setItem("role", data.role);
         return {
             'success' : true,
             'message' : "Login Successful"
