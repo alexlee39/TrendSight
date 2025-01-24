@@ -15,9 +15,10 @@ import { useToast } from "@/hooks/use-toast";
 
 
 
-const Papers = () => { // maybe use props to call Hero with new article data? can easily update table
+const Papers = ({role}) => { // maybe use props to call Hero with new article data? can easily update table
   const [articles, setArticles] = useState([]);
   const [sortKey, setSortKey] = useState("date");
+  const isReader = (role === null ||role === "") ? true : false;
   const {toast} = useToast();
   let navigate = useNavigate();
 
@@ -142,7 +143,7 @@ const Papers = () => { // maybe use props to call Hero with new article data? ca
                   <td className="text-md px-6 py-4 text-gray-600">
                     <div className="flex justify-between">
                       <span className="">{getArticleDate(article)}</span>
-                      
+                      {!isReader &&
                       <DropdownMenu >
                           <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400 focus:outline-none">...</DropdownMenuTrigger>
                           <DropdownMenuContent>
@@ -152,6 +153,7 @@ const Papers = () => { // maybe use props to call Hero with new article data? ca
                             <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
+                      }
                     </div>
                   </td>
                 </tr>
