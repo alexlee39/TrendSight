@@ -46,11 +46,14 @@ const EditArticlePage = () => {
           title : res.ok ? "Updated article Successfully" : "Article update failed"
         
         });
-        setTimeout(() => {
-            if(res.ok){
-              navigate("/");
-            }
-          }, 1000);    
+        if(res.ok){
+          navigate("/");
+        }
+        // setTimeout(() => {
+        //     if(res.ok){
+        //       navigate("/");
+        //     }
+        //   }, 1000);    
 
         }
     catch(error) {
@@ -99,7 +102,7 @@ const EditArticlePage = () => {
             
           </div>
         </div>
-        <Button onClick={() => navigate("/")} className="p-2 m-4"> Return </Button>
+        <Button type = "button" onClick={() => navigate("/")} className="bg-black p-2 m-4"> Return </Button>
         <button type="submit" className="bg-black text-white p-2 my-4 rounded-lg min-w-16"> Save </button>
 
 
