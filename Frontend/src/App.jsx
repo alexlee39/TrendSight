@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext } from 'react'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router';
 
 
@@ -14,7 +14,15 @@ import EditArticlePage from './components/Hero/EditArticlePage.jsx';
 const App = () => {
   // state to update table with new article data
   const [articles, setArticles] = useState([]);
+  const [role, setRole] = useState(null);
 
+  const ROLES = {
+    AUTHOR: "AUTHOR",
+    REVIEWER: "REVIEWER",
+    ADMIN: "ADMIN",
+  }
+
+  // console.log(ROLES);
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -43,6 +51,7 @@ const App = () => {
         console.log("Login Success");
         const data = await res.json();
         console.log(data.role);
+        setRole(data.role);
         return {
             'success' : true,
             'message' : "Login Successful"
@@ -100,8 +109,8 @@ const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} />}>
-        <Route index element={<Papers/>}/>
+      <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} role={role}/>}>
+        <Route index element={<Papers role={role}/>} />
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
         <Route path = "edit/:id" element = {<EditArticlePage/>} loader={articleLoader}/>
         <Route path = "upload" element={<UploadPage/>}/>
