@@ -109,9 +109,29 @@ const App = () => {
     }
   }
 
+  const logout = async() => {
+    try{
+      const res = await fetch("http://localhost:8080/logout",{
+        method : "POST",
+        credentials : "include",
+      })
+      if(res.ok){
+        sessionStorage.clear();
+        setRole('');
+        console.log("LOGOUT SUCCESS");
+      }
+      else{
+        console.log("LOGOUT FAILED");
+      }
+    }
+    catch(error){
+      console.log("INTERVAL SERVER ERROR: " + error);
+    }
+  }
+
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} role={role}/>}>
+      <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} role={role} logout={logout}/>}>
         <Route index element={<Papers role={role}/>} />
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
         <Route path = "edit/:id" element = {<EditArticlePage/>} loader={articleLoader}/>
