@@ -7,8 +7,12 @@ import com.cisco.TrendSight.repository.MyUserRepository;
 import com.cisco.TrendSight.service.JwtService;
 import com.cisco.TrendSight.service.MyUserDetailService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,12 +28,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 @RestController
 public class AuthenticationController {
 
+    @Value("${security.jwt.expiration-time}")
+    private long jwtTokenAge;
     private final JwtService jwtService;
     private final MyUserDetailService myUserDetailService;
     private final MyUserRepository repository;
@@ -89,13 +96,15 @@ public class AuthenticationController {
                             user.getPassword()
                     ));
             String jwtToken = jwtService.generateToken(myUserDetailService.loadUserByUsername(user.getEmail()));
-            Cookie cookie = new Cookie("JWT", jwtToken);
-            cookie.setHttpOnly(true);
-//        cookie.setSecure(true); // FOR HTTPS
-            cookie.setPath("/");
-            cookie.setMaxAge(60*60); // In secs: Currently 1 hour
-
-            response.addCookie(cookie);
+            ResponseCookie responseCookie = ResponseCookie
+                    .from("JWT",jwtToken)
+                    .secure(true)
+                    .httpOnly(true)
+                    .path("/")
+                    .sameSite("Strict")
+                    .maxAge(jwtTokenAge)
+                    .build();
+            response.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
             MyUser myUser = repository.findByEmail(user.getEmail()).get();
             return ResponseEntity.ok(myUser);
         }
@@ -107,4 +116,5 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
