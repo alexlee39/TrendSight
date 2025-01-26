@@ -44,8 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .findFirst()
                 .orElse(null);
 
-
         if(jwt == null){
+            SecurityContextHolder.clearContext();
             filterChain.doFilter(request, response);
             return;
         }
@@ -67,6 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
         }
         catch (Exception e){
+            logger.error("Unexpected Interval Server Error Message: ", e);
             handlerExceptionResolver.resolveException(request,response,null,e);
         }
     }
