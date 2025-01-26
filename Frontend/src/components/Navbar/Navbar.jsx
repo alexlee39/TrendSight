@@ -5,10 +5,16 @@ import Login from '../Account/Login.jsx'
 import Register from '../Account/Register.jsx'
 import Modal from '../Account/Modal.jsx'
 import Navlink from './Navlink.jsx'
+import { Button } from '../ui/button.jsx'
+import { useNavigate } from 'react-router'
 
-const Navbar = ({checkLogin, sendRegister, role}) => {
+const Navbar = ({checkLogin, sendRegister, role, logout}) => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [isLogin, setShowLogin] = useState(true);
+  // const [role, setrole] = useState(role);
+  // console.log(role);
+  let navigate = useNavigate();
+
 
   console.log(role);
   // Normal User Portal to only see Papers
@@ -59,6 +65,8 @@ const Navbar = ({checkLogin, sendRegister, role}) => {
                 <Navlink tagName={"My Papers"} path={"/mypapers"}/>
                 <Navlink tagName={"Upload"} path={"/upload"}/>
             </div>
+
+            <Button onClick={logout}> Logout </Button>
         </nav>
   
         {/* Log out Functionality */}
