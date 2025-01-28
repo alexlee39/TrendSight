@@ -11,13 +11,13 @@ import { useNavigate } from 'react-router'
 const Navbar = ({checkLogin, sendRegister, role, logout}) => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [isLogin, setShowLogin] = useState(true);
-  // const [role, setrole] = useState(role);
-  // console.log(role);
   let navigate = useNavigate();
 
+  const handleLogout = async () =>{
+    await logout();
+    navigate("/");
+  }
 
-  console.log(role);
-  // Normal User Portal to only see Papers
   if(role === null || role === ''){
     return (
       <>  
@@ -66,12 +66,9 @@ const Navbar = ({checkLogin, sendRegister, role, logout}) => {
                 <Navlink tagName={"Upload"} path={"/upload"}/>
             </div>
 
-            <Button onClick={logout}> Logout </Button>
+            <Button type="button" onClick={handleLogout}> Logout </Button>
         </nav>
-  
-        {/* Log out Functionality */}
       </>
-  
     )
   }
   else{
@@ -81,8 +78,6 @@ const Navbar = ({checkLogin, sendRegister, role, logout}) => {
             <Link href="/" className="text-4xl text-white font-semibold select-none">TrendSight</Link> 
               <div className="navigation">
                   <Navlink tagName={"Papers"} path={"/"}/>
-  
-  
                   <button onClick={() => {
                     setShowPopUp(true); 
                     }} 
