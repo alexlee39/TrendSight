@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from 'react'
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router';
+import { useNavigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router';
 
 
 import Papers from "./components/Hero/Papers.jsx";
@@ -13,7 +13,6 @@ import EditArticlePage from './components/Hero/EditArticlePage.jsx';
 
 const App = () => {
   // state to update table with new article data
-  const [articles, setArticles] = useState([]);
   const preloadedRole = sessionStorage.getItem("role");
   const [role, setRole] = useState(preloadedRole || null);
 
@@ -23,20 +22,6 @@ const App = () => {
     ADMIN: "ADMIN",
   }
 
-  // console.log(ROLES);
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const res = await fetch('http://localhost:8080/article');
-        const articleData = await res.json();
-        setArticles(articleData); // updates state with new db data
-      }
-      catch (error){
-        console.log("articles werent extracted properly\n", error);
-      }
-    };
-    fetchArticles();
-  }, []);
 
   const checkLogin = async(credentials) =>{
     try {
@@ -136,7 +121,7 @@ const App = () => {
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
         <Route path = "edit/:id" element = {<EditArticlePage/>} loader={articleLoader}/>
         <Route path = "upload" element={<UploadPage/>}/>
-        <Route path = "mypapers" element={<MyPapers articles={articles} />}/>
+        <Route path = "mypapers" element={<MyPapers />}/>
 
         <Route path = "*" element={<NotFoundPage/>}/>
       </Route>
