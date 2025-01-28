@@ -141,7 +141,7 @@ const MyPapers = ({}) => { // maybe use props to call Hero with new article data
                     </div>
                   </td>
                   <td className="px-12 py-5 text-md text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-md text-orange-800">Loading..</td>
+                  <td className="px-12 py-5 text-md text-orange-800"> {article.articleStatus}</td>
                 </tr>
               ))}
             </tbody>
