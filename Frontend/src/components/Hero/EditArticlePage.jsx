@@ -15,6 +15,26 @@ const EditArticlePage = () => {
   const [author, setAuthor] = useState(article.author);
   const [body, setBody] = useState(article.body);
 
+  const deleteArticle = async() => {
+    try{
+      const res = await fetch(`http://localhost:8080/article/${id}`,{
+        method : "DELETE",
+        credentials : "include",
+      })
+      toast({
+        title : res.ok ? "Deleted Article Successfully" : "Uh oh. Article wasn't deleted",
+        variant : res.ok ? "default" : "destructive",
+      })
+      setTimeout(() => {
+        if(res.ok){
+          navigate("/mypapers");
+        }
+      }, 1000)
+    }
+    catch(error){
+      console.log("Internal Server Error: " + error);
+    }
+  }
 
   const updateArticleData = async(e) => {
     e.preventDefault();
@@ -102,8 +122,9 @@ const EditArticlePage = () => {
             
           </div>
         </div>
-        <Button type = "button" onClick={() => navigate("/")} className="bg-black p-2 m-4"> Return </Button>
-        <button type="submit" className="bg-black text-white p-2 my-4 rounded-lg min-w-16"> Save </button>
+        <Button type = "button" onClick={() => navigate("/")} className="bg-black p-2 my-4 mx-2 "> Return </Button>
+        <Button type = "button" onClick={() => deleteArticle(id)} className = "bg-black text-white p-2 mx-2 rounded-lg min-w-16"> Delete Article</Button>
+        <button type="submit" className="bg-black text-white p-2 my-4 mx-2 rounded-lg min-w-16"> Save </button>
 
 
       </form>

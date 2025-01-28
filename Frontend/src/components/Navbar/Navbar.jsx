@@ -5,13 +5,19 @@ import Login from '../Account/Login.jsx'
 import Register from '../Account/Register.jsx'
 import Modal from '../Account/Modal.jsx'
 import Navlink from './Navlink.jsx'
+import { Button } from '../ui/button.jsx'
+import { useNavigate } from 'react-router'
 
-const Navbar = ({checkLogin, sendRegister, role}) => {
+const Navbar = ({checkLogin, sendRegister, role, logout}) => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [isLogin, setShowLogin] = useState(true);
+  let navigate = useNavigate();
 
-  console.log(role);
-  // Normal User Portal to only see Papers
+  const handleLogout = async () =>{
+    await logout();
+    navigate("/");
+  }
+
   if(role === null || role === ''){
     return (
       <>  
@@ -59,11 +65,10 @@ const Navbar = ({checkLogin, sendRegister, role}) => {
                 <Navlink tagName={"My Papers"} path={"/mypapers"}/>
                 <Navlink tagName={"Upload"} path={"/upload"}/>
             </div>
+
+            <Button type="button" onClick={handleLogout}> Logout </Button>
         </nav>
-  
-        {/* Log out Functionality */}
       </>
-  
     )
   }
   else{
@@ -73,8 +78,6 @@ const Navbar = ({checkLogin, sendRegister, role}) => {
             <Link href="/" className="text-4xl text-white font-semibold select-none">TrendSight</Link> 
               <div className="navigation">
                   <Navlink tagName={"Papers"} path={"/"}/>
-  
-  
                   <button onClick={() => {
                     setShowPopUp(true); 
                     }} 

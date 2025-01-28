@@ -3,23 +3,27 @@ package com.cisco.TrendSight.model;
 import java.time.Instant;
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 // Can't use a record, since Records are immutable 
 // And we would want to update/change article content
 @Entity //fact check if this is supposed to be correct
 public class Article {
     // Should be final
-    private @Id 
-    @GeneratedValue long id;
-    // private List<Integer> authorIds;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "myUser_id")
+    @JsonBackReference
+    private MyUser myUser;
     private String title;
     private String body;
-    private String authorName;
+    private String author;
     private final Instant createdDate;
     private Instant updatedDate;
+
     private long epochMillis;
 
     public Article(){
@@ -27,29 +31,23 @@ public class Article {
         this.epochMillis = this.createdDate.toEpochMilli();
     }
 
-    public Article(String title, String body, String authorName){
-        // this.articleId = id;
+    public Article(String title, String body, String author, MyUser myUser){
         this.title = title;
         this.body = body;
-        this.authorName = authorName;
+        this.author = author;
         this.createdDate = Instant.now();
-        this.epochMillis = this.createdDate.toEpochMilli();
+        this.epochMillis = Instant.now().toEpochMilli();
+        this.myUser = myUser;
     }
 
-    
-    public long getId(){
-        return this.id;
-    }
 
-    public String getTitle(){
-        return this.title;
-    }
-
+    public long getId(){ return this.id;}
+    public String getTitle(){ return this.title;}
     public String getBody(){
         return this.body;
     }
     public String getAuthor(){
-        return this.authorName;
+        return this.author;
     }
     public Instant getCreatedDate(){
         return this.createdDate;
@@ -60,7 +58,8 @@ public class Article {
     public long getEpochMillis() {
         return this.epochMillis;
     }
-    
+    public MyUser getMyUser() { return myUser; }
+
     public void setTitle(String title){
         this.title = title;
     }
@@ -68,7 +67,7 @@ public class Article {
         this.body = body;
     }
     public void setAuthor(String author){
-        this.authorName = author;
+        this.author = author;
     }
     public void setUpdatedDate(){
         this.updatedDate = Instant.now();
@@ -77,6 +76,7 @@ public class Article {
     public void setEpochMillis(long epochMillis) {
         this.epochMillis = epochMillis;
     }
+    public void setAuthor(MyUser myUser) { this.myUser = myUser; }
 
     @Override
     public boolean equals(Object o){

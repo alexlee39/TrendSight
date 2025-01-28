@@ -18,7 +18,6 @@ import { useToast } from "@/hooks/use-toast";
 const Papers = ({role}) => { // maybe use props to call Hero with new article data? can easily update table
   const [articles, setArticles] = useState([]);
   const [sortKey, setSortKey] = useState("date");
-  const isReader = (role === null ||role === "") ? true : false;
   const {toast} = useToast();
   let navigate = useNavigate();
 
@@ -35,27 +34,6 @@ const Papers = ({role}) => { // maybe use props to call Hero with new article da
     };
     fetchArticles();
   }, []);
-
-  const deleteArticle = async(article) => {
-    try{
-      const res = await fetch(`http://localhost:8080/article/${article.id}`,{
-        method : "DELETE",
-        credentials : "include",
-      })
-      toast({
-        title : res.ok ? "Deleted Article Successfully" : "Uh oh. Article wasn't deleted",
-        variant : res.ok ? "default" : "destructive",
-      })
-      setTimeout(() => {
-        if(res.ok){
-          navigate(0);
-        }
-      }, 1000)
-    }
-    catch(error){
-      console.log("Internal Server Error: " + error);
-    }
-  }
 
   function sortArticles() {
     if (sortKey === "date") { // will be implmenting Most Recent, and Oldest options instead of basic DATE (default should be most recent)
@@ -143,17 +121,6 @@ const Papers = ({role}) => { // maybe use props to call Hero with new article da
                   <td className="text-md px-6 py-4 text-gray-600">
                     <div className="flex justify-between">
                       <span className="">{getArticleDate(article)}</span>
-                      {!isReader &&
-                      <DropdownMenu >
-                          <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-gray-400 focus:outline-none">...</DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => navigate(`/edit/${article.id}`)}>
-                                Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      }
                     </div>
                   </td>
                 </tr>
