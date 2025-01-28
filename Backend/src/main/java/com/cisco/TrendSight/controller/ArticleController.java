@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cisco.TrendSight.dto.ArticleDto;
+import com.cisco.TrendSight.model.ArticleStatus;
 import com.cisco.TrendSight.model.MyUser;
 import com.cisco.TrendSight.service.MyUserDetailService;
 import org.springframework.http.HttpStatus;
@@ -36,8 +37,8 @@ public class ArticleController {
     }
 
     @GetMapping("/article")
-    public List<Article> findAllArticles(){
-        return articleRepository.findAll();
+    public List<Article> findAllPublishedArticles(){
+        return articleRepository.findAllByArticleStatus(ArticleStatus.PUBLISHED);
     }
 
     @GetMapping("/article/{id}")
@@ -48,14 +49,6 @@ public class ArticleController {
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
     @GetMapping("/user/article")
     public ResponseEntity<List<Article>> findAllArticlesFromUser(Authentication authentication){
-//        MyUser myUser = myUserDetailService.getUserFromId(userId);
-//        if(myUser == null){
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        String email = authentication.getName();
-//        if(!email.equals(myUser.getEmail())){
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
         String email = authentication.getName();
         MyUser myUser = myUserDetailService.getUserFromEmail(email);
         if(myUser == null){

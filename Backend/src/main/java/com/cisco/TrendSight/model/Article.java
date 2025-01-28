@@ -23,7 +23,8 @@ public class Article {
     private String author;
     private final Instant createdDate;
     private Instant updatedDate;
-
+    @Enumerated(EnumType.STRING)
+    private ArticleStatus articleStatus;
     private long epochMillis;
 
     public Article(){
@@ -38,8 +39,18 @@ public class Article {
         this.createdDate = Instant.now();
         this.epochMillis = Instant.now().toEpochMilli();
         this.myUser = myUser;
+        this.articleStatus = ArticleStatus.PENDING;
     }
 
+    public Article(String title, String body, String author, MyUser myUser, ArticleStatus articleStatus){
+        this.title = title;
+        this.body = body;
+        this.author = author;
+        this.createdDate = Instant.now();
+        this.epochMillis = Instant.now().toEpochMilli();
+        this.myUser = myUser;
+        this.articleStatus = articleStatus;
+    }
 
     public long getId(){ return this.id;}
     public String getTitle(){ return this.title;}
@@ -77,6 +88,14 @@ public class Article {
         this.epochMillis = epochMillis;
     }
     public void setAuthor(MyUser myUser) { this.myUser = myUser; }
+
+    public ArticleStatus getArticleStatus() {
+        return articleStatus;
+    }
+
+    public void setArticleStatus(ArticleStatus articleStatus) {
+        this.articleStatus = articleStatus;
+    }
 
     @Override
     public boolean equals(Object o){
