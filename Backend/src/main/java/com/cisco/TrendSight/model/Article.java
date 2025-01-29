@@ -3,52 +3,62 @@ package com.cisco.TrendSight.model;
 import java.time.Instant;
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 // Can't use a record, since Records are immutable 
 // And we would want to update/change article content
-@Entity //fact check if this is suppose to be correct
+@Entity //fact check if this is supposed to be correct
 public class Article {
     // Should be final
-    private @Id 
-    @GeneratedValue long id;
-    // private List<Integer> authorIds;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "myUser_id")
+    @JsonBackReference
+    private MyUser myUser;
     private String title;
     private String body;
-    private String authorName;
+    private String author;
     private final Instant createdDate;
     private Instant updatedDate;
+    @Enumerated(EnumType.STRING)
+    private ArticleStatus articleStatus;
     private long epochMillis;
 
     public Article(){
         this.createdDate = Instant.now();
-    }
-
-    public Article(String title, String body, String authorName){
-        // this.articleId = id;
-        this.title = title;
-        this.body = body;
-        this.authorName = authorName;
-        this.createdDate = Instant.now();
         this.epochMillis = this.createdDate.toEpochMilli();
     }
 
-    
-    public long getId(){
-        return this.id;
+    public Article(String title, String body, String author, MyUser myUser){
+        this.title = title;
+        this.body = body;
+        this.author = author;
+        this.createdDate = Instant.now();
+        this.epochMillis = Instant.now().toEpochMilli();
+        this.myUser = myUser;
+        this.articleStatus = ArticleStatus.PENDING;
     }
 
-    public String getTitle(){
-        return this.title;
+    public Article(String title, String body, String author, MyUser myUser, ArticleStatus articleStatus){
+        this.title = title;
+        this.body = body;
+        this.author = author;
+        this.createdDate = Instant.now();
+        this.epochMillis = Instant.now().toEpochMilli();
+        this.myUser = myUser;
+        this.articleStatus = articleStatus;
     }
 
+    public long getId(){ return this.id;}
+    public String getTitle(){ return this.title;}
     public String getBody(){
         return this.body;
     }
     public String getAuthor(){
-        return this.authorName;
+        return this.author;
     }
     public Instant getCreatedDate(){
         return this.createdDate;
@@ -59,7 +69,8 @@ public class Article {
     public long getEpochMillis() {
         return this.epochMillis;
     }
-    
+    public MyUser getMyUser() { return myUser; }
+
     public void setTitle(String title){
         this.title = title;
     }
@@ -67,11 +78,23 @@ public class Article {
         this.body = body;
     }
     public void setAuthor(String author){
-        this.authorName = author;
+        this.author = author;
     }
-    public void updateArticle(){
+    public void setUpdatedDate(){
         this.updatedDate = Instant.now();
         this.epochMillis = this.updatedDate.toEpochMilli();
+    }
+    public void setEpochMillis(long epochMillis) {
+        this.epochMillis = epochMillis;
+    }
+    public void setAuthor(MyUser myUser) { this.myUser = myUser; }
+
+    public ArticleStatus getArticleStatus() {
+        return articleStatus;
+    }
+
+    public void setArticleStatus(ArticleStatus articleStatus) {
+        this.articleStatus = articleStatus;
     }
 
     @Override
@@ -79,10 +102,9 @@ public class Article {
         if(this == o){
             return true;
         }
-        if (!(o instanceof Article)){
+        if (!(o instanceof Article article)){
             return false;
         }
-        Article article = (Article) o;
         return Objects.equals(this.id, article.id) && Objects.equals(this.title, article.title)
         && Objects.equals(this.body, article.body);
     }
@@ -94,7 +116,7 @@ public class Article {
 
     @Override 
     public String toString(){
-        return "Article{id=" + this.id +", title='" + this.title + "'\', body='" + this.body +"'\'}"; 
+        return "Article{id=" + this.id +", title='" + this.title + "'', body='" + this.body + "''}";
     }
 
 }
