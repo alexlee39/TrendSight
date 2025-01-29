@@ -5,10 +5,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
-  config:
-    import:
-      optional:file: .env[.properties]
 security:
   jwt:
-    secret-key: 3A672C57272DD0CEBF30900B9BC5D89A8046C5144D65B2CEBFF99355179B0C11
-    expiration-time: 1800000 #1800000 == 30 min
+    secret-key: ${JWT_SECRET_KEY}
+    expiration-time: 1800000 #1800000 == 30 min, #60000 = 1 min for debugging expired JWT's
