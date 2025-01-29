@@ -3,7 +3,7 @@
 import { data, useNavigate, useParams, useLoaderData } from 'react-router-dom';
 
 const ArticlePage = () => {
-  const { id } = useParams(); // current URL - need it to create pages with corresponding link
+  //const { id } = useParams(); // current URL - need it to create pages with corresponding link
   const article = useLoaderData();
 
   /// processing paragraphs, quotes and links accordingly based off mockDB format
@@ -42,10 +42,11 @@ const ArticlePage = () => {
         {/* Author and Date Styling*/}
         <div className="mt-2 text-sm text-gray-600">
           <p>By <span className="font-medium">{article.author}</span></p>
-          <p>{article.date}</p>
+          <p>{article.date}</p> {/* data not properly formatted in backend */}
         </div>
         {/* Content rendering, and spacing*/}
-        <div className="mt-4">{renderContent()}</div>
+        {/* <div className="mt-4">{renderContent()}</div> */}
+        <div className="mt-4">{article.body}</div>
       </div>      
     </section>
   );
