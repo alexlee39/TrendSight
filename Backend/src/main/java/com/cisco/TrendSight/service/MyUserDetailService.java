@@ -38,4 +38,17 @@ public class MyUserDetailService implements UserDetailsService {
         return user.getRole().split(",");
     }
 
+    public MyUser getUserFromEmail(String email){
+        if(repository.findByEmail(email).isPresent()){
+            return repository.findByEmail(email).get();
+        }
+        throw new UsernameNotFoundException(email);
+    }
+
+    public MyUser getUserFromId(Long id){
+        if(repository.findById(id).isPresent()){
+            return repository.findById(id).get();
+        }
+        throw new RuntimeException("User with id " + id + "not found");
+    }
 }

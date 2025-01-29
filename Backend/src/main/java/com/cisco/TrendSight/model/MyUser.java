@@ -1,6 +1,11 @@
 package com.cisco.TrendSight.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -14,21 +19,38 @@ public class MyUser {
     @Column(nullable = false)
     private String password;
     private String role; //For multiple roles: "ADMIN,REVIEWER"
+    @OneToMany(mappedBy = "myUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name= "myUser")
+    @JsonManagedReference
+    private List<Article> articlesLst = new ArrayList<>();
 
-    public MyUser() {
-
+    public MyUser(String email, String password, List<Article> articlesLst) {
+        this.email = email;
+        this.password = password;
+        this.articlesLst = articlesLst;
     }
 
-    public MyUser(String email, String password, String role) {
+    public MyUser(String email, String password, String role, List<Article> articlesLst) {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.articlesLst = articlesLst;
+    }
+
+    public MyUser() {
+
     }
 
     public MyUser(String email, String password) {
         this.password = password;
         this.email = email;
         this.role = "AUTHOR";
+    }
+
+    public MyUser(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public long getId() {
@@ -70,5 +92,19 @@ public class MyUser {
     public void setUsername(String username) {
         this.username = username;
     }
+    public List<Article> getArticlesLst() { return articlesLst;}
 
+    public void setArticlesLst(List<Article> articlesLst) { this.articlesLst = articlesLst; }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o){
+            return true;
+        }
+        if (!(o instanceof MyUser myUser)){
+            return false;
+        }
+        return Objects.equals(this.id, myUser.id) && Objects.equals(this.email, myUser.email)
+                && Objects.equals(this.password, myUser.password);
+    }
 }

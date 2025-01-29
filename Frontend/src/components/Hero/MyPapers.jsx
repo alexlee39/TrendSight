@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link , useNavigate} from 'react-router-dom';
 import {
   DropdownMenu,
@@ -13,9 +13,26 @@ import {
 import { Button } from "@/components/ui/button"
 import { AirVent } from "lucide-react";
 
-const MyPapers = ({ articles, setArticles }) => { // maybe use props to call Hero with new article data? can easily update table
+const MyPapers = ({}) => { // maybe use props to call Hero with new article data? can easily update table
+  const [articles, setArticles] = useState([]);
   const [sortKey, setSortKey] = useState("date");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/user/article',{
+          credentials : "include",
+        });
+        const articleData = await res.json();
+        setArticles(articleData); // updates state with new db data
+      }
+      catch (error){
+        console.log("articles werent extracted properly\n", error);
+      }
+    };
+    fetchArticles();
+  }, []);
 
   function sortArticles() {
     if (sortKey === "date") { // will be implmenting Most Recent, and Oldest options instead of basic DATE (default should be most recent)
@@ -106,7 +123,7 @@ const MyPapers = ({ articles, setArticles }) => { // maybe use props to call Her
               {sortedArticles.map((article, index) => ( 
                 <tr key={index} className="border-t hover:bg-gray-100 ">
                   <td className="px-12 py-5 text-m text-cyan-600 border-r border-black">
-                    <Link to={`/papers/${article.id}`} className="hover:underline">
+                    <Link to={`/edit/${article.id}`} className="hover:underline">
                       {article.title}
                     </Link>
                   </td>
@@ -114,18 +131,18 @@ const MyPapers = ({ articles, setArticles }) => { // maybe use props to call Her
                     <div className="flex item-center justify-between">
                       <span>{getArticleDate(article)}</span>
                       <div className="ml-2">
-                        <DropdownMenu>
+                        {/* <DropdownMenu>
                           <DropdownMenuTrigger className="text-sm font-bold border-black border-2 rounded-sm px-1 hover:bg-red-200">...</DropdownMenuTrigger>
                           <DropdownMenuContent>
                             <DropdownMenuItem onClick={() => directToEditArticlePg(article)}>Edit</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => deleteArticle(article)}>Delete</DropdownMenuItem>
                           </DropdownMenuContent>
-                        </DropdownMenu>
+                        </DropdownMenu> */}
                       </div>
                     </div>
                   </td>
                   <td className="px-12 py-5 text-md text-gray-800 border-r border-black">{article.author}</td>
-                  <td className="px-12 py-5 text-md text-orange-800">Loading..</td>
+                  <td className="px-12 py-5 text-md text-orange-800"> {article.articleStatus}</td>
                 </tr>
               ))}
             </tbody>

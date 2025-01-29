@@ -1,8 +1,12 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "java.compile.nullAnalysis.mode": "automatic"
 =======
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "interactive"
+>>>>>>> Main
+=======
+    "java.compile.nullAnalysis.mode": "automatic"
 >>>>>>> Main
 }

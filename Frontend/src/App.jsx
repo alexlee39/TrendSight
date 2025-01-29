@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router';
+import { useState, useEffect, createContext } from 'react'
+import { useNavigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router';
 
 
 import Papers from "./components/Hero/Papers.jsx";
@@ -13,21 +13,15 @@ import EditArticlePage from './components/Hero/EditArticlePage.jsx';
 
 const App = () => {
   // state to update table with new article data
-  const [articles, setArticles] = useState([]);
+  const preloadedRole = sessionStorage.getItem("role");
+  const [role, setRole] = useState(preloadedRole || null);
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const res = await fetch('http://localhost:8080/article');
-        const articleData = await res.json();
-        setArticles(articleData); // updates state with new db data
-      }
-      catch (error){
-        console.log("articles werent extracted properly\n", error);
-      }
-    };
-    fetchArticles();
-  }, []);
+  const ROLES = {
+    AUTHOR: "AUTHOR",
+    REVIEWER: "REVIEWER",
+    ADMIN: "ADMIN",
+  }
+
 
   const checkLogin = async(credentials) =>{
     try {
@@ -36,39 +30,98 @@ const App = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
+        credentials : 'include'
       });
-      const data = await res.json();
-      console.log(data);
+      if(res.ok){
+        console.log("Login Success");
+        const data = await res.json();
+        console.log(data.role);
+        setRole(data.role);
+        sessionStorage.setItem("role", data.role);
+        return {
+            'success' : true,
+            'message' : "Login Successful"
+        }
+      }
+      else{
+        console.log("Login Failed!");
+        return {
+            'success' : false, 
+            'message' : "Incorrect Username or Password."
+        }
+      }
     } catch (error) {
       console.log(error)
+      return {
+            'success' : false, 
+            'message' : "Internal Server Error. Please try again later."
+      }
     }
-    return;
   }
 
   const sendRegister = async(accDetails) => {
     try {
-      await fetch("http://localhost:8080/register", {
+      const res = await fetch("http://localhost:8080/register", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(accDetails),
+        credentials : 'include'
       });
-      //console.log('Mock DB works???');
+      const data = await res.json();
+      if(res.ok){
+        console.log("Account created!");
+        return {
+          'success' : true,
+          'successMsg' : 'Created account successfully',
+          'message' : `Created the account: ${data.email}`,
+        }
+      }
+      else{
+        console.log("User already exists!");
+        console.log(`User with the email ${data.email} already exists`);
+        return {
+          'success' : false,
+          'successMsg' : 'Registering Account failed',
+          'message' : `User with the email: "${data.email}" already exists`,
+        }
+      }
     } catch (error) {
+      console.log("Server error");
       console.log(error);
+    }
+  }
+
+  const logout = async() => {
+    try{
+      const res = await fetch("http://localhost:8080/logout",{
+        method : "POST",
+        credentials : "include",
+      })
+      if(res.ok){
+        sessionStorage.clear();
+        setRole('');
+        console.log("LOGOUT SUCCESS");
+      }
+      else{
+        console.log("LOGOUT FAILED");
+      }
+    }
+    catch(error){
+      console.log("INTERVAL SERVER ERROR: " + error);
     }
   }
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} />}>
-        <Route index element={<Papers articles={articles} setArticles={setArticles} />}/>
+      <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} role={role} logout={logout}/>}>
+        <Route index element={<Papers role={role}/>} />
         <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
         <Route path = "edit/:id" element = {<EditArticlePage/>} loader={articleLoader}/>
         <Route path = "upload" element={<UploadPage/>}/>
-        <Route path = "mypapers" element={<MyPapers articles={articles} />}/>
+        <Route path = "mypapers" element={<MyPapers />}/>
 
         <Route path = "*" element={<NotFoundPage/>}/>
       </Route>

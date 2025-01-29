@@ -4,28 +4,44 @@ import { FaXmark, FaEnvelope, FaLock} from 'react-icons/fa6';
 import { IoPersonSharp } from 'react-icons/io5'
 import { useState } from 'react'
 import { useNavigate } from 'react-router';
+import { toast, useToast } from '@/hooks/use-toast';
+import { Description } from '@radix-ui/react-toast';
 
 const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isChecked, setChecked] = useState(false);
+    const [regFailedMsg, setRegFailedMsg] = useState('');
+    const { toast } = useToast();
     let navigate = useNavigate();
 
 
     // Use isChecked to make a custom required function that we could pass to display some text
     // telling the user to check the box before proceeding
     
-    const handleSubmit = (e) =>{
+    const handleSubmit = async(e) =>{
         e.preventDefault();
         const accDetails = {
-            "username": username,
-            "email": email,
-            "password": password,
+            username,
+            email,
+            password,
         };
-        sendRegister(accDetails);
-        navigate("/");
-        return;
+        const response = await sendRegister(accDetails);
+        if(!response.success){
+            setRegFailedMsg(response.message);
+        }
+        toast({
+            title: response.successMsg,
+            description : response.message,
+            variant : response.success ? "default" : "destructive",
+        });
+        setTimeout(() => {
+            if(response.success){
+                setClosePopup();
+            }
+        }, 2000)
+
     }
     return (
     <>
@@ -58,7 +74,7 @@ const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
                         Email
                     </label>
                 </div>
-                <div className="relative w-full h-12 border-b-2 border-black border-solid mt-7 mb-6 flex items-center justify-end">
+                <div className="relative w-full h-12 border-b-2 border-black border-solid mt-7 flex items-center justify-end">
                     <span className="absolute text-xl"><FaLock/></span>
                     <input 
                         className='w-full h-full bg-transparent border-none outline-none text-base text-black font-semibold pt-3 pb-1 peer'
@@ -74,8 +90,11 @@ const Register = ({ sendRegister, setShowLogin, setClosePopup}) => {
 
                 {/* Set some JS Code to determine if this should be shown or not */}
                 {/* <div className="wrong-credentials"> Invalid Email or Password</div> */}
+                <div className="text-md my-2 text-red-500">
+                    {regFailedMsg}
+                </div>
                 
-                <div className="text-sm font-medium my-4">
+                <div className="text-sm font-medium mb-4">
                     <label>
                         <input 
                             className='mr-2'

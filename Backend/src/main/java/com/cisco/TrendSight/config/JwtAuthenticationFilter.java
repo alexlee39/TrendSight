@@ -4,6 +4,7 @@ import com.cisco.TrendSight.service.JwtService;
 import com.cisco.TrendSight.service.MyUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
@@ -17,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -34,14 +37,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
                         throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+        // Checks through cookies in the req, finds cookies with the name JWT and sets jwt to be value of the cookies, otherwise null
+        String jwt = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+                .filter(cookie -> "JWT".equals(cookie.getName()))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
+
+        if(jwt == null){
+            SecurityContextHolder.clearContext();
             filterChain.doFilter(request, response);
             return;
         }
-
         try{
-            final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractEmail(jwt);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (userEmail != null && authentication == null){
@@ -59,6 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
         }
         catch (Exception e){
+            logger.error("Unexpected Interval Server Error Message: ", e);
             handlerExceptionResolver.resolveException(request,response,null,e);
         }
     }

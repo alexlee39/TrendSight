@@ -3,13 +3,22 @@
 import { FaXmark, FaEnvelope, FaLock} from 'react-icons/fa6';
 import { IoPersonSharp } from 'react-icons/io5'
 import { useState, useEffect} from 'react'
+import { useNavigate } from 'react-router';
+import { useToast } from '@/hooks/use-toast'
+// import { Button } from "@/components/ui/button"
+// import { ToastAction } from "@/components/ui/toast"
+// import { Description } from '@radix-ui/react-toast';
 
 const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState(''); 
     const [rememberMe, setRememberMe] = useState(false);
+    const [loginFailureMsg, setLoginFailureMsg] = useState('');
+    const [toastDisplay, setToastDisplay] = useState(false);
+    const { toast } = useToast();
+    let navigate = useNavigate();
 
-    const handleSubmitForm = (e) => {
+    const handleSubmitForm = async(e) => {
         e.preventDefault();
 
         const credentials = {
@@ -17,9 +26,22 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
             password,
         };
 
-        checkLogin(credentials);
-
-        return;
+        const responseBody = await checkLogin(credentials);
+        if (!responseBody.success){
+            setLoginFailureMsg(responseBody.message);
+        }
+        console.log(responseBody);
+        toast({
+            title: responseBody.success ? "Login Success" : "Login Failed",
+            // description: responseBody.message,
+            variant: responseBody.success ? "default" : "destructive",
+        });
+        // Delay the navigation to allow the toast to show up
+        setTimeout(() => {
+            if (responseBody.success) {
+                setClosePopup();
+            }
+        }, 2000); // 2-second delay before navigating
     }
 
   return (
@@ -55,7 +77,7 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
                 </label>
             </div>
             {/* Set some JS Code to determine if this should be shown or not */}
-            {/* <div className="group peer:invalid:invisible text-red-600 mb-5"> Invalid Email or Password</div> */}
+            <div className=" text-md text-red-600 mt-3"> {loginFailureMsg} </div>
 
             <div className="text-sm font-medium my-3 flex justify-between">
                 <label>
@@ -64,17 +86,19 @@ const Login = ({checkLogin, setShowLogin, setClosePopup}) => {
                         type="checkbox"
                         id="rememberMe"
                         value = {rememberMe} 
-                        onChange={(e) => setRememberMe(!e.target.value)}
+                        onChange={(e) => setRememberMe(e.target.checked)}
                     /> 
                     Remember me
                     </label >
                 <a href="#" className='hover:underline'>Forgot Password?</a>
             </div>
             <button type="submit" className="w-full h-11 bg-black text-white rounded-md">Login</button>
+
             <div className="text-sm text-center font-medium mt-5 mb-3">
                 <p>Don't have an account? <button onClick = {() => {setShowLogin(false);}} className='font-bold hover:underline'> Register</button></p>
             </div>
         </form>
+
         </div>
     </>
   )

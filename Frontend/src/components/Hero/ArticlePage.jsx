@@ -3,7 +3,7 @@
 import { data, useNavigate, useParams, useLoaderData } from 'react-router-dom';
 
 const ArticlePage = () => {
-  const { id } = useParams(); // current URL - need it to create pages with corresponding link
+  //const { id } = useParams(); // current URL - need it to create pages with corresponding link
   const article = useLoaderData();
 
   const getArticleDate = (article) => {
