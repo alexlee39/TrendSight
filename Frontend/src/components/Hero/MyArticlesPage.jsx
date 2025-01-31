@@ -11,9 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { AirVent } from "lucide-react";
 
-const MyPapers = ({}) => { // maybe use props to call Hero with new article data? can easily update table
+const MyArticlesPage = ({}) => { // maybe use props to call Hero with new article data? can easily update table
   const [articles, setArticles] = useState([]);
   const [sortKey, setSortKey] = useState("date");
   let navigate = useNavigate();
@@ -112,7 +111,7 @@ const MyPapers = ({}) => { // maybe use props to call Hero with new article data
           <table className="min-w-full table-auto border-collapse border border-gray-400 rounded-lg">
             <thead className="bg-gray-200">
               <tr className="bg-custom-background bg-no-repeat bg-center"> 
-                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">MyPapers</th> 
+                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">Articles</th> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Submitted</th>
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Reviewer</th>
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800">Status</th>
@@ -152,5 +151,5 @@ const MyPapers = ({}) => { // maybe use props to call Hero with new article data
   );
 };
 
-export default MyPapers;
+export default MyArticlesPage;
 

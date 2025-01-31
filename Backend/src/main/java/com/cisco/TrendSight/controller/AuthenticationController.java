@@ -86,23 +86,21 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<MyUser> loginUser(@RequestBody LoginAuthorDto user, HttpServletResponse response){
+        // Offset tokenAge from seconds to milliseconds for maxAge property
+        long jwtTokenAgeSecs = jwtTokenAge / 1000;
         if (repository.findByEmail(user.getEmail()).isEmpty()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         try{
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            user.getEmail(),
-                            user.getPassword()
-                    ));
+
             String jwtToken = jwtService.generateToken(myUserDetailService.loadUserByUsername(user.getEmail()));
             ResponseCookie responseCookie = ResponseCookie
                     .from("JWT",jwtToken)
                     .secure(true)
                     .httpOnly(true)
                     .path("/")
-                    .sameSite("Strict")
-                    .maxAge(jwtTokenAge)
+                    .sameSite("Lax")
+                    .maxAge(jwtTokenAgeSecs)
                     .build();
             response.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
             MyUser myUser = repository.findByEmail(user.getEmail()).get();

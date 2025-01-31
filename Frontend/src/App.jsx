@@ -2,14 +2,16 @@ import { useState, useEffect, createContext } from 'react'
 import { useNavigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router';
 
 
-import Papers from "./components/Hero/Papers.jsx";
+import Papers from "./components/Hero/HomePage.jsx";
 import ArticlePage, {articleLoader} from "./components/Hero/ArticlePage.jsx";
 import BaseLayout from './layout/BaseLayout.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ArticleErrorBoundary.jsx';
 import UploadPage from './components/Hero/UploadPage.jsx';
-import MyPapers from './components/Hero/MyPapers.jsx';
+import MyArticlesPage from './components/Hero/MyArticlesPage.jsx';
 import EditArticlePage from './components/Hero/EditArticlePage.jsx';
+import ReviewerHomePage from './components/Hero/ReviewerHomePage.jsx';
+import ReviewArticlePage from './components/Hero/ReviewArticlePage.jsx';
 
 const App = () => {
   // state to update table with new article data
@@ -118,10 +120,12 @@ const App = () => {
     createRoutesFromElements(
       <Route path = "/" element={ <BaseLayout checkLogin={checkLogin} sendRegister={sendRegister} role={role} logout={logout}/>}>
         <Route index element={<Papers role={role}/>} />
-        <Route path = "papers/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
+        <Route path = "article/:id" element={<ArticlePage />} loader={articleLoader}  errorElement={<ErrorBoundary />}/>
         <Route path = "edit/:id" element = {<EditArticlePage/>} loader={articleLoader}/>
         <Route path = "upload" element={<UploadPage/>}/>
-        <Route path = "mypapers" element={<MyPapers />}/>
+        <Route path = "mypapers" element={<MyArticlesPage />}/>
+        <Route path = "reviewer" element={<ReviewerHomePage/>}/>
+        <Route path = "review/article/:id" element={<ReviewArticlePage/>} loader={articleLoader}/>
 
         <Route path = "*" element={<NotFoundPage/>}/>
       </Route>

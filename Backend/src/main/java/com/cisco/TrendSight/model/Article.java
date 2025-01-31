@@ -6,9 +6,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-// Can't use a record, since Records are immutable 
-// And we would want to update/change article content
-@Entity //fact check if this is supposed to be correct
+
+@Entity
 public class Article {
     // Should be final
     @Id
@@ -21,6 +20,16 @@ public class Article {
     private String title;
     private String body;
     private String author;
+    private String commentBody;
+
+    public String getCommentBody() {
+        return commentBody;
+    }
+
+    public void setCommentBody(String commentBody) {
+        this.commentBody = commentBody;
+    }
+
     private final Instant createdDate;
     private Instant updatedDate;
     @Enumerated(EnumType.STRING)
