@@ -34,25 +34,13 @@ public class JwtService {
         return claims.getSubject();
     }
 
-//    public String generateToken(UserDetails userDetails){
-//        return buildToken(new HashMap<>(), userDetails);
-//    }
-
     // Reference: https://github.com/jwtk/jjwt?tab=readme-ov-file#jwt-claims
     public String generateToken(UserDetails userDetails){
         Map<String,Object> extraClaims = new HashMap<>();
-//        extraClaims.put("roles", userDetails
-//                .getAuthorities()
-//                .stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.toList())
-//        );
         return Jwts
                 .builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
-//                Needs to also pass in the role
-//                .subject(userDetails.getAuthorities())
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey())
