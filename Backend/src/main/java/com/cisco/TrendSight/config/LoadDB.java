@@ -28,6 +28,7 @@ public class LoadDB {
     return args -> {
         log.info("Preloading User: {}", myUserRepository.save(new MyUser("test@gmail.com", passwordEncoder.encode("test"))));
         log.info("Preloading User: {}", myUserRepository.save(new MyUser("league@gmail.com", passwordEncoder.encode("oflegends"))));
+        log.info("Preloading Reviewer: {}", myUserRepository.save(new MyUser("review@gmail.com", passwordEncoder.encode("review"),"REVIEWER")));
 
 //      MyUser myUser =
         log.info("Preloading Article: {}", repository.save(new Article("Article 1", "Article 1 Body", "Bob Ross", myUserRepository.findByEmail("test@gmail.com").get(), ArticleStatus.PUBLISHED)));
