@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 
 
 
-const Papers = ({role}) => { // maybe use props to call Hero with new article data? can easily update table
+const HomePage = ({role}) => { // maybe use props to call Hero with new article data? can easily update table
   const [articles, setArticles] = useState([]);
   const [sortKey, setSortKey] = useState("date");
   const {toast} = useToast();
@@ -104,7 +104,7 @@ const Papers = ({role}) => { // maybe use props to call Hero with new article da
           <table className="min-w-full table-auto border-collapse border border-gray-400 rounded-lg">
             <thead className="bg-gray-200">
               <tr> 
-                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">Papers</th> 
+                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">Articles</th> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Author</th>
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800">Date</th>
               </tr>
@@ -113,7 +113,7 @@ const Papers = ({role}) => { // maybe use props to call Hero with new article da
               {sortedArticles.map((article, index) => ( 
                 <tr key={index} className="border-t hover:bg-gray-100 ">
                   <td className="px-12 py-5 text-m text-cyan-600 border-r border-black">
-                    <Link to={`/papers/${article.id}`} className="hover:underline">
+                    <Link to={`/article/${article.id}`} className="hover:underline">
                       {article.title}
                     </Link>
                   </td>
@@ -133,5 +133,5 @@ const Papers = ({role}) => { // maybe use props to call Hero with new article da
   );
 };
 
-export default Papers;
+export default HomePage;
 
