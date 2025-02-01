@@ -27,7 +27,7 @@ const ReviewArticlePage = () => {
       articleStatus : articleStatus
     }
     try{
-      const res = await fetch(`http://localhost:8080/review/article/${id}`,{
+      const res = await fetch(`http://localhost:8080/article/review/${id}`,{
         method : "POST",
         headers :{
           "Content-Type" : "application/json"

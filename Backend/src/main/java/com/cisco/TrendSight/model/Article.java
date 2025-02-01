@@ -9,55 +9,42 @@ import jakarta.persistence.*;
 
 @Entity
 public class Article {
-    // Should be final
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "myUser_id")
+    @JoinColumn(name = "author_user_id")
     @JsonBackReference
-    private MyUser myUser;
+    private MyUser authorUser;
     private String title;
     private String body;
     private String author;
-    private String commentBody;
-
-    public String getCommentBody() {
-        return commentBody;
-    }
-
-    public void setCommentBody(String commentBody) {
-        this.commentBody = commentBody;
-    }
-
-    private final Instant createdDate;
-    private Instant updatedDate;
+    private long dateInEpochMS;
     @Enumerated(EnumType.STRING)
     private ArticleStatus articleStatus;
-    private long epochMillis;
 
-    public Article(){
-        this.createdDate = Instant.now();
-        this.epochMillis = this.createdDate.toEpochMilli();
-    }
+//    @OneToOne(fetch = FetchType.LAZY)
+//    private MyUser reviewer;
+    private String reviewerName;
+    private String commentBody;
+    private long reviewedDateInEpochMS;
 
-    public Article(String title, String body, String author, MyUser myUser){
+    public Article(){}
+    public Article(String title, String body, String author, MyUser authorUser){
         this.title = title;
         this.body = body;
         this.author = author;
-        this.createdDate = Instant.now();
-        this.epochMillis = Instant.now().toEpochMilli();
-        this.myUser = myUser;
+        this.dateInEpochMS = Instant.now().toEpochMilli();
+        this.authorUser = authorUser;
         this.articleStatus = ArticleStatus.PENDING;
     }
 
-    public Article(String title, String body, String author, MyUser myUser, ArticleStatus articleStatus){
+    public Article(String title, String body, String author, MyUser authorUser, ArticleStatus articleStatus){
         this.title = title;
         this.body = body;
         this.author = author;
-        this.createdDate = Instant.now();
-        this.epochMillis = Instant.now().toEpochMilli();
-        this.myUser = myUser;
+        this.dateInEpochMS = Instant.now().toEpochMilli();
+        this.authorUser = authorUser;
         this.articleStatus = articleStatus;
     }
 
@@ -69,16 +56,10 @@ public class Article {
     public String getAuthor(){
         return this.author;
     }
-    public Instant getCreatedDate(){
-        return this.createdDate;
+    public long getDateInEpochMS() {
+        return this.dateInEpochMS;
     }
-    public Instant getUpdatedDate(){
-        return this.updatedDate;
-    }
-    public long getEpochMillis() {
-        return this.epochMillis;
-    }
-    public MyUser getMyUser() { return myUser; }
+    public MyUser getAuthorUser() { return authorUser; }
 
     public void setTitle(String title){
         this.title = title;
@@ -90,13 +71,12 @@ public class Article {
         this.author = author;
     }
     public void setUpdatedDate(){
-        this.updatedDate = Instant.now();
-        this.epochMillis = this.updatedDate.toEpochMilli();
+        this.dateInEpochMS = Instant.now().toEpochMilli();
     }
-    public void setEpochMillis(long epochMillis) {
-        this.epochMillis = epochMillis;
+    public void setDateInEpochMS(long dateInEpochMS) {
+        this.dateInEpochMS = dateInEpochMS;
     }
-    public void setAuthor(MyUser myUser) { this.myUser = myUser; }
+    public void setAuthor(MyUser authorUser) { this.authorUser = authorUser; }
 
     public ArticleStatus getArticleStatus() {
         return articleStatus;
@@ -104,6 +84,14 @@ public class Article {
 
     public void setArticleStatus(ArticleStatus articleStatus) {
         this.articleStatus = articleStatus;
+    }
+
+    public String getCommentBody() {
+        return commentBody;
+    }
+
+    public void setCommentBody(String commentBody) {
+        this.commentBody = commentBody;
     }
 
     @Override
@@ -128,5 +116,20 @@ public class Article {
         return "Article{id=" + this.id +", title='" + this.title + "'', body='" + this.body + "''}";
     }
 
+    public long getReviewedDateInEpochMS() {
+        return reviewedDateInEpochMS;
+    }
+
+    public void setReviewedDateInEpochMS(long reviewedDateInEpochMS) {
+        this.reviewedDateInEpochMS = reviewedDateInEpochMS;
+    }
+
+    public String getReviewerName() {
+        return reviewerName;
+    }
+
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
+    }
 }
 

@@ -5,7 +5,7 @@ const ReviewerHomePage = ({}) => {
     useEffect(() => {
         const fetchPendingArticles = async () => {
           try {
-            const res = await fetch('http://localhost:8080/review/article',{
+            const res = await fetch('http://localhost:8080/article/review',{
               credentials : "include",
             });
             const data = await res.json();

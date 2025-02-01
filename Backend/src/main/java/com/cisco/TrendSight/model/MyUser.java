@@ -19,10 +19,10 @@ public class MyUser {
     @Column(nullable = false)
     private String password;
     private String role; //For multiple roles: "ADMIN,REVIEWER"
-    @OneToMany(mappedBy = "myUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name= "myUser")
+    @OneToMany(mappedBy = "authorUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Article> articlesLst = new ArrayList<>();
+
 
     public MyUser(String email, String password, List<Article> articlesLst) {
         this.email = email;

@@ -1,13 +1,11 @@
 package com.cisco.TrendSight.controller;
 
-import com.cisco.TrendSight.dto.LoginAuthorDto;
-import com.cisco.TrendSight.dto.RegisterAuthorDto;
+import com.cisco.TrendSight.dto.LoginUserDto;
+import com.cisco.TrendSight.dto.RegisterUserDto;
 import com.cisco.TrendSight.model.MyUser;
 import com.cisco.TrendSight.repository.MyUserRepository;
 import com.cisco.TrendSight.service.JwtService;
 import com.cisco.TrendSight.service.MyUserDetailService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -17,18 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -52,7 +47,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MyUser> registerUser(@RequestBody RegisterAuthorDto user){
+    public ResponseEntity<MyUser> registerUser(@RequestBody RegisterUserDto user){
         MyUser myUser = new MyUser(user.getEmail(), passwordEncoder.encode(user.getPassword()));
         if(repository.findByEmail(user.getEmail()).isPresent()){
             return new ResponseEntity<>(myUser,HttpStatus.CONFLICT);
@@ -85,7 +80,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<MyUser> loginUser(@RequestBody LoginAuthorDto user, HttpServletResponse response){
+    public ResponseEntity<MyUser> loginUser(@RequestBody LoginUserDto user, HttpServletResponse response){
         // Offset tokenAge from seconds to milliseconds for maxAge property
         long jwtTokenAgeSecs = jwtTokenAge / 1000;
         if (repository.findByEmail(user.getEmail()).isEmpty()){

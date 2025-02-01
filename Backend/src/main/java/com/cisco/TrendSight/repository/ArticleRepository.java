@@ -9,6 +9,6 @@ import com.cisco.TrendSight.model.Article;
 import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long>{
-    List<Article> findAllByMyUser(MyUser myUser);
+    List<Article> findAllByAuthorUser(MyUser authorUser);
     List<Article> findAllByArticleStatus(ArticleStatus articleStatus);
 }
