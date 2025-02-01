@@ -3,7 +3,8 @@ package com.cisco.TrendSight.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.cisco.TrendSight.dto.ArticleDto;
+import com.cisco.TrendSight.dto.AuthorArticleDto;
+import com.cisco.TrendSight.dto.PublicArticleDto;
 import com.cisco.TrendSight.model.ArticleStatus;
 import com.cisco.TrendSight.model.MyUser;
 import com.cisco.TrendSight.service.MyUserDetailService;
@@ -37,29 +38,59 @@ public class ArticleController {
     }
 
     @GetMapping("/article")
-    public List<Article> findAllPublishedArticles(){
-        return articleRepository.findAllByArticleStatus(ArticleStatus.PUBLISHED);
+    public List<PublicArticleDto> findAllPublishedArticles(){
+        return articleRepository.findAllByArticleStatus(ArticleStatus.PUBLISHED).stream()
+            .map(article -> new PublicArticleDto(
+                    article.getTitle(),
+                    article.getAuthor(),
+                    article.getBody(),
+                    article.getDateInEpochMS()
+            ))
+            .toList();
     }
 
     @GetMapping("/article/{id}")
-    public Article getArticleById(@PathVariable Long id){
-        return articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException(id));
+    public PublicArticleDto getArticleById(@PathVariable Long id){
+        Optional<Article> optionalArticle = articleRepository.findById(id);
+        if(optionalArticle.isEmpty()){
+            throw new ArticleNotFoundException(id);
+        }
+        Article article = optionalArticle.get();
+        return new PublicArticleDto(
+                article.getTitle(),
+                article.getAuthor(),
+                article.getBody(),
+                article.getDateInEpochMS()
+            );
     }
 
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
-    @GetMapping("/user/article")
-    public ResponseEntity<List<Article>> findAllArticlesFromUser(Authentication authentication){
+    @GetMapping("/article/author")
+    public ResponseEntity<List<AuthorArticleDto>> findAllArticlesFromUser(Authentication authentication){
         String email = authentication.getName();
-        MyUser myUser = myUserDetailService.getUserFromEmail(email);
-        if(myUser == null){
+        MyUser authorUser = myUserDetailService.getUserFromEmail(email);
+        if(authorUser == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(articleRepository.findAllByMyUser(myUser));
+        return ResponseEntity.ok(
+                articleRepository.findAllByAuthorUser(authorUser).stream()
+                        .map(article -> new AuthorArticleDto(
+                                article.getTitle(),
+                                article.getAuthor(),
+                                article.getBody(),
+                                article.getDateInEpochMS(),
+                                article.getArticleStatus(),
+                                article.getReviewedDateInEpochMS(),
+                                article.getReviewerName(),
+                                article.getCommentBody()
+                        ))
+                        .toList()
+        );
     }
 
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
-    @PostMapping("/article")
-    public ResponseEntity<Article> postArticle(@RequestBody ArticleDto newArticle, Authentication authentication) {
+    @PostMapping("/article/author")
+    public ResponseEntity<Article> postArticle(@RequestBody PublicArticleDto newArticle, Authentication authentication) {
         String email = authentication.getName();
         MyUser myUser = myUserDetailService.getUserFromEmail(email);
         Article article = new Article(newArticle.getTitle(),newArticle.getBody(), newArticle.getAuthor(),myUser);
@@ -68,16 +99,16 @@ public class ArticleController {
     }
 
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
-    @PutMapping("/article/{id}")
-    public ResponseEntity<Article> updateArticle(@RequestBody ArticleDto newArticle, @PathVariable Long id, Authentication authentication){
+    @PutMapping("/article/author/{id}")
+    public ResponseEntity<Article> updateArticle(@RequestBody PublicArticleDto newArticle, @PathVariable Long id, Authentication authentication){
 
         Optional<Article> article = articleRepository.findById(id);
         String email = authentication.getName();
-        MyUser myUser = myUserDetailService.getUserFromEmail(email);
+        MyUser authorUser = myUserDetailService.getUserFromEmail(email);
         if(article.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        else if(!article.get().getMyUser().equals(myUser)){
+        else if(!article.get().getAuthorUser().equals(authorUser)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         Article updatedArticle = article.get();
@@ -91,14 +122,14 @@ public class ArticleController {
     }
 
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
-    @DeleteMapping("/article/{id}")
+    @DeleteMapping("/article/author/{id}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long id, Authentication authentication){
         String email = authentication.getName();
-        MyUser myUser = myUserDetailService.getUserFromEmail(email);
+        MyUser authorUser = myUserDetailService.getUserFromEmail(email);
         if (articleRepository.findById(id).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        else if(!articleRepository.findById(id).get().getMyUser().equals(myUser)){
+        else if(!articleRepository.findById(id).get().getAuthorUser().equals(authorUser)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         articleRepository.deleteById(id);
