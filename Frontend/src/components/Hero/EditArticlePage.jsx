@@ -49,7 +49,7 @@ const EditArticlePage = () => {
 
   const updateArticle = async(articleData) => {
     try{
-      const res = await fetch(`http://localhost:8080/article/${id}`,{
+      const res = await fetch(`http://localhost:8080/article/author/${id}`,{
 
         method : "PUT",
         headers :{

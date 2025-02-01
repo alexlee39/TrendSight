@@ -31,7 +31,7 @@ const UploadPage = () => {
 
   const postArticle = async(articleData) => {
     try{
-      const res = await fetch('http://localhost:8080/article',{
+      const res = await fetch('http://localhost:8080/article/author',{
         method : "POST",
         headers :{
           "Content-Type" : "application/json"

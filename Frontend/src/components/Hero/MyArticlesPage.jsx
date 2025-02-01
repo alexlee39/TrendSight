@@ -20,7 +20,7 @@ const MyArticlesPage = ({}) => { // maybe use props to call Hero with new articl
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch('http://localhost:8080/user/article',{
+        const res = await fetch('http://localhost:8080/article/author',{
           credentials : "include",
         });
         const articleData = await res.json();
@@ -56,7 +56,7 @@ const MyArticlesPage = ({}) => { // maybe use props to call Hero with new articl
     navigate(`/edit/${article.id}`);
   }
   const deleteArticle = async (article) => {
-      const res = await fetch(`http://localhost:8080/article/${article.id}`,{
+      const res = await fetch(`http://localhost:8080/article/author/${article.id}`,{
         method : "DELETE"
       }).then(response => {
         if(!response.ok){
