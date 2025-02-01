@@ -1,6 +1,6 @@
 package com.cisco.TrendSight.dto;
 
-public class RegisterAuthorDto {
+public class RegisterUserDto {
 
     private String username;
     private String email;

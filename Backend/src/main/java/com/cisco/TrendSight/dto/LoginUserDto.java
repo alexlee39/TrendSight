@@ -1,6 +1,6 @@
 package com.cisco.TrendSight.dto;
 
-public class LoginAuthorDto {
+public class LoginUserDto {
     private String email;
     private String password;
 
