@@ -9,13 +9,18 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea';
 
 const ReviewArticlePage = () => {
   const { id } = useParams(); // current URL - need it to create pages with corresponding link
   const article = useLoaderData();
-  const [articleStatus, setArticleStatus] = useState("");
+  const [articleStatus, setArticleStatus] = useState('');
+  const [reviewerName, setReviewerName] = useState('');
+  const [comments, setComments] = useState('');
+  let navigate = useNavigate('');
+  
 
   const getArticleDate = (article) => {
     const curDate = new Date(article.dateInEpochMS);
@@ -24,7 +29,9 @@ const ReviewArticlePage = () => {
 
   const handleSubmit = async () =>{
     const reviewerData = {
-      articleStatus : articleStatus
+      articleStatus : articleStatus,
+      reviewerName : reviewerName,
+      commentBody : comments,
     }
     try{
       const res = await fetch(`http://localhost:8080/article/review/${id}`,{
@@ -35,11 +42,12 @@ const ReviewArticlePage = () => {
         credentials : "include",
         body : JSON.stringify(reviewerData),
       })
-      const data = await res.json();
+      navigate("/");
     }
     catch(error){
       console.log("Internal Server Error:\n" + error);
     }
+    
   }
 
   return (
@@ -51,16 +59,17 @@ const ReviewArticlePage = () => {
             <p>By <span className="font-medium">{article.author}</span></p>
             <p>{getArticleDate(article)}</p>
           </div>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-1 gap-y-4">
             <div className="my-2">{article.body}</div>
-            {/* <div className="flex flex-col">
+            <div className="flex flex-col">
               <label htmlFor="body" className='text-lg font-medium'>Body</label>
-              <textarea 
-                name="body" 
-                id="body" 
-                className='focus:outline-none border-black border-2 rounded-lg p-3 resize-none'
-              /> 
-            </div> */}
+              <Textarea
+                type="text" 
+                className = "w-2/3"
+                value={comments}
+                onChange={(e) => { setComments(e.target.value)}}
+              />
+            </div>
             <Select onValueChange={setArticleStatus} required>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Status" />
@@ -71,6 +80,17 @@ const ReviewArticlePage = () => {
                   <SelectItem value="PUBLISHED">PUBLISHED</SelectItem>
                 </SelectContent>
             </Select>
+
+            <div className="">
+              <Input 
+                type="text" 
+                placeholder = "Reviewer Name"
+                className = "w-1/2"
+                value={reviewerName}
+                onChange={(e) => { setReviewerName(e.target.value)}}
+                />
+
+            </div>
           </div>
 
           <Button onClick={() => handleSubmit()} className="mt-6 mb-2"> Submit </Button>

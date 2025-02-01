@@ -36,7 +36,7 @@ const ReviewerHomePage = ({}) => {
               <tr className="bg-custom-background bg-no-repeat bg-center"> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black min-w-96 w-1/2">Articles</th> 
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Submitted</th>
-                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Reviewer</th>
+                <th className="px-12 py-6 text-left text-lg font-bold text-gray-800 border-r border-black ">Author</th>
                 <th className="px-12 py-6 text-left text-lg font-bold text-gray-800">Status</th>
               </tr>
             </thead>
