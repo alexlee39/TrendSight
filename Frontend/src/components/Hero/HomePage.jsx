@@ -52,7 +52,7 @@ const HomePage = ({role}) => { // maybe use props to call Hero with new article 
   const sortedArticles = sortArticles(); // updates every rerender
    
   const getArticleDate = (article) => {
-    const curDate = new Date(article.epochMillis);
+    const curDate = new Date(article.dateInEpochMS);
     return (curDate.getMonth()+1) + "/" + curDate.getDate() + "/" + curDate.getFullYear(); // curDate returns 0-11
   }
 
