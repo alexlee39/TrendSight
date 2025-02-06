@@ -1,6 +1,6 @@
 # Trend Sight
 
-A new and upcoming app thats broke college students decided to make for authors to write about current events occuring
+A semi-professional blog-posting website that allows users to create articles to publicize research findings and other news. Articles are always reviewed by professionals before being displayed. Still developing/in progress.
 ## FrontEnd 
 - To use these commands below, please redirect into the directory TrendSight/FrontEnd
 
