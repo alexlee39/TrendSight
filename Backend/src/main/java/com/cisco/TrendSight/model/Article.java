@@ -17,14 +17,14 @@ public class Article {
     @JsonBackReference
     private MyUser authorUser;
     private String title;
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
     private String body;
     private String author;
     private long dateInEpochMS;
     @Enumerated(EnumType.STRING)
     private ArticleStatus articleStatus;
-
-//    @OneToOne(fetch = FetchType.LAZY)
-//    private MyUser reviewer;
+    
     private String reviewerName;
     private String commentBody;
     private long reviewedDateInEpochMS;
