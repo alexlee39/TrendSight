@@ -1,5 +1,6 @@
 package com.cisco.TrendSight.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -21,6 +22,7 @@ public class MyUser {
     private String role; //For multiple roles: "ADMIN,REVIEWER"
     @OneToMany(mappedBy = "authorUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
+    @JsonIgnore
     private List<Article> articlesLst = new ArrayList<>();
 
 
