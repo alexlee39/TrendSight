@@ -67,9 +67,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
         }
         catch (Exception e){
-            logger.error("Unexpected Interval Server Error Message: ", e);
+            logger.error("Unexpected Internal Server Error Message: ", e);
             handlerExceptionResolver.resolveException(request,response,null,e);
         }
     }
-
 }

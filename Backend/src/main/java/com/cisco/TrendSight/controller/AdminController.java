@@ -8,6 +8,7 @@ import com.cisco.TrendSight.model.MyUser;
 import com.cisco.TrendSight.repository.ArticleRepository;
 import com.cisco.TrendSight.repository.MyUserRepository;
 import com.cisco.TrendSight.service.MyUserDetailService;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -72,16 +73,19 @@ public class AdminController {
         return ResponseEntity.ok("Deleted User Successfully");
     }
 
+    @Transactional
     @GetMapping("/admin/article")
     public List<Article> getAllArticles(){
         return articleRepository.findAll();
     }
 
+    @Transactional
     @GetMapping("/admin/article/published")
     public List<Article> getAllPublishedArticles(){
         return articleRepository.findAllByArticleStatus(ArticleStatus.PUBLISHED);
     }
 
+    @Transactional
     @GetMapping("admin/article/pending")
     public List<Article> getAllPendingArticles(){
         return articleRepository.findAllByArticleStatus(ArticleStatus.PENDING);

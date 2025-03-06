@@ -17,14 +17,14 @@ public class Article {
     @JsonBackReference
     private MyUser authorUser;
     private String title;
+    @Lob
+    @Column(columnDefinition = "TEXT") // Current implementation is bounded by ~ 4GB => if the text of pdf exceeds 4GB, This solution no longer works.
     private String body;
     private String author;
     private long dateInEpochMS;
     @Enumerated(EnumType.STRING)
     private ArticleStatus articleStatus;
-
-//    @OneToOne(fetch = FetchType.LAZY)
-//    private MyUser reviewer;
+    
     private String reviewerName;
     private String commentBody;
     private long reviewedDateInEpochMS;

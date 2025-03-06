@@ -14,12 +14,16 @@ import java.util.Optional;
 @Service
 public class MyUserDetailService implements UserDetailsService {
 
-    @Autowired
-    private MyUserRepository repository;
+    private final MyUserRepository myUserRepository;
+
+
+    public MyUserDetailService(MyUserRepository repository){
+        this.myUserRepository = repository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<MyUser> user = repository.findByEmail(email);
+        Optional<MyUser> user = myUserRepository.findByEmail(email);
         if (user.isEmpty()){
             throw new UsernameNotFoundException(email);
         }
@@ -39,15 +43,15 @@ public class MyUserDetailService implements UserDetailsService {
     }
 
     public MyUser getUserFromEmail(String email){
-        if(repository.findByEmail(email).isPresent()){
-            return repository.findByEmail(email).get();
+        if(myUserRepository.findByEmail(email).isPresent()){
+            return myUserRepository.findByEmail(email).get();
         }
         throw new UsernameNotFoundException(email);
     }
 
     public MyUser getUserFromId(Long id){
-        if(repository.findById(id).isPresent()){
-            return repository.findById(id).get();
+        if(myUserRepository.findById(id).isPresent()){
+            return myUserRepository.findById(id).get();
         }
         throw new RuntimeException("User with id " + id + "not found");
     }
