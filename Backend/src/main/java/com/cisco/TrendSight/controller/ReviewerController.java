@@ -5,6 +5,7 @@ import com.cisco.TrendSight.dto.AuthorArticleDto;
 import com.cisco.TrendSight.model.Article;
 import com.cisco.TrendSight.model.ArticleStatus;
 import com.cisco.TrendSight.repository.ArticleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,12 +26,14 @@ public class ReviewerController {
         this.articleRepository = articleRepository;
     }
 
+    @Transactional
     @PreAuthorize("hasRole('REVIEWER')")
     @GetMapping("/article/review")
     public ResponseEntity<List<Article>> getPendingArticles(){
         return ResponseEntity.ok(articleRepository.findAllByArticleStatus(ArticleStatus.PENDING));
     }
 
+    @Transactional
     @PreAuthorize("hasRole('REVIEWER')")
     @GetMapping("/article/review/{id}")
     public ResponseEntity<Article> getPendingArticle(@PathVariable long id){

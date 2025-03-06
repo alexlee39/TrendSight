@@ -14,6 +14,7 @@ import com.cisco.TrendSight.model.ArticleStatus;
 import com.cisco.TrendSight.model.MyUser;
 import com.cisco.TrendSight.service.MyUserDetailService;
 import com.cisco.TrendSight.service.PDFService;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,7 @@ public class ArticleController {
         this.pdfService = pdfService;
     }
 
+    @Transactional
     @GetMapping("/article")
     public List<PublicArticleDto> findAllPublishedArticles(){
         return articleRepository.findAllByArticleStatus(ArticleStatus.PUBLISHED).stream()
@@ -53,6 +55,7 @@ public class ArticleController {
             .toList();
     }
 
+    @Transactional
     @GetMapping("/article/{id}")
     public PublicArticleDto getArticleById(@PathVariable Long id){
         Optional<Article> optionalArticle = articleRepository.findById(id);
@@ -70,6 +73,7 @@ public class ArticleController {
 
     @PreAuthorize("hasRole('AUTHOR')")
     @GetMapping("/article/author")
+    @Transactional
     public ResponseEntity<List<AuthorArticleDto>> findAllArticlesFromUser(Authentication authentication){
         String email = authentication.getName();
         MyUser authorUser = myUserDetailService.getUserFromEmail(email);
@@ -126,8 +130,9 @@ public class ArticleController {
             Path tempFilePath = Files.createTempFile("uploaded-", ".pdf");
             file.transferTo(tempFilePath);
             String pdfBody = pdfService.extractTextFromPDF(tempFilePath.toFile());
+//            System.out.println(pdfBody);
             newArticleBody = pdfBody;
-            System.out.println(pdfBody);
+//            newArticleBody = pdfBody.length() > 255 ? pdfBody : newArticleBody;
             Files.deleteIfExists(tempFilePath);
         }
         Article article = new Article(title,newArticleBody,author,myUser);
