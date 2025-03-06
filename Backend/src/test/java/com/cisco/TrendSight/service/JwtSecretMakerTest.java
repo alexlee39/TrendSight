@@ -1,4 +1,4 @@
-package com.cisco.TrendSight;
+package com.cisco.TrendSight.service;
 
 
 import io.jsonwebtoken.Jwts;
