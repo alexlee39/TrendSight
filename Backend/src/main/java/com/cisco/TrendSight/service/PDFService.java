@@ -10,18 +10,6 @@ import java.io.IOException;
 @Service
 public class PDFService {
 
-    public String extractTextFromPDF(String filepath){
-        File pdf = new File(filepath);
-        try(PDDocument pdDocument = PDDocument.load(pdf)){
-            PDFTextStripper stripper = new PDFTextStripper();
-            String pdfText = stripper.getText(pdDocument);
-            pdDocument.close();
-            return pdfText;
-        }catch(IOException e){
-            return "Error Occurred: " + e.getMessage();
-        }
-    }
-
     public String extractTextFromPDF(File pdf){
         try(PDDocument pdDocument = PDDocument.load(pdf)){
             PDFTextStripper stripper = new PDFTextStripper();
