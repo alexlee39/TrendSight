@@ -18,7 +18,7 @@ public class Article {
     private MyUser authorUser;
     private String title;
     @Lob
-    @Basic(fetch = FetchType.EAGER)
+    @Column(columnDefinition = "TEXT") // Current implementation is bounded by ~ 4GB => if the text of pdf exceeds 4GB, This solution no longer works.
     private String body;
     private String author;
     private long dateInEpochMS;
