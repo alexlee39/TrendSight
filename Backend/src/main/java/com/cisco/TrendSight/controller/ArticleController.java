@@ -33,13 +33,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ArticleController {
     
     private final ArticleRepository articleRepository;
-    private final MyUserDetailService myUserDetailService;
-    private final PDFService pdfService;
 
-    public ArticleController(ArticleRepository articleRepository, MyUserDetailService myUserDetailService, PDFService pdfService) {
+    public ArticleController(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
-        this.myUserDetailService = myUserDetailService;
-        this.pdfService = pdfService;
     }
 
     @Transactional
@@ -71,110 +67,4 @@ public class ArticleController {
             );
     }
 
-    @PreAuthorize("hasRole('AUTHOR')")
-    @GetMapping("/article/author")
-    @Transactional
-    public ResponseEntity<List<AuthorArticleDto>> findAllArticlesFromUser(Authentication authentication){
-        String email = authentication.getName();
-        MyUser authorUser = myUserDetailService.getUserFromEmail(email);
-        if(authorUser == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(
-                articleRepository.findAllByAuthorUser(authorUser).stream()
-                        .map(article -> new AuthorArticleDto(
-                                article.getTitle(),
-                                article.getAuthor(),
-                                article.getBody(),
-                                article.getDateInEpochMS(),
-                                article.getArticleStatus(),
-                                article.getReviewedDateInEpochMS(),
-                                article.getReviewerName(),
-                                article.getCommentBody()
-                        ))
-                        .toList()
-        );
-    }
-
-    @PreAuthorize("hasRole('AUTHOR')")
-    @PostMapping(value ="/article/file", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public void postFile(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("body") String body) throws IOException {
-        if (file != null) {
-            // Securely create a temp file
-            Path tempFilePath = Files.createTempFile("uploaded-", ".pdf");
-            Files.write(tempFilePath, file.getBytes());
-
-            // Extract text from PDF
-            String pdf = pdfService.extractTextFromPDF(tempFilePath.toFile());
-            System.out.println(pdf);
-            System.out.println("\n" + body);
-            // Optional: Delete temp file after extraction
-//            Files.deleteIfExists(tempFilePath);
-        }
-    }
-
-    @PreAuthorize("hasRole('AUTHOR')")
-    @PostMapping(value = "/article/author" , consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<Article> postArticle(
-            @RequestParam("title") String title,
-            @RequestParam("body") String body,
-            @RequestParam("author") String author,
-            @RequestParam(value = "file", required = false) MultipartFile file,
-            Authentication authentication) throws IOException {
-        String email = authentication.getName();
-        String newArticleBody = body;
-        MyUser myUser = myUserDetailService.getUserFromEmail(email);
-        if(file != null && !file.isEmpty()){
-            Path tempFilePath = Files.createTempFile("uploaded-", ".pdf");
-            file.transferTo(tempFilePath);
-            String pdfBody = pdfService.extractTextFromPDF(tempFilePath.toFile());
-//            System.out.println(pdfBody);
-            newArticleBody = pdfBody;
-//            newArticleBody = pdfBody.length() > 255 ? pdfBody : newArticleBody;
-            Files.deleteIfExists(tempFilePath);
-        }
-        Article article = new Article(title,newArticleBody,author,myUser);
-        articleRepository.save(article);
-        return new ResponseEntity<>(article,HttpStatus.CREATED);
-    }
-
-    @PreAuthorize("hasRole('AUTHOR')")
-    @PutMapping("/article/author/{id}")
-    public ResponseEntity<Article> updateArticle(@RequestBody PublicArticleDto newArticle, @PathVariable Long id, Authentication authentication){
-
-        Optional<Article> article = articleRepository.findById(id);
-        String email = authentication.getName();
-        MyUser authorUser = myUserDetailService.getUserFromEmail(email);
-        if(article.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else if(!article.get().getAuthorUser().equals(authorUser)){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        Article updatedArticle = article.get();
-        updatedArticle.setTitle(newArticle.getTitle());
-        updatedArticle.setBody(newArticle.getBody());
-        updatedArticle.setAuthor(newArticle.getAuthor());
-        updatedArticle.setUpdatedDate();
-        articleRepository.save(updatedArticle);
-        return ResponseEntity.ok(updatedArticle);
-
-    }
-
-    @PreAuthorize("hasRole('AUTHOR')")
-    @DeleteMapping("/article/author/{id}")
-    public ResponseEntity<String> deleteArticle(@PathVariable Long id, Authentication authentication){
-        String email = authentication.getName();
-        MyUser authorUser = myUserDetailService.getUserFromEmail(email);
-        if (articleRepository.findById(id).isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else if(!articleRepository.findById(id).get().getAuthorUser().equals(authorUser)){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        articleRepository.deleteById(id);
-        return new ResponseEntity<>("Article Deleted",HttpStatus.ACCEPTED);
-    }
 }
