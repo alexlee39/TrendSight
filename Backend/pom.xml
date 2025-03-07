@@ -7,6 +7,8 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
+
+
 	</parent>
 	<groupId>com.cisco</groupId>
 	<artifactId>TrendSight</artifactId>
@@ -106,7 +108,6 @@
 			<version>5.14.2</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -115,6 +116,16 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+<!--					<argLine>-javaagent:${settings.localRepository}/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar</argLine>-->
+						<argLine>-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-5.14.2.jar</argLine>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

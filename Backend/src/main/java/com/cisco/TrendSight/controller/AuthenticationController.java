@@ -56,11 +56,6 @@ public class AuthenticationController {
         return new ResponseEntity<>(myUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/user")
-    public List<MyUser> findAllUsers(){
-        return repository.findAll();
-    }
-
     @PreAuthorize("hasRole('ROLE_AUTHOR')")
     @GetMapping("/role")
     public ResponseEntity<String> findOwnRole(){

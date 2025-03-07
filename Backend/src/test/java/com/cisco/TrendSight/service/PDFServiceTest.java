@@ -21,6 +21,11 @@ class PDFServiceTest {
     public final String dummyString = "Hello World";
 
 
+    /**This function runs before each @Test Method,
+     * This method intializes PDFService and creates a temporary File using Apache PDFBox,
+     *
+     * @throws IOException
+     */
     @BeforeEach
     public void setup() throws IOException {
         pdfService = new PDFService();

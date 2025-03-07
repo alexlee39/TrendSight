@@ -48,9 +48,7 @@ class MyUserDetailServiceTest {
         MyUser myUser = foundUser.get();
         assertEquals(defaultEmail, myUser.getEmail());
         assertEquals(dummyPassword, myUser.getPassword());
-
-//        assertInstanceOf(dummyUser, myUserDetailService.getUserFromEmail(defaultEmail));
-//        assertEquals(dummyUser, myUserDetailService.getUserFromEmail(defaultEmail));
+        assertEquals(dummyUser, myUserDetailService.getUserFromEmail(defaultEmail));
     }
 
     @Test
