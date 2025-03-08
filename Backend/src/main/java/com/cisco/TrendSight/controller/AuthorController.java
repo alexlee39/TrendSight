@@ -64,21 +64,21 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('AUTHOR')")
     @PostMapping(value ="/article/file", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public void postFile(
+    public ResponseEntity<String> postFile(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("body") String body) throws IOException {
+            @RequestParam(value = "body", required = false) String body) throws IOException {
+        String pdf = "";
         if (file != null) {
             // Securely create a temp file
             Path tempFilePath = Files.createTempFile("uploaded-", ".pdf");
             Files.write(tempFilePath, file.getBytes());
 
             // Extract text from PDF
-            String pdf = pdfService.extractTextFromPDF(tempFilePath.toFile());
-            System.out.println(pdf);
-            System.out.println("\n" + body);
-            // Optional: Delete temp file after extraction
+            pdf = pdfService.extractTextFromPDF(tempFilePath.toFile());
             Files.deleteIfExists(tempFilePath);
         }
+        System.out.println(pdf);
+        return new ResponseEntity<>(pdf,HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('AUTHOR')")
