@@ -10,15 +10,21 @@ const UploadPage = () => {
   let { toast } = useToast();
   let navigate = useNavigate();
 
-  const test = (fileLst) => {
-    const selectedFile = fileLst.files[0];
-    setFile(selectedFile.name);
-    console.log(selectedFile);
-  }
+  const handlePdfUpload = async (file) => {
+    const pdf = file.files[0];
+    try{
+      let pdfBody = await convertPdfToText(pdf);
+      setFile(pdf.name);
+      setBody(pdfBody);
 
+    }
+    catch(error){
+      throw new Error("Something went wrong. Please try again later");
+    }
+  }
+ 
   const uploadArticle = async (e) => {
     e.preventDefault();
-    console.log(file);
     const jsonData = {
       title : title,
       body : body,
@@ -59,6 +65,31 @@ const UploadPage = () => {
     }
   }
 
+  const convertPdfToText = async (file) =>{
+    const formData = new FormData();
+    formData.append("file", file);
+    try{
+      const response = await fetch('http://localhost:8080/article/file', {
+        method : "POST",
+        body: formData,
+        credentials : "include",
+      });
+  
+      if(!response.ok){
+        console.error(`Error uploading file: ${file.name}`);
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.text();
+      console.log(data);
+      console.log(typeof(data));
+      return data
+    }
+    catch(error){
+        throw new Error("Something went wrong while processing pdf. Please try again later");
+    }
+  } 
+
   return (
     <section className="bg-white rounded-xl ">
       <div className="bg-gray-400 rounded-t-xl p-2 text-3xl font-medium"> Upload </div>
@@ -70,19 +101,20 @@ const UploadPage = () => {
               type="text" 
               name="title"
               placeholder = 'Article Title' 
-              className='focus:outline-none border-blue-500 border-2 rounded-md p-2 '
+              className={`focus:outline-none ${title.trim() ? 'border-blue-500' : 'border-red-500'} border-2 rounded-md p-2`}
+              // ${!author.trim() ? 'border-red-500' : 'border-blue-500'}
               value= {title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
           <div className="flex flex-col m-2">
-            <label htmlFor="author" className='p-2'> Author Names </label>
+            <label htmlFor="author" className='p-2'> Author Name(s) </label>
             <input 
               type="text" 
               name="author"
               placeholder = 'Author Name' 
-              className='focus:outline-none border-blue-500 border-2 rounded-md p-2 ' //placeholder:text-black placeholder:font-thin'
+              className={`focus:outline-none ${ author.trim() ? 'border-blue-500' : 'border-red-500'} border-2 rounded-md p-2 `} //placeholder:text-black placeholder:font-thin'
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
             />
@@ -93,28 +125,28 @@ const UploadPage = () => {
             <textarea 
               name="body" 
               id="body" 
-              className='focus:outline-none border-black border-2 rounded-lg p-3 min-w-110 min-h-80 resize-none'
+              className={`focus:outline-none ${ body.trim() ? 'border-blue-500' : 'border-red-500'} border-2 rounded-lg p-3 min-w-110 min-h-80 resize-none`}
               value = {body}
               onChange={(e) => setBody(e.target.value)}
             /> 
           </div>
+          
           <div className="flex-1 mx-2 my-4 p-2 justify-between">
             <label htmlFor="file-input" className='bg-red-600 p-2 text-lg font-medium border-2 rounded-md cursor-pointer'>
               Upload PDF 
             </label>
-            <p> {file} </p>
+            <p className='py-2'> {file ? file : "No file selected"} </p>
             <input 
               id="file-input" 
               type="file" 
               className='hidden' 
               accept=".pdf"
-              // value = {file}
-              onChange={(e) => {test(e.target)}}
+              onChange={(e) => {handlePdfUpload(e.target)}}
             />
           </div>
+
         </div>
         <button type="submit" className="bg-black text-white p-2 m-4 rounded-lg min-w-16"> Submit</button>
-
 
       </form>
     </section>
